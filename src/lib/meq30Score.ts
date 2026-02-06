@@ -1,9 +1,8 @@
 export type MEQ30Scores = {
-  overall_mean: number;
-  mystical_mean: number;
-  positive_mood_mean: number;
-  transcendence_mean: number;
-  ineffability_mean: number;
+  mystical_percentage: number;
+  positive_mood_percentage: number;
+  time_space_percentage: number;
+  ineffability_percentage: number;
   complete_mystical: boolean;
 };
 
@@ -29,33 +28,37 @@ export function scoreMEQ30(answersById: Record<string, number>): MEQ30Scores {
     }
   }
 
-  const meanOf = (ids: readonly number[]) => {
-    const sum = ids.reduce((acc, id) => acc + answersById[String(id)], 0);
-    return sum / ids.length;
+  // Calculate sum and percentage for each subscale
+  const sumOf = (ids: readonly number[]) => {
+    return ids.reduce((acc, id) => acc + answersById[String(id)], 0);
   };
 
-  const mystical_mean = meanOf(MYSTICAL);
-  const positive_mood_mean = meanOf(POSITIVE_MOOD);
-  const transcendence_mean = meanOf(TIME_SPACE);
-  const ineffability_mean = meanOf(INEFFABILITY);
+  const percentageOf = (ids: readonly number[]) => {
+    const sum = sumOf(ids);
+    const maxPossible = ids.length * 5;
+    return (sum / maxPossible) * 100;
+  };
 
-  // Overall mean = mean of all 30 items (not mean of 4 subscale means)
+  const mystical_percentage = percentageOf(MYSTICAL);
+  const positive_mood_percentage = percentageOf(POSITIVE_MOOD);
+  const time_space_percentage = percentageOf(TIME_SPACE);
+  const ineffability_percentage = percentageOf(INEFFABILITY);
+
+  // Overall mean = mean of all 30 items (intensity proxy)
   const overall_sum = allIds.reduce((acc, id) => acc + answersById[String(id)], 0);
-  const overall_mean = overall_sum / 30;
 
-  // Complete mystical experience: >= 60% of max (5) on EACH subscale => mean >= 3.0
+  // Complete mystical experience: ALL four subscales must be >= 60%
   const complete_mystical =
-    mystical_mean >= 3.0 &&
-    positive_mood_mean >= 3.0 &&
-    transcendence_mean >= 3.0 &&
-    ineffability_mean >= 3.0;
+    mystical_percentage >= 60 &&
+    positive_mood_percentage >= 60 &&
+    time_space_percentage >= 60 &&
+    ineffability_percentage >= 60;
 
   return {
-    overall_mean,
-    mystical_mean,
-    positive_mood_mean,
-    transcendence_mean,
-    ineffability_mean,
+    mystical_percentage,
+    positive_mood_percentage,
+    time_space_percentage,
+    ineffability_percentage,
     complete_mystical,
   };
 }

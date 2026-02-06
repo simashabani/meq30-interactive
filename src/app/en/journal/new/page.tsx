@@ -7,6 +7,11 @@ import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import MEQ30Form, { MEQAnswersMap } from "@/components/MEQ30Form";
 import { scoreMEQ30 } from "@/lib/meq30Score";
 import { MEQ30_QUESTIONS } from "@/lib/meq30Questions";
+import {
+  savePendingExperience,
+  getPendingExperience,
+  clearPendingExperience,
+} from "@/lib/pendingExperience";
 
 export default function NewExperiencePage() {
   const [email, setEmail] = useState<string | null>(null);
@@ -30,6 +35,15 @@ export default function NewExperiencePage() {
         setEmail(data.user.email);
       }
     });
+
+    // Load pending experience if editing
+    const pending = getPendingExperience();
+    if (pending) {
+      setTitle(pending.title);
+      setDate(pending.date);
+      setNotes(pending.notes);
+      setAnswers(pending.answers);
+    }
   }, []);
 
   if (!email) return <p>Loading...</p>;
@@ -45,61 +59,27 @@ export default function NewExperiencePage() {
     setAnswers(filled);
   }
 
-  async function handleSave() {
+  function handleSave() {
     if (!canSave || saving) return;
 
     setSaving(true);
     try {
-      const supabase = createSupabaseBrowserClient();
-
-      // Re-check auth before writing
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData.user) {
-        window.location.href = "/en/login";
-        return;
-      }
-
-      const occurred_at = date ? new Date(date).toISOString() : null;
-
-      // 1) Insert experience (include user_id to satisfy RLS)
-      const { data: exp, error: expErr } = await supabase
-        .from("experiences")
-        .insert({
-          user_id: userData.user.id,
-          title: title.trim(),
-          occurred_at,
-          notes: notes.trim() || null,
-          is_shared_for_research: false,
-        })
-        .select("id")
-        .single();
-
-      if (expErr) throw expErr;
-
-      // 2) Score
+      // Score the answers
       const scores = scoreMEQ30(answers);
 
-      // 3) Insert MEQ response
-      const { error: respErr } = await supabase.from("meq30_responses").insert({
-        experience_id: exp.id,
+      // Save to session storage
+      savePendingExperience({
+        title,
+        date,
+        notes,
         answers,
-        overall_mean: scores.overall_mean,
-        mystical_mean: scores.mystical_mean,
-        positive_mood_mean: scores.positive_mood_mean,
-        transcendence_mean: scores.transcendence_mean,
-        ineffability_mean: scores.ineffability_mean,
-        complete_mystical: scores.complete_mystical,
-        interpretation_key: "pending_v1",
-        interpretation_en: null,
-        interpretation_fa: null,
+        scores,
       });
 
-      if (respErr) throw respErr;
-
-      window.location.href = "/en/journal";
+      // Redirect to review page
+      window.location.href = "/en/journal/review";
     } catch (e: any) {
-      alert("Save failed: " + (e?.message ?? String(e)));
-    } finally {
+      alert("Error: " + (e?.message ?? String(e)));
       setSaving(false);
     }
   }
@@ -175,13 +155,13 @@ export default function NewExperiencePage() {
       {/* MEQ form */}
       <MEQ30Form lang="en" value={answers} onChange={setAnswers} />
 
-      {/* Save */}
+      {/* Analyze */}
       <button
         className="mt-6 px-4 py-2 rounded bg-black text-white disabled:opacity-50"
         disabled={!canSave || saving}
         onClick={handleSave}
       >
-        {saving ? "Saving..." : "Save"}
+        {saving ? "Analyzing..." : "Analyze"}
       </button>
     </main>
   );
