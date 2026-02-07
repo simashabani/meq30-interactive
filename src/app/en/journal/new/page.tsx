@@ -19,12 +19,15 @@ export default function NewExperiencePage() {
   // Experience metadata
   const [title, setTitle] = useState("");
   const [date, setDate] = useState<string>(""); // "" means not set
+  const [noDate, setNoDate] = useState(false); // checkbox: "I don't have a date"
   const [notes, setNotes] = useState("");
 
   // Answers map: canonicalId (string) -> 0..5
   const [answers, setAnswers] = React.useState<MEQAnswersMap>({});
 
   const [saving, setSaving] = useState(false);
+  const [pendingExists, setPendingExists] = useState(false);
+  const [pendingLoaded, setPendingLoaded] = useState(false);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -36,13 +39,15 @@ export default function NewExperiencePage() {
       }
     });
 
-    // Load pending experience if editing
+    // Check for pending experience but do NOT auto-load it unless requested via URL
     const pending = getPendingExperience();
     if (pending) {
-      setTitle(pending.title);
-      setDate(pending.date);
-      setNotes(pending.notes);
-      setAnswers(pending.answers);
+      setPendingExists(true);
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("loadPending") === "1") {
+        // load it automatically
+        loadPending();
+      }
     }
   }, []);
 
@@ -57,6 +62,28 @@ export default function NewExperiencePage() {
       filled[String(q.canonicalId)] = value;
     }
     setAnswers(filled);
+  }
+
+  function loadPending() {
+    const p = getPendingExperience();
+    if (!p) return;
+    setTitle(p.title);
+    setDate(p.date ?? "");
+    setNotes(p.notes ?? "");
+    setAnswers(p.answers ?? {});
+    setPendingLoaded(true);
+    setPendingExists(false);
+  }
+
+  function startNew() {
+    clearPendingExperience();
+    setPendingExists(false);
+    setPendingLoaded(false);
+    setTitle("");
+    setDate("");
+    setNoDate(false);
+    setNotes("");
+    setAnswers({});
   }
 
   function handleSave() {
@@ -109,11 +136,25 @@ export default function NewExperiencePage() {
         <div className="space-y-1">
           <label className="text-sm font-medium">Date (optional)</label>
           <input
-            className="border rounded px-3 py-2"
+            className={`border rounded px-3 py-2 ${
+              noDate ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
+            }`}
             type="date"
             value={date}
             onChange={(e) => setDate(e.target.value)}
+            disabled={noDate}
           />
+          <label className="flex items-center gap-2 mt-2 text-sm">
+            <input
+              type="checkbox"
+              checked={noDate}
+              onChange={(e) => {
+                setNoDate(e.target.checked);
+                if (e.target.checked) setDate("");
+              }}
+            />
+            I don't have a date for my experience
+          </label>
         </div>
 
         <div className="space-y-1">
@@ -151,6 +192,28 @@ export default function NewExperiencePage() {
       <p className="text-sm">
         Answered: <b>{answeredCount}</b> / 30
       </p>
+
+      {pendingExists && !pendingLoaded && (
+        <div className="border rounded-lg p-4 bg-yellow-50">
+          <p className="text-sm">
+            You have an unsaved experience. Would you like to view/edit and save it, or start a new blank experience?
+          </p>
+          <div className="mt-3 flex gap-2">
+            <button
+              onClick={loadPending}
+              className="px-3 py-1 rounded bg-blue-600 text-white"
+            >
+              View / Edit Unsaved
+            </button>
+            <button
+              onClick={startNew}
+              className="px-3 py-1 rounded bg-gray-200"
+            >
+              Start New (discard unsaved)
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* MEQ form */}
       <MEQ30Form lang="en" value={answers} onChange={setAnswers} />

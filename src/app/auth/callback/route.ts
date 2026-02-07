@@ -27,6 +27,16 @@ export async function GET(request: Request) {
   if (code) {
     await supabase.auth.exchangeCodeForSession(code);
   }
+  // After exchanging code, check user's preferred language in metadata and redirect accordingly
+  try {
+    const { data: userData } = await supabase.auth.getUser();
+    const lang = (userData?.user?.user_metadata as any)?.language || (userData?.user?.user_metadata as any)?.lang;
+    if (lang === "fa") {
+      return NextResponse.redirect(new URL("/fa", url.origin));
+    }
+  } catch (err) {
+    // ignore and fall back to English
+  }
 
   return NextResponse.redirect(new URL("/en", url.origin));
 }

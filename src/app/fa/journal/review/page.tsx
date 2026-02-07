@@ -73,6 +73,7 @@ export default function ReviewPageFa() {
         .from("meq30_responses")
         .insert({
           experience_id: exp.id,
+          language: "fa",
           answers: pending.answers,
           mystical_percentage: pending.scores.mystical_percentage,
           positive_mood_percentage: pending.scores.positive_mood_percentage,
