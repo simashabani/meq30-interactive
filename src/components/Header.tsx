@@ -13,6 +13,7 @@ export default function Header({ locale }: Props) {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [prefLang, setPrefLang] = useState<"en" | "fa" | null>(null);
   const [saving, setSaving] = useState(false);
+  const [showUserMenu, setShowUserMenu] = useState(false);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -63,54 +64,108 @@ export default function Header({ locale }: Props) {
           gap: 12,
         }}
       >
-        <Link href={isFa ? "/fa" : "/en"} style={{ fontWeight: 700 }}>
-          {isFa ? "MEQ-30 تعاملی" : "MEQ-30 Interactive"}
-        </Link>
-
-        <nav style={{ display: "flex", gap: 14, alignItems: "center" }}>
-          <Link href={isFa ? "/fa/about" : "/en/about"}>
-            {isFa ? "درباره" : "About"}
+        {/* Left navigation */}
+        <nav style={{ display: "flex", gap: 18, alignItems: "center" }}>
+          <Link href={isFa ? "/fa" : "/en"} style={{ fontWeight: 700 }}>
+            {isFa ? "خانه" : "Home"}
           </Link>
-          <Link href={isFa ? "/fa/privacy" : "/en/privacy"}>
-            {isFa ? "حریم خصوصی" : "Privacy"}
+          <Link href={isFa ? "/fa/info" : "/en/info"}>
+            {isFa ? "اطلاعات" : "Info"}
           </Link>
+          <Link href={isFa ? "/fa/journal" : "/en/journal"}>
+            {isFa ? "دفتر تجربه‌های من" : "My Experience Journal"}
+          </Link>
+        </nav>
 
-          {/* Language toggle (quick switch) */}
-          <Link
-            href={isFa ? "/en" : "/fa"}
+        {/* Right navigation */}
+        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
+          {/* Language toggle */}
+          <button
+            onClick={() => window.location.href = isFa ? "/en" : "/fa"}
             style={{
               border: "1px solid #e5e7eb",
               padding: "6px 10px",
               borderRadius: 8,
               fontSize: 14,
+              background: "white",
+              cursor: "pointer",
             }}
           >
             {isFa ? "English" : "فارسی"}
-          </Link>
+          </button>
 
+          {/* User menu */}
           {userEmail ? (
-            <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
-              <span style={{ fontSize: 13, color: "#374151" }}>{userEmail}</span>
-              <select
-                value={prefLang || (isFa ? "fa" : "en")}
-                onChange={(e) => setPrefLang(e.target.value as "en" | "fa")}
-                style={{ padding: "6px", borderRadius: 6 }}
-              >
-                <option value="en">English</option>
-                <option value="fa">فارسی</option>
-              </select>
+            <div style={{ position: "relative" }}>
               <button
-                onClick={() => savePreference(prefLang === "fa" ? "fa" : "en")}
-                disabled={saving}
-                style={{ padding: "6px 10px", borderRadius: 6 }}
+                style={{
+                  fontSize: 13,
+                  color: "#374151",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: 8,
+                  padding: "6px 10px",
+                  background: "white",
+                  cursor: "pointer",
+                }}
+                onClick={() => setShowUserMenu((v) => !v)}
               >
-                {saving ? "..." : isFa ? "ذخیره" : "Save"}
+                {userEmail}
               </button>
+              {showUserMenu && (
+                <div
+                  style={{
+                    position: "absolute",
+                    right: 0,
+                    top: "100%",
+                    background: "white",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: 8,
+                    padding: 12,
+                    minWidth: 180,
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                    zIndex: 20,
+                  }}
+                >
+                  <div style={{ marginBottom: 8 }}>
+                    <b>{isFa ? "ایمیل" : "Email"}:</b> {userEmail}
+                  </div>
+                  <div style={{ marginBottom: 8 }}>
+                    <b>{isFa ? "زبان پیش‌فرض" : "Default Language"}:</b>
+                    <select
+                      value={prefLang || (isFa ? "fa" : "en")}
+                      onChange={(e) => setPrefLang(e.target.value as "en" | "fa")}
+                      style={{ padding: "6px", borderRadius: 6, marginLeft: 6 }}
+                    >
+                      <option value="en">English</option>
+                      <option value="fa">فارسی</option>
+                    </select>
+                    <button
+                      onClick={() => savePreference(prefLang === "fa" ? "fa" : "en")}
+                      disabled={saving}
+                      style={{ padding: "6px 10px", borderRadius: 6, marginLeft: 6 }}
+                    >
+                      {saving ? "..." : isFa ? "ذخیره" : "Save"}
+                    </button>
+                  </div>
+                  <button
+                    onClick={async () => {
+                      const supabase = createSupabaseBrowserClient();
+                      await supabase.auth.signOut();
+                      window.location.href = isFa ? "/fa" : "/en";
+                    }}
+                    style={{ padding: "6px 10px", borderRadius: 6, background: "#f3f4f6", width: "100%" }}
+                  >
+                    {isFa ? "خروج" : "Sign Out"}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
-            <Link href={isFa ? "/fa/login" : "/en/login"}>{isFa ? "ورود" : "Login"}</Link>
+            <Link href={isFa ? "/fa/login" : "/en/login"}>
+              {isFa ? "ورود/ثبت‌نام" : "Login/Sign Up"}
+            </Link>
           )}
-        </nav>
+        </div>
       </div>
     </header>
   );
