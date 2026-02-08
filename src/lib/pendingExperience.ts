@@ -7,6 +7,7 @@ export type PendingExperience = {
   notes: string;
   answers: MEQAnswersMap;
   scores: MEQ30Scores;
+  isDirty: boolean;
 };
 
 const PENDING_KEY = "pending_experience";
@@ -20,7 +21,12 @@ export function savePendingExperience(exp: PendingExperience) {
 export function getPendingExperience(): PendingExperience | null {
   if (typeof window !== "undefined") {
     const data = sessionStorage.getItem(PENDING_KEY);
-    return data ? JSON.parse(data) : null;
+    if (!data) return null;
+    const parsed = JSON.parse(data) as PendingExperience;
+    return {
+      ...parsed,
+      isDirty: typeof parsed.isDirty === "boolean" ? parsed.isDirty : true,
+    };
   }
   return null;
 }

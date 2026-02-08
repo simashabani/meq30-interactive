@@ -70,14 +70,12 @@
     "en": {
       "verdict": {
         "complete": [
-          "Your results meet the MEQ-30 research convention for a *complete mystical-type experience*: scores at or above 60% on each of the four subscales (Mystical, Positive Mood, Transcendence of Time/Space, and Ineffability)."
+          "Your results meet the MEQ-30 research convention for a complete mystical-type experience: scores at or above 60% on each of the four subscales (Sense of Unity, Noetic Quality, and Sacredness; Positive Mood; Transcendence of Time/Space; and Ineffability)."
         ],
         "notComplete": [
-          "Your results do not meet the MEQ-30 research convention for a *complete* mystical-type experience (≥60% on each of the four subscales). This does **not** mean your experience lacked meaning—only that it does not match the full MEQ-30 profile used for that specific classification."
+          "Your results do not meet the MEQ-30 research convention for a complete mystical-type experience (≥60% on each of the four subscales: Sense of Unity, Noetic Quality, and Sacredness; Positive Mood; Transcendence of Time/Space; and Ineffability). This does not mean your experience lacked meaning—only that it does not match the full MEQ-30 profile used for that specific classification."
         ],
-        "nearMissAddon": [
-          "You were close to the threshold on at least one dimension (55–59%), which suggests your experience may be *near-complete* by this convention."
-        ]
+        "nearMissAddon": []
       },
       "profileSummary": {
         "template": "Overall profile: {profileLabel}. Highest dimensions: {topFactors}. Lowest dimension: {bottomFactor}.",
@@ -90,19 +88,19 @@
       "factorMeanings": {
         "mystical": {
           "veryHigh": [
-            "Your Mystical score is very high, suggesting strong qualities often described as unity, sacredness, and a felt sense of profound truth or insight within the experience."
+            "Your Sense of Unity, Noetic Quality, and Sacredness score is very high, suggesting strong qualities often described as unity, sacredness, and a felt sense of profound truth or insight within the experience."
           ],
           "high": [
-            "Your Mystical score is high, indicating notable qualities of unity/sacredness and a sense that something deeply real or significant was encountered."
+            "Your Sense of Unity, Noetic Quality, and Sacredness score is high, indicating notable qualities of unity/sacredness and a sense that something deeply real or significant was encountered."
           ],
           "moderate": [
-            "Your Mystical score is moderate, suggesting some meaningful mystical features were present, even if they were not dominant throughout the experience."
+            "Your Sense of Unity, Noetic Quality, and Sacredness score is moderate, suggesting some meaningful mystical features were present, even if they were not dominant throughout the experience."
           ],
           "low": [
-            "Your Mystical score is low, meaning the experience may have contained fewer of the classic “mystical core” features (e.g., unity/sacredness/noetic quality) as defined by the MEQ-30 framework."
+            "Your Sense of Unity, Noetic Quality, and Sacredness score is low, meaning the experience may have contained fewer of the classic “mystical core” features (e.g., unity/sacredness/noetic quality) as defined by the MEQ-30 framework."
           ],
           "minimal": [
-            "Your Mystical score is minimal, indicating little endorsement of the core mystical features captured by the MEQ-30 Mystical dimension."
+            "Your Sense of Unity, Noetic Quality, and Sacredness score is minimal, indicating little endorsement of the core mystical features captured by the MEQ-30 Mystical dimension."
           ]
         },
         "positiveMood": {
@@ -159,13 +157,13 @@
       },
       "limitingPhrases": {
         "belowThreshold": [
-          "The main factor keeping the MEQ-30 *complete* classification from being met was {factorName}, which fell below 60%."
+          "The main factor keeping the MEQ-30 complete classification from being met was {factorName}, which fell below 60%."
         ],
         "twoBelowThreshold": [
-          "Two dimensions were below the 60% threshold—{factorA} and {factorB}—which is why the MEQ-30 *complete* classification is not met."
+          "Two dimensions were below the 60% threshold—{factorA} and {factorB}—which is why the MEQ-30 complete classification is not met."
         ],
         "interpretiveBridge": [
-          "Even when the *complete* criterion is not met, the pattern of scores can still describe which aspects of the experience were most pronounced."
+          "Even when the complete criterion is not met, the pattern of scores can still describe which aspects of the experience were most pronounced."
         ]
       },
       "balanceNotes": {
@@ -176,7 +174,7 @@
           "Your scores show some unevenness, suggesting certain dimensions were more central than others."
         ],
         "uneven": [
-          "Your scores are clearly selective: some dimensions were strong while others were comparatively muted. This can be useful for describing *how* the experience was profound, even if it is not “complete” by convention."
+          "Your scores are clearly selective: some dimensions were strong while others were comparatively muted. This can be useful for describing how the experience was profound, even if it is not “complete” by convention."
         ]
       },
       "closing": {
@@ -199,10 +197,16 @@
         }
       },
       "factorDisplayNames": {
-        "mystical": "Mystical",
+        "mystical": "Sense of Unity, Noetic Quality, and Sacredness",
         "positiveMood": "Positive Mood",
         "timeSpace": "Transcendence of Time/Space",
         "ineffability": "Ineffability"
+      },
+      "meetsThresholdShort": {
+        "mystical": "Your Sense of Unity, Noetic Quality, and Sacredness score meets the ≥60% threshold.",
+        "positiveMood": "Your Positive Mood score meets the ≥60% threshold.",
+        "timeSpace": "Your Transcendence of Time/Space score meets the ≥60% threshold.",
+        "ineffability": "Your Ineffability score meets the ≥60% threshold."
       },
       "comboRules": [
         {

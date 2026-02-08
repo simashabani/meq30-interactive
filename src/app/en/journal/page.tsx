@@ -30,7 +30,7 @@ export default function JournalPage() {
   const [userId, setUserId] = useState<string | null>(null);
   const [experiences, setExperiences] = useState<any[] | null>(null);
   const [pendingExists, setPendingExists] = useState(false);
-  const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "updated_at", ascending: false });
+  const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "occurred_at", ascending: false });
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function JournalPage() {
     });
 
     const pending = getPendingExperience();
-    if (pending) setPendingExists(true);
+    if (pending?.isDirty) setPendingExists(true);
   }, []);
 
   useEffect(() => {
@@ -53,9 +53,7 @@ export default function JournalPage() {
     (async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select(
-          `id,title,occurred_at,updated_at,notes,meq30_responses(complete_mystical)`
-        )
+        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical)`)
         .eq("user_id", userId);
       if (error) {
         console.error("Failed to load experiences", error);
@@ -102,6 +100,7 @@ export default function JournalPage() {
         ineffability_percentage: respData.ineffability_percentage ?? 0,
         complete_mystical: respData.complete_mystical ?? false,
       },
+      isDirty: false,
     };
 
     savePendingExperience(pending as any);
@@ -200,9 +199,7 @@ export default function JournalPage() {
                 <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("complete_mystical")}>
                   Mystical?{renderSortIndicator("complete_mystical")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("updated_at")}>
-                  Saved At{renderSortIndicator("updated_at")}
-                </th>
+                <th className="border-b py-2">Edit</th>
                 <th className="border-b py-2">Delete</th>
               </tr>
             </thead>
@@ -210,17 +207,20 @@ export default function JournalPage() {
               {experiences.map((e: any) => {
                 const resp = Array.isArray(e.meq30_responses) ? e.meq30_responses[0] : e.meq30_responses;
                 const dateOfExp = e.occurred_at ? new Date(e.occurred_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" }) : "—";
-                const savedAtDate = new Date(e.updated_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" });
                 return (
                   <tr key={e.id}>
                     <td className="py-2 border-b">
-                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                      <Link className="text-blue-600 underline" href={`/en/journal/review?id=${e.id}`}>
                         {e.title}
-                      </button>
+                      </Link>
                     </td>
                     <td className="py-2 border-b">{dateOfExp}</td>
                     <td className="py-2 border-b">{resp ? (resp.complete_mystical ? "Yes" : "No") : "—"}</td>
-                    <td className="py-2 border-b">{savedAtDate}</td>
+                    <td className="py-2 border-b">
+                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                        Edit
+                      </button>
+                    </td>
                     <td className="py-2 border-b">
                       <button className="text-red-600 underline" onClick={() => handleDelete(e.id)}>
                         Delete

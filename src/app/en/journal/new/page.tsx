@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import MEQ30Form, { MEQAnswersMap } from "@/components/MEQ30Form";
-import { scoreMEQ30 } from "@/lib/meq30Score";
+import { MEQ30Scores, scoreMEQ30 } from "@/lib/meq30Score";
 import { MEQ30_QUESTIONS } from "@/lib/meq30Questions";
 import {
   savePendingExperience,
@@ -28,6 +28,8 @@ export default function NewExperiencePage() {
   const [saving, setSaving] = useState(false);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
+  const skipDirtyRef = useRef(false);
+  const lastScoresRef = useRef<MEQ30Scores | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -41,7 +43,7 @@ export default function NewExperiencePage() {
 
     // Check for pending experience but do NOT auto-load it unless requested via URL
     const pending = getPendingExperience();
-    if (pending) {
+    if (pending?.isDirty) {
       setPendingExists(true);
       const params = new URLSearchParams(window.location.search);
       if (params.get("loadPending") === "1") {
@@ -67,15 +69,18 @@ export default function NewExperiencePage() {
   function loadPending() {
     const p = getPendingExperience();
     if (!p) return;
+    skipDirtyRef.current = true;
     setTitle(p.title);
     setDate(p.date ?? "");
     setNotes(p.notes ?? "");
     setAnswers(p.answers ?? {});
+    lastScoresRef.current = p.scores ?? null;
     setPendingLoaded(true);
     setPendingExists(false);
   }
 
   function startNew() {
+    skipDirtyRef.current = true;
     clearPendingExperience();
     setPendingExists(false);
     setPendingLoaded(false);
@@ -84,6 +89,7 @@ export default function NewExperiencePage() {
     setNoDate(false);
     setNotes("");
     setAnswers({});
+    lastScoresRef.current = null;
   }
 
   function handleSave() {
@@ -101,6 +107,7 @@ export default function NewExperiencePage() {
         notes,
         answers,
         scores,
+        isDirty: true,
       });
 
       // Redirect to review page
@@ -110,6 +117,37 @@ export default function NewExperiencePage() {
       setSaving(false);
     }
   }
+
+  useEffect(() => {
+    if (skipDirtyRef.current) {
+      skipDirtyRef.current = false;
+      return;
+    }
+
+    if (!title && !date && !notes && Object.keys(answers).length === 0) {
+      return;
+    }
+
+    let scores = lastScoresRef.current;
+    try {
+      scores = scoreMEQ30(answers);
+      lastScoresRef.current = scores;
+    } catch {
+      // Keep last computed scores when answers are incomplete.
+    }
+
+    if (!scores) return;
+
+    savePendingExperience({
+      title,
+      date,
+      notes,
+      answers,
+      scores,
+      isDirty: true,
+    });
+    setPendingExists(true);
+  }, [title, date, notes, answers]);
 
   return (
     <main className="max-w-3xl mx-auto p-6 space-y-4">
