@@ -1,0 +1,340 @@
+{
+  "repoId": "meq30-interpretation-repo",
+  "version": "1.0.0",
+  "defaultLocale": "en",
+  "supportedLocales": ["en"],
+  "citation": {
+    "completeMysticalRule": {
+      "short": "MEQ-30 convention: a 'complete mystical experience' is typically defined as scoring ≥60% on each of the four subscales.",
+      "sourceKey": "Barrett2015MEQ30"
+    },
+    "structure": {
+      "short": "MEQ-30 has four subscales: Mystical, Positive Mood, Transcendence of Time/Space, and Ineffability.",
+      "sourceKey": "Barrett2015MEQ30-Andersen2024MEQ30"
+    },
+    "sources": {
+      "Barrett2015MEQ30": {
+        "type": "article",
+        "display": "Barrett, Johnson, & Griffiths (2015) Validation of the revised Mystical Experience Questionnaire (MEQ30). Journal of Psychopharmacology.",
+        "doi": "10.1177/0269881115609019"
+      },
+      "Andersen2024MEQ30": {
+        "type": "article",
+        "display": "Andersen et al. (2024/2025 online) Norwegian translation/adaptation of MEQ30. Journal of Psychedelic Studies.",
+        "doi": "10.1556/2054.2024.00346"
+      }
+    }
+  },
+  "scoringModel": {
+    "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"],
+    "thresholds": {
+      "completeMystical": 0.6,
+      "nearThresholdMin": 0.55,
+      "nearThresholdMax": 0.599999
+    },
+    "bands": [
+      { "id": "minimal", "min": 0.0, "max": 0.199999, "label": "Minimal" },
+      { "id": "low", "min": 0.2, "max": 0.399999, "label": "Low" },
+      { "id": "moderate", "min": 0.4, "max": 0.599999, "label": "Moderate" },
+      { "id": "high", "min": 0.6, "max": 0.799999, "label": "High" },
+      { "id": "veryHigh", "min": 0.8, "max": 1.0, "label": "Very high" }
+    ],
+    "derivedMetrics": {
+      "balanceIndex": "max(factors) - min(factors)",
+      "balanceBands": [
+        { "id": "balanced", "min": 0.0, "max": 0.149999, "label": "Balanced profile" },
+        { "id": "somewhatUneven", "min": 0.15, "max": 0.299999, "label": "Somewhat uneven profile" },
+        { "id": "uneven", "min": 0.3, "max": 1.0, "label": "Uneven / selective profile" }
+      ]
+    }
+  },
+  "narrativeEngine": {
+    "assemblyOrder": [
+      "verdict",
+      "profileSummary",
+      "strengths",
+      "limitingFactors",
+      "balanceNote",
+      "closing"
+    ],
+    "maxStrengthMentions": 2,
+    "maxLimitingMentions": 2,
+    "style": {
+      "tone": "supportive-neutral",
+      "avoidClinicalClaims": true,
+      "avoidOverPrecision": true,
+      "alwaysDifferentiateConventionVsMeaning": true
+    }
+  },
+  "text": {
+    "en": {
+      "verdict": {
+        "complete": [
+          "Your results meet the MEQ-30 research convention for a *complete mystical-type experience*: scores at or above 60% on each of the four subscales (Mystical, Positive Mood, Transcendence of Time/Space, and Ineffability)."
+        ],
+        "notComplete": [
+          "Your results do not meet the MEQ-30 research convention for a *complete* mystical-type experience (≥60% on each of the four subscales). This does **not** mean your experience lacked meaning—only that it does not match the full MEQ-30 profile used for that specific classification."
+        ],
+        "nearMissAddon": [
+          "You were close to the threshold on at least one dimension (55–59%), which suggests your experience may be *near-complete* by this convention."
+        ]
+      },
+      "profileSummary": {
+        "template": "Overall profile: {profileLabel}. Highest dimensions: {topFactors}. Lowest dimension: {bottomFactor}.",
+        "balanceLabels": {
+          "balanced": "fairly balanced across dimensions",
+          "somewhatUneven": "somewhat uneven across dimensions",
+          "uneven": "selective—strong in some dimensions and muted in others"
+        }
+      },
+      "factorMeanings": {
+        "mystical": {
+          "veryHigh": [
+            "Your Mystical score is very high, suggesting strong qualities often described as unity, sacredness, and a felt sense of profound truth or insight within the experience."
+          ],
+          "high": [
+            "Your Mystical score is high, indicating notable qualities of unity/sacredness and a sense that something deeply real or significant was encountered."
+          ],
+          "moderate": [
+            "Your Mystical score is moderate, suggesting some meaningful mystical features were present, even if they were not dominant throughout the experience."
+          ],
+          "low": [
+            "Your Mystical score is low, meaning the experience may have contained fewer of the classic “mystical core” features (e.g., unity/sacredness/noetic quality) as defined by the MEQ-30 framework."
+          ],
+          "minimal": [
+            "Your Mystical score is minimal, indicating little endorsement of the core mystical features captured by the MEQ-30 Mystical dimension."
+          ]
+        },
+        "positiveMood": {
+          "veryHigh": [
+            "Your Positive Mood score is very high, reflecting strong feelings such as joy, peace, love, gratitude, or deep emotional uplift during the experience."
+          ],
+          "high": [
+            "Your Positive Mood score is high, suggesting the experience included substantial emotional uplift and positive affect."
+          ],
+          "moderate": [
+            "Your Positive Mood score is moderate, suggesting some positive emotional tone, though it may have been mixed, neutral, or variable."
+          ],
+          "low": [
+            "Your Positive Mood score is low, suggesting the experience was not primarily characterized by positive affect—or may have been emotionally complex, neutral, or challenging."
+          ],
+          "minimal": [
+            "Your Positive Mood score is minimal, indicating little endorsement of positive affect items in the MEQ-30 framework."
+          ]
+        },
+        "timeSpace": {
+          "veryHigh": [
+            "Your Transcendence of Time/Space score is very high, suggesting strong alteration of ordinary time, place, or personal perspective (e.g., timelessness, spacelessness, or a sense of being beyond usual boundaries)."
+          ],
+          "high": [
+            "Your Transcendence of Time/Space score is high, indicating notable shifts in how time and space were experienced."
+          ],
+          "moderate": [
+            "Your Transcendence of Time/Space score is moderate, suggesting some departure from ordinary time/space perception, but not consistently or intensely."
+          ],
+          "low": [
+            "Your Transcendence of Time/Space score is low, suggesting the experience stayed closer to ordinary perceptions of time and place."
+          ],
+          "minimal": [
+            "Your Transcendence of Time/Space score is minimal, indicating little endorsement of time/space alteration items in the MEQ-30."
+          ]
+        },
+        "ineffability": {
+          "veryHigh": [
+            "Your Ineffability score is very high, suggesting the experience felt especially difficult to capture in words—beyond ordinary language or description."
+          ],
+          "high": [
+            "Your Ineffability score is high, indicating the experience included a strong sense of “beyond words.”"
+          ],
+          "moderate": [
+            "Your Ineffability score is moderate, suggesting the experience may have been partly hard to describe, but also partly narratable."
+          ],
+          "low": [
+            "Your Ineffability score is low, suggesting the experience may have been comparatively easier to describe and put into language."
+          ],
+          "minimal": [
+            "Your Ineffability score is minimal, indicating little endorsement of “beyond words” or hard-to-describe qualities on the MEQ-30."
+          ]
+        }
+      },
+      "limitingPhrases": {
+        "belowThreshold": [
+          "The main factor keeping the MEQ-30 *complete* classification from being met was {factorName}, which fell below 60%."
+        ],
+        "twoBelowThreshold": [
+          "Two dimensions were below the 60% threshold—{factorA} and {factorB}—which is why the MEQ-30 *complete* classification is not met."
+        ],
+        "interpretiveBridge": [
+          "Even when the *complete* criterion is not met, the pattern of scores can still describe which aspects of the experience were most pronounced."
+        ]
+      },
+      "balanceNotes": {
+        "balanced": [
+          "Your scores are fairly even across dimensions, suggesting a coherent overall profile rather than one single dominant feature."
+        ],
+        "somewhatUneven": [
+          "Your scores show some unevenness, suggesting certain dimensions were more central than others."
+        ],
+        "uneven": [
+          "Your scores are clearly selective: some dimensions were strong while others were comparatively muted. This can be useful for describing *how* the experience was profound, even if it is not “complete” by convention."
+        ]
+      },
+      "closing": {
+        "generic": [
+          "If you wrote notes about your experience, try rereading them alongside these subscale patterns—often the most helpful insight comes from matching the numbers to your own language and imagery."
+        ],
+        "reflectionPrompts": {
+          "mystical": [
+            "Reflection prompt: Were there moments that felt deeply true, sacred, or unified—even briefly?"
+          ],
+          "positiveMood": [
+            "Reflection prompt: What emotional tone stands out most (uplift, peace, neutrality, fear, complexity)?"
+          ],
+          "timeSpace": [
+            "Reflection prompt: Did time or place feel altered, expanded, paused, or irrelevant at any point?"
+          ],
+          "ineffability": [
+            "Reflection prompt: What parts feel hardest to describe—and what metaphors come closest?"
+          ]
+        }
+      },
+      "factorDisplayNames": {
+        "mystical": "Mystical",
+        "positiveMood": "Positive Mood",
+        "timeSpace": "Transcendence of Time/Space",
+        "ineffability": "Ineffability"
+      },
+      "comboRules": [
+        {
+          "id": "all_four_ge_60",
+          "priority": 100,
+          "when": { "allAtLeast": { "threshold": 0.6, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": { "verdict": "complete", "addNearMissIfAny": false }
+        },
+        {
+          "id": "three_ge_60_one_lt_60",
+          "priority": 90,
+          "when": { "countAtLeast": { "threshold": 0.6, "minCount": 3, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": {
+            "verdict": "notComplete",
+            "limitingTemplate": "belowThreshold",
+            "notes": [
+              "This pattern often reflects a strongly meaningful experience that lacks one conventional component needed for the 'complete' classification."
+            ]
+          }
+        },
+        {
+          "id": "two_ge_60_two_lt_60",
+          "priority": 80,
+          "when": { "countAtLeast": { "threshold": 0.6, "minCount": 2, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": {
+            "verdict": "notComplete",
+            "limitingTemplate": "twoBelowThreshold",
+            "notes": [
+              "This profile suggests clear strengths in some dimensions alongside other dimensions that were not strongly endorsed."
+            ]
+          }
+        },
+        {
+          "id": "near_miss_any",
+          "priority": 70,
+          "when": { "anyInRange": { "min": 0.55, "max": 0.599999, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": { "addVerdictAddon": "nearMissAddon" }
+        },
+        {
+          "id": "high_mystical_low_positiveMood",
+          "priority": 60,
+          "when": {
+            "and": [
+              { "inBand": { "factor": "mystical", "band": ["high", "veryHigh"] } },
+              { "inBand": { "factor": "positiveMood", "band": ["minimal", "low"] } }
+            ]
+          },
+          "use": {
+            "customNotes": [
+              "Notably, the experience appears strong in mystical qualities while showing low positive mood. This may reflect an experience that felt profound or significant without feeling primarily pleasant."
+            ]
+          }
+        },
+        {
+          "id": "high_mystical_high_timeSpace_low_ineffability",
+          "priority": 60,
+          "when": {
+            "and": [
+              { "inBand": { "factor": "mystical", "band": ["high", "veryHigh"] } },
+              { "inBand": { "factor": "timeSpace", "band": ["high", "veryHigh"] } },
+              { "inBand": { "factor": "ineffability", "band": ["minimal", "low"] } }
+            ]
+          },
+          "use": {
+            "customNotes": [
+              "Your pattern suggests a profound shift in meaning and in time/space perception, while the experience remained comparatively describable in words."
+            ]
+          }
+        },
+        {
+          "id": "very_high_all_but_one_moderate",
+          "priority": 55,
+          "when": {
+            "and": [
+              { "countInBand": { "bands": ["veryHigh"], "minCount": 2, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+              { "anyInBand": { "bands": ["moderate"], "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } }
+            ]
+          },
+          "use": {
+            "customNotes": [
+              "Several dimensions were extremely strong, with one dimension present at a moderate level—this often reads as a powerful experience with a specific 'missing ingredient' relative to the complete profile."
+            ]
+          }
+        },
+        {
+          "id": "all_moderate_40_59",
+          "priority": 50,
+          "when": { "allInBand": { "bands": ["moderate"], "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": {
+            "verdict": "notComplete",
+            "customNotes": [
+              "Your scores suggest a broadly meaningful experience with multiple dimensions present, but none reaching the high range used for the complete MEQ-30 convention."
+            ]
+          }
+        },
+        {
+          "id": "mostly_low_minimal",
+          "priority": 40,
+          "when": { "countInBand": { "bands": ["minimal", "low"], "minCount": 3, "factors": ["mystical", "positiveMood", "timeSpace", "ineffability"] } },
+          "use": {
+            "verdict": "notComplete",
+            "customNotes": [
+              "Your scores suggest that the experience, as recalled and rated here, contained relatively few of the features emphasized in the MEQ-30 mystical-type framework."
+            ]
+          }
+        }
+      ],
+      "fallbacks": {
+        "noComboRuleMatched": {
+          "use": {
+            "verdict": "notComplete",
+            "customNotes": [
+              "Your pattern is mixed. The notes below describe which dimensions were strongest and which were less emphasized, using the MEQ-30 framework."
+            ]
+          }
+        }
+      }
+    }
+  },
+  "implementationNotes": {
+    "recommendedApproach": [
+      "Compute factor proportions (0..1), assign each factor a band, compute completeMystical, nearMissCount, topFactors, bottomFactor, balanceBand.",
+      "Pick best combo rule by highest priority that matches; apply verdict and any custom notes.",
+      "Assemble narrative blocks in the engine's assemblyOrder.",
+      "For strengths: include factorMeanings for top 1–2 factors (prefer High/VeryHigh first, else Moderate).",
+      "For limiting: include limiting phrase(s) for up to 1–2 factors below 0.6, then include those factors' factorMeanings at their bands.",
+      "Add balance note, then closing + optional reflection prompts for lowest factor (and maybe top factor)."
+    ],
+    "safety": [
+      "Avoid diagnosing or claiming therapeutic outcomes.",
+      "Always say 'by MEQ-30 convention' when using the complete mystical label."
+    ]
+  }
+}
+

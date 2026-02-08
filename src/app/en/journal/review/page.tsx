@@ -8,6 +8,7 @@ import {
   clearPendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
+import { generateMeq30Interpretation } from "@/lib/interpretation/generateMeq30Interpretation";
 
 export default function ReviewPage() {
   const [email, setEmail] = useState<string | null>(null);
@@ -35,56 +36,27 @@ export default function ReviewPage() {
 
   if (!email || !pending) return <p>Loading...</p>;
 
+  const interpretation = generateMeq30Interpretation(pending.scores, "en");
+
   async function handleSave() {
     if (saving) return;
 
     setSaving(true);
     try {
-      const supabase = createSupabaseBrowserClient();
-
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData.user) {
-        window.location.href = "/en/login";
-        return;
-      }
-
-      const occurred_at = pending.date
-        ? new Date(pending.date).toISOString()
-        : null;
-
-      // 1) Insert experience
-      const { data: exp, error: expErr } = await supabase
-        .from("experiences")
-        .insert({
-          user_id: userData.user.id,
-          title: pending.title.trim(),
-          occurred_at,
-          notes: pending.notes.trim() || null,
-          is_shared_for_research: false,
-        })
-        .select("id")
-        .single();
-
-      if (expErr) throw expErr;
-
-      // 2) Insert MEQ response
-      const { error: respErr } = await supabase
-        .from("meq30_responses")
-        .insert({
-          experience_id: exp.id,
-          language: "en",
+      const res = await fetch("/api/meq30/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: pending.title,
+          date: pending.date,
+          notes: pending.notes,
           answers: pending.answers,
-          mystical_percentage: pending.scores.mystical_percentage,
-          positive_mood_percentage: pending.scores.positive_mood_percentage,
-          time_space_percentage: pending.scores.time_space_percentage,
-          ineffability_percentage: pending.scores.ineffability_percentage,
-          complete_mystical: pending.scores.complete_mystical,
-          interpretation_key: "pending_v1",
-          interpretation_en: null,
-          interpretation_fa: null,
-        });
+          language: "en",
+        }),
+      });
 
-      if (respErr) throw respErr;
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Submit failed");
 
       clearPendingExperience();
       window.location.href = "/en/journal";
@@ -178,6 +150,12 @@ export default function ReviewPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Interpretation */}
+      <div className="border rounded-lg p-4 space-y-3">
+        <h2 className="text-lg font-semibold">Interpretation</h2>
+        <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
 
       {/* Action Buttons */}
