@@ -12,8 +12,9 @@ export function generateMeq30Interpretation(
   locale: "en" | "fa"
 ): InterpretationResult {
   // Fallback until you add full FA text blocks.
-  const safeLocale = repo.text[locale] ? locale : "en";
-  const t = repo.text[safeLocale];
+  const text = repo.text as Record<string, any>;
+  const safeLocale = text[locale] ? locale : "en";
+  const t = text[safeLocale];
 
   const f = {
     mystical: scores.mystical_percentage / 100,

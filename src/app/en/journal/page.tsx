@@ -53,7 +53,7 @@ export default function JournalPage() {
     (async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical)`)
+        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language)`)
         .eq("user_id", userId);
       if (error) {
         console.error("Failed to load experiences", error);
@@ -89,6 +89,7 @@ export default function JournalPage() {
     }
 
     const pending = {
+      experienceId,
       title: expData.title ?? "",
       date: expData.occurred_at ? new Date(expData.occurred_at).toISOString().slice(0, 10) : "",
       notes: expData.notes ?? "",
@@ -206,11 +207,19 @@ export default function JournalPage() {
             <tbody>
               {experiences.map((e: any) => {
                 const resp = Array.isArray(e.meq30_responses) ? e.meq30_responses[0] : e.meq30_responses;
-                const dateOfExp = e.occurred_at ? new Date(e.occurred_at).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "2-digit" }) : "—";
+                const entryLang = resp?.language === "fa" ? "fa" : "en";
+                const dateOfExp = e.occurred_at
+                  ? new Date(e.occurred_at).toLocaleDateString("en-US", {
+                      year: "numeric",
+                      month: "short",
+                      day: "2-digit",
+                      timeZone: "UTC",
+                    })
+                  : "—";
                 return (
                   <tr key={e.id}>
                     <td className="py-2 border-b">
-                      <Link className="text-blue-600 underline" href={`/en/journal/review?id=${e.id}`}>
+                      <Link className="text-blue-600 underline" href={`/${entryLang}/journal/review?id=${e.id}`}>
                         {e.title}
                       </Link>
                     </td>

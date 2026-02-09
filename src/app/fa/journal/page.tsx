@@ -16,14 +16,6 @@ function formatPersianDate(jalaliDateStr: string): string {
   return `${toPersianNumerals(y)} ${monthName} ${toPersianNumerals(d)}`;
 }
 
-function formatGregorianDateToPersian(gregorianDate: string): string {
-  if (!gregorianDate) return "—";
-  const jalaliDate = gregorianToJalali(gregorianDate.slice(0, 10));
-  const [y, m, d] = jalaliDate.split("-").map(Number);
-  const monthName = PERSIAN_MONTHS[m - 1];
-  return `${toPersianNumerals(y)} ${monthName} ${toPersianNumerals(d)}`;
-}
-
 function sortExperiences(data: any[], column: string, ascending: boolean) {
   const sorted = [...data].sort((a, b) => {
     let aVal: any = a[column];
@@ -49,7 +41,7 @@ export default function JournalPageFa() {
   const [userId, setUserId] = useState<string | null>(null);
   const [experiences, setExperiences] = useState<any[] | null>(null);
   const [pendingExists, setPendingExists] = useState(false);
-  const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "updated_at", ascending: false });
+  const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "occurred_at", ascending: false });
   const [authChecked, setAuthChecked] = useState(false);
 
   useEffect(() => {
@@ -63,7 +55,7 @@ export default function JournalPageFa() {
     });
 
     const pending = getPendingExperience();
-    if (pending) setPendingExists(true);
+    if (pending?.isDirty) setPendingExists(true);
   }, []);
 
   useEffect(() => {
@@ -72,7 +64,7 @@ export default function JournalPageFa() {
     (async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select(`id,title,occurred_at,updated_at,notes,meq30_responses(complete_mystical)`)
+        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language)`)
         .eq("user_id", userId);
       if (error) {
         console.error("Failed to load experiences", error);
@@ -108,6 +100,7 @@ export default function JournalPageFa() {
     }
 
     const pending = {
+      experienceId,
       title: expData.title ?? "",
       date: expData.occurred_at ? new Date(expData.occurred_at).toISOString().slice(0, 10) : "",
       notes: expData.notes ?? "",
@@ -119,6 +112,7 @@ export default function JournalPageFa() {
         ineffability_percentage: respData.ineffability_percentage ?? 0,
         complete_mystical: respData.complete_mystical ?? false,
       },
+      isDirty: false,
     };
 
     savePendingExperience(pending as any);
@@ -205,7 +199,7 @@ export default function JournalPageFa() {
         ) : experiences.length === 0 ? (
           <p>هنوز تجربه‌ای ثبت نشده. <Link href="/fa/journal/new">ثبت تجربه</Link>.</p>
         ) : (
-          <table className="w-full text-left border-collapse mt-2">
+          <table className="w-full text-right border-collapse mt-2">
             <thead>
               <tr>
                 <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("title")}>
@@ -217,27 +211,29 @@ export default function JournalPageFa() {
                 <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("complete_mystical")}>
                   صوفیانه؟{renderSortIndicator("complete_mystical")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("updated_at")}>
-                  تاریخ ذخیره{renderSortIndicator("updated_at")}
-                </th>
+                <th className="border-b py-2">ویرایش</th>
                 <th className="border-b py-2">حذف</th>
               </tr>
             </thead>
             <tbody>
               {experiences.map((e: any) => {
                 const resp = Array.isArray(e.meq30_responses) ? e.meq30_responses[0] : e.meq30_responses;
+                const entryLang = resp?.language === "fa" ? "fa" : "en";
                 const persianDateOfExperience = e.occurred_at ? formatPersianDate(gregorianToJalali(e.occurred_at.slice(0, 10))) : "—";
-                const savedAtDate = formatGregorianDateToPersian(e.updated_at);
                 return (
                   <tr key={e.id}>
                     <td className="py-2 border-b">
-                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                      <Link className="text-blue-600 underline" href={`/${entryLang}/journal/review?id=${e.id}`}>
                         {e.title}
-                      </button>
+                      </Link>
                     </td>
                     <td className="py-2 border-b">{persianDateOfExperience}</td>
                     <td className="py-2 border-b">{resp ? (resp.complete_mystical ? "بله" : "خیر") : "—"}</td>
-                    <td className="py-2 border-b">{savedAtDate}</td>
+                    <td className="py-2 border-b">
+                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                        ویرایش
+                      </button>
+                    </td>
                     <td className="py-2 border-b">
                       <button className="text-red-600 underline" onClick={() => handleDelete(e.id)}>
                         حذف

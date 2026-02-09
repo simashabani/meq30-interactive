@@ -4,6 +4,7 @@ import { scoreMEQ30 } from "@/lib/meq30Score";
 import { generateMeq30Interpretation } from "@/lib/interpretation/interpretation";
 
 type SubmitBody = {
+  experienceId?: string;
   title: string;
   date?: string; // ISO or ""
   notes?: string;
@@ -40,24 +41,48 @@ export async function POST(req: Request) {
 
     const interpretation = generateMeq30Interpretation(scores, body.language);
 
-    // 1) Insert experience.
-    const { data: exp, error: expErr } = await supabase
-      .from("experiences")
-      .insert({
-        user_id: userData.user.id,
-        title: body.title.trim(),
-        occurred_at,
-        notes: body.notes?.trim() || null,
-        is_shared_for_research: false
-      })
-      .select("id")
-      .single();
+    let experienceId = body.experienceId?.trim() || null;
 
-    if (expErr) throw expErr;
+    if (experienceId) {
+      const { data: exp, error: expErr } = await supabase
+        .from("experiences")
+        .update({
+          title: body.title.trim(),
+          occurred_at,
+          notes: body.notes?.trim() || null
+        })
+        .eq("id", experienceId)
+        .eq("user_id", userData.user.id)
+        .select("id")
+        .single();
+
+      if (expErr || !exp) {
+        return NextResponse.json(
+          { error: "Experience not found." },
+          { status: 404 }
+        );
+      }
+    } else {
+      // 1) Insert experience.
+      const { data: exp, error: expErr } = await supabase
+        .from("experiences")
+        .insert({
+          user_id: userData.user.id,
+          title: body.title.trim(),
+          occurred_at,
+          notes: body.notes?.trim() || null,
+          is_shared_for_research: false
+        })
+        .select("id")
+        .single();
+
+      if (expErr) throw expErr;
+      experienceId = exp.id;
+    }
 
     // 2) Insert meq30 response (store snapshot paragraph in correct column).
     const insertResponse: any = {
-      experience_id: exp.id,
+      experience_id: experienceId,
       language: body.language,
       answers: body.answers,
 
@@ -73,13 +98,23 @@ export async function POST(req: Request) {
       interpretation_fa: body.language === "fa" ? interpretation.paragraph : null
     };
 
-    const { error: respErr } = await supabase
+    const { data: respUpdate, error: respUpdateErr } = await supabase
       .from("meq30_responses")
-      .insert(insertResponse);
+      .update(insertResponse)
+      .eq("experience_id", experienceId)
+      .select("experience_id");
 
-    if (respErr) throw respErr;
+    if (respUpdateErr) throw respUpdateErr;
 
-    return NextResponse.json({ ok: true, experienceId: exp.id });
+    if (!respUpdate || respUpdate.length === 0) {
+      const { error: respInsertErr } = await supabase
+        .from("meq30_responses")
+        .insert(insertResponse);
+
+      if (respInsertErr) throw respInsertErr;
+    }
+
+    return NextResponse.json({ ok: true, experienceId });
   } catch (e: any) {
     return NextResponse.json(
       { error: e?.message ?? String(e) },

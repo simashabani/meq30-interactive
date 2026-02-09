@@ -7,6 +7,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
   getPendingExperience,
   clearPendingExperience,
+  savePendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
 import { generateMeq30Interpretation } from "@/lib/interpretation/generateMeq30Interpretation";
@@ -31,7 +32,7 @@ export default function ReviewPage() {
         return;
       }
 
-      setEmail(data.user.email);
+      setEmail(data.user.email ?? null);
 
       if (experienceId) {
         const { data: expData, error: expErr } = await supabase
@@ -61,6 +62,7 @@ export default function ReviewPage() {
         }
 
         setPending({
+          experienceId,
           title: expData.title ?? "",
           date: expData.occurred_at
             ? new Date(expData.occurred_at).toISOString().slice(0, 10)
@@ -101,6 +103,7 @@ export default function ReviewPage() {
 
   async function handleSave() {
     if (saving) return;
+    if (!pending) return;
 
     setSaving(true);
     try {
@@ -108,6 +111,7 @@ export default function ReviewPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          experienceId: pending.experienceId,
           title: pending.title,
           date: pending.date,
           notes: pending.notes,
@@ -129,7 +133,7 @@ export default function ReviewPage() {
 
   function handleEdit() {
     // Keep the pending experience and go back to edit
-    window.location.href = "/en/journal/new";
+    window.location.href = "/en/journal/new?loadPending=1";
   }
 
   function handleDelete() {
@@ -137,6 +141,39 @@ export default function ReviewPage() {
       clearPendingExperience();
       window.location.href = "/en/journal/new";
     }
+  }
+
+  async function handleEditSaved() {
+    if (!pending) return;
+    savePendingExperience({
+      experienceId: pending.experienceId,
+      title: pending.title,
+      date: pending.date,
+      notes: pending.notes,
+      answers: pending.answers,
+      scores: pending.scores,
+      isDirty: false,
+    });
+    window.location.href = "/en/journal/new?loadPending=1";
+  }
+
+  async function handleDeleteSaved() {
+    if (!pending?.experienceId) return;
+    if (!confirm("Delete this experience?")) return;
+    const supabase = createSupabaseBrowserClient();
+    await supabase
+      .from("meq30_responses")
+      .delete()
+      .eq("experience_id", pending.experienceId);
+    const { error } = await supabase
+      .from("experiences")
+      .delete()
+      .eq("id", pending.experienceId);
+    if (error) {
+      alert("Failed to delete experience.");
+      return;
+    }
+    window.location.href = "/en/journal";
   }
 
   return (
@@ -158,7 +195,12 @@ export default function ReviewPage() {
         {pending.date && (
           <div>
             <label className="text-sm font-medium">Date</label>
-            <p>{new Date(pending.date).toLocaleDateString()}</p>
+            <p>
+              {new Date(`${pending.date}T00:00:00Z`).toLocaleDateString(
+                "en-US",
+                { timeZone: "UTC" }
+              )}
+            </p>
           </div>
         )}
 
@@ -243,6 +285,23 @@ export default function ReviewPage() {
 
           <button
             onClick={handleDelete}
+            className="px-4 py-2 rounded bg-red-600 text-white"
+          >
+            Delete
+          </button>
+        </div>
+      )}
+
+      {source === "saved" && (
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleEditSaved}
+            className="px-4 py-2 rounded bg-blue-600 text-white"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleDeleteSaved}
             className="px-4 py-2 rounded bg-red-600 text-white"
           >
             Delete

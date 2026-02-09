@@ -2,10 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import MEQ30Form, { MEQAnswersMap } from "@/components/MEQ30Form";
-import { scoreMEQ30 } from "@/lib/meq30Score";
+import { MEQ30Scores, scoreMEQ30 } from "@/lib/meq30Score";
 import { MEQ30_QUESTIONS } from "@/lib/meq30Questions";
 import { gregorianToJalali, jalaliToGregorian } from "@/lib/persianDate";
 import { toPersianNumerals } from "@/lib/persianNumerals";
@@ -32,6 +32,10 @@ export default function NewExperiencePageFa() {
   const [saving, setSaving] = useState(false);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
+  const skipDirtyRef = useRef(true);
+  const lastScoresRef = useRef<MEQ30Scores | null>(null);
+  const [editingExperienceId, setEditingExperienceId] = useState<string | null>(null);
+  const initialSnapshotRef = useRef<string | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -45,19 +49,13 @@ export default function NewExperiencePageFa() {
 
     // Check for pending experience but do NOT auto-load it unless requested via URL
     const pending = getPendingExperience();
-    if (pending) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("loadPending") === "1") {
+      loadPending();
+    } else if (pending?.isDirty) {
       setPendingExists(true);
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("loadPending") === "1") {
-        loadPending();
-      }
     }
   }, []);
-
-  if (!email) return <p>در حال بارگذاری...</p>;
-
-  const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0 && answeredCount === 30;
 
   function autofillAll(value: number) {
     const filled: MEQAnswersMap = {};
@@ -70,15 +68,27 @@ export default function NewExperiencePageFa() {
   function loadPending() {
     const p = getPendingExperience();
     if (!p) return;
+    skipDirtyRef.current = true;
+    setEditingExperienceId(p.experienceId ?? null);
     setTitle(p.title);
     setDate(p.date ?? "");
     setNotes(p.notes ?? "");
     setAnswers(p.answers ?? {});
+    initialSnapshotRef.current = snapshotForDirty(
+      p.title,
+      p.date ?? "",
+      p.notes ?? "",
+      p.answers ?? {}
+    );
+    lastScoresRef.current = p.scores ?? null;
     setPendingLoaded(true);
     setPendingExists(false);
   }
 
   function startNew() {
+    skipDirtyRef.current = true;
+    setEditingExperienceId(null);
+    initialSnapshotRef.current = null;
     clearPendingExperience();
     setPendingExists(false);
     setPendingLoaded(false);
@@ -87,6 +97,7 @@ export default function NewExperiencePageFa() {
     setNoDate(false);
     setNotes("");
     setAnswers({});
+    lastScoresRef.current = null;
   }
 
   async function handleSave() {
@@ -99,11 +110,13 @@ export default function NewExperiencePageFa() {
 
       // Save to session storage
       savePendingExperience({
+        experienceId: editingExperienceId ?? undefined,
         title,
         date,
         notes,
         answers,
         scores,
+        isDirty: true,
       });
 
       // Redirect to review page
@@ -113,6 +126,63 @@ export default function NewExperiencePageFa() {
       setSaving(false);
     }
   }
+
+  useEffect(() => {
+    if (skipDirtyRef.current) {
+      skipDirtyRef.current = false;
+      return;
+    }
+
+    if (!title && !date && !notes && Object.keys(answers).length === 0) {
+      return;
+    }
+
+    const snapshot = snapshotForDirty(title, date, notes, answers);
+    const isDirtyNow = initialSnapshotRef.current
+      ? snapshot !== initialSnapshotRef.current
+      : true;
+
+    let scores = lastScoresRef.current;
+    try {
+      scores = scoreMEQ30(answers);
+      lastScoresRef.current = scores;
+    } catch {
+      // Keep last computed scores when answers are incomplete.
+    }
+
+    if (!scores) return;
+
+    savePendingExperience({
+      experienceId: editingExperienceId ?? undefined,
+      title,
+      date,
+      notes,
+      answers,
+      scores,
+      isDirty: isDirtyNow,
+    });
+    setPendingExists(isDirtyNow);
+  }, [title, date, notes, answers]);
+
+  function snapshotForDirty(
+    t: string,
+    d: string,
+    n: string,
+    a: MEQAnswersMap
+  ) {
+    const sortedAnswers = Object.keys(a)
+      .sort()
+      .reduce<Record<string, number>>((acc, key) => {
+        acc[key] = a[key];
+        return acc;
+      }, {});
+    return JSON.stringify({ t, d, n, a: sortedAnswers });
+  }
+
+  if (!email) return <p>در حال بارگذاری...</p>;
+
+  const answeredCount = Object.keys(answers).length;
+  const canSave = title.trim().length > 0 && answeredCount === 30;
 
   return (
     <main dir="rtl" className="max-w-3xl mx-auto p-6 space-y-4">

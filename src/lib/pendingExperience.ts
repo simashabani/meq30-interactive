@@ -2,6 +2,7 @@ import { MEQAnswersMap } from "@/components/MEQ30Form";
 import { MEQ30Scores } from "@/lib/meq30Score";
 
 export type PendingExperience = {
+  experienceId?: string;
   title: string;
   date: string; // "" if not set
   notes: string;

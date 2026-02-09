@@ -30,6 +30,8 @@ export default function NewExperiencePage() {
   const [pendingLoaded, setPendingLoaded] = useState(false);
   const skipDirtyRef = useRef(false);
   const lastScoresRef = useRef<MEQ30Scores | null>(null);
+  const [editingExperienceId, setEditingExperienceId] = useState<string | null>(null);
+  const initialSnapshotRef = useRef<string | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -43,20 +45,14 @@ export default function NewExperiencePage() {
 
     // Check for pending experience but do NOT auto-load it unless requested via URL
     const pending = getPendingExperience();
-    if (pending?.isDirty) {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("loadPending") === "1") {
+      // load it automatically
+      loadPending();
+    } else if (pending?.isDirty) {
       setPendingExists(true);
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("loadPending") === "1") {
-        // load it automatically
-        loadPending();
-      }
     }
   }, []);
-
-  if (!email) return <p>Loading...</p>;
-
-  const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0 && answeredCount === 30;
 
   function autofillAll(value: number) {
     const filled: MEQAnswersMap = {};
@@ -70,10 +66,17 @@ export default function NewExperiencePage() {
     const p = getPendingExperience();
     if (!p) return;
     skipDirtyRef.current = true;
+    setEditingExperienceId(p.experienceId ?? null);
     setTitle(p.title);
     setDate(p.date ?? "");
     setNotes(p.notes ?? "");
     setAnswers(p.answers ?? {});
+    initialSnapshotRef.current = snapshotForDirty(
+      p.title,
+      p.date ?? "",
+      p.notes ?? "",
+      p.answers ?? {}
+    );
     lastScoresRef.current = p.scores ?? null;
     setPendingLoaded(true);
     setPendingExists(false);
@@ -81,6 +84,8 @@ export default function NewExperiencePage() {
 
   function startNew() {
     skipDirtyRef.current = true;
+    setEditingExperienceId(null);
+    initialSnapshotRef.current = null;
     clearPendingExperience();
     setPendingExists(false);
     setPendingLoaded(false);
@@ -102,6 +107,7 @@ export default function NewExperiencePage() {
 
       // Save to session storage
       savePendingExperience({
+        experienceId: editingExperienceId ?? undefined,
         title,
         date,
         notes,
@@ -128,6 +134,11 @@ export default function NewExperiencePage() {
       return;
     }
 
+    const snapshot = snapshotForDirty(title, date, notes, answers);
+    const isDirtyNow = initialSnapshotRef.current
+      ? snapshot !== initialSnapshotRef.current
+      : true;
+
     let scores = lastScoresRef.current;
     try {
       scores = scoreMEQ30(answers);
@@ -139,15 +150,36 @@ export default function NewExperiencePage() {
     if (!scores) return;
 
     savePendingExperience({
+      experienceId: editingExperienceId ?? undefined,
       title,
       date,
       notes,
       answers,
       scores,
-      isDirty: true,
+      isDirty: isDirtyNow,
     });
-    setPendingExists(true);
+    setPendingExists(isDirtyNow);
   }, [title, date, notes, answers]);
+
+  function snapshotForDirty(
+    t: string,
+    d: string,
+    n: string,
+    a: MEQAnswersMap
+  ) {
+    const sortedAnswers = Object.keys(a)
+      .sort()
+      .reduce<Record<string, number>>((acc, key) => {
+        acc[key] = a[key];
+        return acc;
+      }, {});
+    return JSON.stringify({ t, d, n, a: sortedAnswers });
+  }
+
+  if (!email) return <p>Loading...</p>;
+
+  const answeredCount = Object.keys(answers).length;
+  const canSave = title.trim().length > 0 && answeredCount === 30;
 
   return (
     <main className="max-w-3xl mx-auto p-6 space-y-4">

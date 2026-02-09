@@ -2,90 +2,127 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
   getPendingExperience,
   clearPendingExperience,
+  savePendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
 import { toPersianNumerals } from "@/lib/persianNumerals";
+import { generateMeq30Interpretation } from "@/lib/interpretation/generateMeq30Interpretation";
+
+type ReviewExperience = PendingExperience & {
+  language: "en" | "fa";
+};
 
 export default function ReviewPageFa() {
   const [email, setEmail] = useState<string | null>(null);
-  const [pending, setPending] = useState<PendingExperience | null>(null);
+  const [pending, setPending] = useState<ReviewExperience | null>(null);
   const [saving, setSaving] = useState(false);
+  const [source, setSource] = useState<"pending" | "saved" | null>(null);
+  const searchParams = useSearchParams();
+  const experienceId = searchParams.get("id");
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
-    supabase.auth.getUser().then(({ data }) => {
+    supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
-        window.location.href = "/fa/login";
-      } else {
-        setEmail(data.user.email);
-      }
-    });
-
-    // Load pending experience
-    const p = getPendingExperience();
-    if (!p) {
-      window.location.href = "/fa/journal/new";
-    } else {
-      setPending(p);
-    }
-  }, []);
-
-  if (!email || !pending) return <p>در حال بارگذاری...</p>;
-
-  async function handleSave() {
-    if (saving) return;
-
-    setSaving(true);
-    try {
-      const supabase = createSupabaseBrowserClient();
-
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData.user) {
         window.location.href = "/fa/login";
         return;
       }
 
-      const occurred_at = pending.date
-        ? new Date(pending.date).toISOString()
-        : null;
+      setEmail(data.user.email ?? null);
 
-      // 1) Insert experience
-      const { data: exp, error: expErr } = await supabase
-        .from("experiences")
-        .insert({
-          user_id: userData.user.id,
-          title: pending.title.trim(),
-          occurred_at,
-          notes: pending.notes.trim() || null,
-          is_shared_for_research: false,
-        })
-        .select("id")
-        .single();
+      if (experienceId) {
+        const { data: expData, error: expErr } = await supabase
+          .from("experiences")
+          .select("id,title,occurred_at,notes")
+          .eq("id", experienceId)
+          .single();
 
-      if (expErr) throw expErr;
+        if (expErr || !expData) {
+          alert("بارگذاری تجربه ناموفق بود.");
+          window.location.href = "/fa/journal";
+          return;
+        }
 
-      // 2) Insert MEQ response
-      const { error: respErr } = await supabase
-        .from("meq30_responses")
-        .insert({
-          experience_id: exp.id,
-          language: "fa",
-          answers: pending.answers,
-          mystical_percentage: pending.scores.mystical_percentage,
-          positive_mood_percentage: pending.scores.positive_mood_percentage,
-          time_space_percentage: pending.scores.time_space_percentage,
-          ineffability_percentage: pending.scores.ineffability_percentage,
-          complete_mystical: pending.scores.complete_mystical,
-          interpretation_key: "pending_v1",
-          interpretation_en: null,
-          interpretation_fa: null,
+        const { data: respData, error: respErr } = await supabase
+          .from("meq30_responses")
+          .select(
+            "language,answers,mystical_percentage,positive_mood_percentage,time_space_percentage,ineffability_percentage,complete_mystical"
+          )
+          .eq("experience_id", experienceId)
+          .single();
+
+        if (respErr || !respData) {
+          alert("پاسخ MEQ برای این تجربه یافت نشد.");
+          window.location.href = "/fa/journal";
+          return;
+        }
+
+        setPending({
+          experienceId,
+          title: expData.title ?? "",
+          date: expData.occurred_at
+            ? new Date(expData.occurred_at).toISOString().slice(0, 10)
+            : "",
+          notes: expData.notes ?? "",
+          answers: respData.answers ?? {},
+          scores: {
+            mystical_percentage: respData.mystical_percentage ?? 0,
+            positive_mood_percentage: respData.positive_mood_percentage ?? 0,
+            time_space_percentage: respData.time_space_percentage ?? 0,
+            ineffability_percentage: respData.ineffability_percentage ?? 0,
+            complete_mystical: respData.complete_mystical ?? false,
+          },
+          language: respData.language === "fa" ? "fa" : "en",
+          isDirty: false,
         });
+        setSource("saved");
+        return;
+      }
 
-      if (respErr) throw respErr;
+      // Load pending experience
+      const p = getPendingExperience();
+      if (!p) {
+        window.location.href = "/fa/journal/new";
+      } else {
+        setPending({ ...p, language: "fa" });
+        setSource("pending");
+      }
+    });
+  }, [experienceId]);
+
+  if (!email || !pending) return <p>در حال بارگذاری...</p>;
+
+  const interpretation = generateMeq30Interpretation(
+    pending.scores,
+    pending.language
+  );
+
+  async function handleSave() {
+    if (saving) return;
+    if (!pending) return;
+
+    setSaving(true);
+    try {
+      const res = await fetch("/api/meq30/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          experienceId: pending.experienceId,
+          title: pending.title,
+          date: pending.date,
+          notes: pending.notes,
+          answers: pending.answers,
+          language: "fa",
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Submit failed");
 
       clearPendingExperience();
       window.location.href = "/fa/journal";
@@ -97,7 +134,7 @@ export default function ReviewPageFa() {
 
   function handleEdit() {
     // Keep the pending experience and go back to edit
-    window.location.href = "/fa/journal/new";
+    window.location.href = "/fa/journal/new?loadPending=1";
   }
 
   function handleDelete() {
@@ -105,6 +142,39 @@ export default function ReviewPageFa() {
       clearPendingExperience();
       window.location.href = "/fa/journal/new";
     }
+  }
+
+  async function handleEditSaved() {
+    if (!pending) return;
+    savePendingExperience({
+      experienceId: pending.experienceId,
+      title: pending.title,
+      date: pending.date,
+      notes: pending.notes,
+      answers: pending.answers,
+      scores: pending.scores,
+      isDirty: false,
+    });
+    window.location.href = "/fa/journal/new?loadPending=1";
+  }
+
+  async function handleDeleteSaved() {
+    if (!pending?.experienceId) return;
+    if (!confirm("این تجربه حذف شود؟")) return;
+    const supabase = createSupabaseBrowserClient();
+    await supabase
+      .from("meq30_responses")
+      .delete()
+      .eq("experience_id", pending.experienceId);
+    const { error } = await supabase
+      .from("experiences")
+      .delete()
+      .eq("id", pending.experienceId);
+    if (error) {
+      alert("حذف تجربه ناموفق بود.");
+      return;
+    }
+    window.location.href = "/fa/journal";
   }
 
   return (
@@ -126,7 +196,12 @@ export default function ReviewPageFa() {
         {pending.date && (
           <div>
             <label className="text-sm font-medium">تاریخ</label>
-            <p>{new Date(pending.date).toLocaleDateString("fa-IR")}</p>
+            <p>
+              {new Date(`${pending.date}T00:00:00Z`).toLocaleDateString(
+                "fa-IR",
+                { timeZone: "UTC" }
+              )}
+            </p>
           </div>
         )}
 
@@ -141,6 +216,11 @@ export default function ReviewPageFa() {
       {/* Scores */}
       <div className="border rounded-lg p-4 space-y-4">
         <h2 className="text-lg font-semibold">نمرات MEQ-30</h2>
+        <p className="text-sm font-medium">
+          {pending.scores.complete_mystical
+            ? "تجربهٔ شما صوفیانه است."
+            : "تجربهٔ شما صوفیانه نیست."}
+        </p>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
@@ -189,30 +269,54 @@ export default function ReviewPageFa() {
         </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={handleSave}
-          disabled={saving}
-          className="px-4 py-2 rounded bg-green-600 text-white disabled:opacity-50"
-        >
-          {saving ? "در حال ذخیره..." : "ذخیره"}
-        </button>
-
-        <button
-          onClick={handleEdit}
-          className="px-4 py-2 rounded bg-blue-600 text-white"
-        >
-          ویرایش
-        </button>
-
-        <button
-          onClick={handleDelete}
-          className="px-4 py-2 rounded bg-red-600 text-white"
-        >
-          حذف
-        </button>
+      {/* Interpretation */}
+      <div className="border rounded-lg p-4 space-y-3">
+        <h2 className="text-lg font-semibold">تفسیر</h2>
+        <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
+
+      {source === "pending" && (
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleSave}
+            disabled={saving}
+            className="px-4 py-2 rounded bg-green-600 text-white disabled:opacity-50"
+          >
+            {saving ? "در حال ذخیره..." : "ذخیره"}
+          </button>
+
+          <button
+            onClick={handleEdit}
+            className="px-4 py-2 rounded bg-blue-600 text-white"
+          >
+            ویرایش
+          </button>
+
+          <button
+            onClick={handleDelete}
+            className="px-4 py-2 rounded bg-red-600 text-white"
+          >
+            حذف
+          </button>
+        </div>
+      )}
+
+      {source === "saved" && (
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleEditSaved}
+            className="px-4 py-2 rounded bg-blue-600 text-white"
+          >
+            ویرایش
+          </button>
+          <button
+            onClick={handleDeleteSaved}
+            className="px-4 py-2 rounded bg-red-600 text-white"
+          >
+            حذف
+          </button>
+        </div>
+      )}
     </main>
   );
 }
