@@ -43,7 +43,7 @@ export default function NewExperiencePageFa() {
       if (!data.user) {
         window.location.href = "/fa/login";
       } else {
-        setEmail(data.user.email);
+        setEmail(data.user.email ?? null);
       }
     });
 
