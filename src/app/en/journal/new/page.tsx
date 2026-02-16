@@ -39,7 +39,7 @@ export default function NewExperiencePage() {
       if (!data.user) {
         window.location.href = "/en/login";
       } else {
-        setEmail(data.user.email);
+        setEmail(data.user.email ?? null);
       }
     });
 
