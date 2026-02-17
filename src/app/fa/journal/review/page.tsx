@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
   getPendingExperience,
@@ -10,23 +9,25 @@ import {
   savePendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
-import { toPersianNumerals } from "@/lib/persianNumerals";
 import { generateMeq30Interpretation } from "@/lib/interpretation/generateMeq30Interpretation";
 
 type ReviewExperience = PendingExperience & {
   language: "en" | "fa";
 };
 
-export default function ReviewPageFa() {
+const toPersianNumerals = (value: string | number) =>
+  String(value).replace(/\d/g, (d) => "۰۱۲۳۴۵۶۷۸۹"[Number(d)]);
+
+export default function ReviewPage() {
   const [email, setEmail] = useState<string | null>(null);
   const [pending, setPending] = useState<ReviewExperience | null>(null);
   const [saving, setSaving] = useState(false);
   const [source, setSource] = useState<"pending" | "saved" | null>(null);
-  const searchParams = useSearchParams();
-  const experienceId = searchParams.get("id");
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
+    const experienceId = new URLSearchParams(window.location.search).get("id");
+
     supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
         window.location.href = "/fa/login";
@@ -84,7 +85,6 @@ export default function ReviewPageFa() {
         return;
       }
 
-      // Load pending experience
       const p = getPendingExperience();
       if (!p) {
         window.location.href = "/fa/journal/new";
@@ -93,7 +93,7 @@ export default function ReviewPageFa() {
         setSource("pending");
       }
     });
-  }, [experienceId]);
+  }, []);
 
   if (!email || !pending) return <p>در حال بارگذاری...</p>;
 
@@ -103,8 +103,7 @@ export default function ReviewPageFa() {
   );
 
   async function handleSave() {
-    if (saving) return;
-    if (!pending) return;
+    if (saving || !pending) return;
 
     setSaving(true);
     try {
@@ -126,14 +125,14 @@ export default function ReviewPageFa() {
 
       clearPendingExperience();
       window.location.href = "/fa/journal";
-    } catch (e: any) {
-      alert("ذخیره ناموفق بود: " + (e?.message ?? String(e)));
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : String(e);
+      alert("ذخیره ناموفق بود: " + message);
       setSaving(false);
     }
   }
 
   function handleEdit() {
-    // Keep the pending experience and go back to edit
     window.location.href = "/fa/journal/new?loadPending=1";
   }
 
@@ -161,19 +160,24 @@ export default function ReviewPageFa() {
   async function handleDeleteSaved() {
     if (!pending?.experienceId) return;
     if (!confirm("این تجربه حذف شود؟")) return;
+
     const supabase = createSupabaseBrowserClient();
+
     await supabase
       .from("meq30_responses")
       .delete()
       .eq("experience_id", pending.experienceId);
+
     const { error } = await supabase
       .from("experiences")
       .delete()
       .eq("id", pending.experienceId);
+
     if (error) {
       alert("حذف تجربه ناموفق بود.");
       return;
     }
+
     window.location.href = "/fa/journal";
   }
 
@@ -182,11 +186,10 @@ export default function ReviewPageFa() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">بررسی تجربه</h1>
         <Link href="/fa/journal" className="text-sm underline">
-          ← بازگشت به دفتر
+          بازگشت به دفتر ←
         </Link>
       </div>
 
-      {/* Experience Details */}
       <div className="border rounded-lg p-4 space-y-4">
         <div>
           <label className="text-sm font-medium">عنوان</label>
@@ -197,10 +200,9 @@ export default function ReviewPageFa() {
           <div>
             <label className="text-sm font-medium">تاریخ</label>
             <p>
-              {new Date(`${pending.date}T00:00:00Z`).toLocaleDateString(
-                "fa-IR",
-                { timeZone: "UTC" }
-              )}
+              {new Date(`${pending.date}T00:00:00Z`).toLocaleDateString("fa-IR", {
+                timeZone: "UTC",
+              })}
             </p>
           </div>
         )}
@@ -213,63 +215,57 @@ export default function ReviewPageFa() {
         )}
       </div>
 
-      {/* Scores */}
       <div className="border rounded-lg p-4 space-y-4">
-        <h2 className="text-lg font-semibold">نمرات MEQ-30</h2>
+        <h2 className="text-lg font-semibold">امتیازهای MEQ-30</h2>
         <p className="text-sm font-medium">
           {pending.scores.complete_mystical
-            ? "تجربهٔ شما صوفیانه است."
-            : "تجربهٔ شما صوفیانه نیست."}
+            ? "تجربه شما عرفانی است."
+            : "تجربه شما عرفانی نیست."}
         </p>
 
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="text-sm font-medium">رازمندانه</label>
             <p className="text-xl font-bold">
-              {toPersianNumerals(
-                pending.scores.mystical_percentage.toFixed(0)
-              )}%
+              {toPersianNumerals(pending.scores.mystical_percentage.toFixed(0))}%
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">حالت مثبت</label>
+            <label className="text-sm font-medium">خلق مثبت</label>
             <p className="text-xl font-bold">
               {toPersianNumerals(
                 pending.scores.positive_mood_percentage.toFixed(0)
-              )}%
+              )}
+              %
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">فراتر رفتن از زمان و فضا</label>
+            <label className="text-sm font-medium">زمان و فضا</label>
             <p className="text-xl font-bold">
-              {toPersianNumerals(
-                pending.scores.time_space_percentage.toFixed(0)
-              )}%
+              {toPersianNumerals(pending.scores.time_space_percentage.toFixed(0))}%
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">ناگفتنی</label>
+            <label className="text-sm font-medium">وصف‌ناپذیری</label>
             <p className="text-xl font-bold">
-              {toPersianNumerals(
-                pending.scores.ineffability_percentage.toFixed(0)
-              )}%
+              {toPersianNumerals(pending.scores.ineffability_percentage.toFixed(0))}
+              %
             </p>
           </div>
 
           {pending.scores.complete_mystical && (
             <div className="col-span-2 bg-blue-50 border border-blue-200 rounded p-3">
               <p className="text-sm font-medium text-blue-900">
-                ✓ تجربهٔ صوفیانهٔ مکمل (تمام بخش‌ها ≥ ۶۰%)
+                ✓ تجربه عرفانی کامل (همه زیرمقیاس‌ها ≥ ۶۰٪)
               </p>
             </div>
           )}
         </div>
       </div>
 
-      {/* Interpretation */}
       <div className="border rounded-lg p-4 space-y-3">
         <h2 className="text-lg font-semibold">تفسیر</h2>
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>

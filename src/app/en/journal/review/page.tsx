@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+// removed: import { useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
   getPendingExperience,
@@ -21,11 +21,14 @@ export default function ReviewPage() {
   const [pending, setPending] = useState<ReviewExperience | null>(null);
   const [saving, setSaving] = useState(false);
   const [source, setSource] = useState<"pending" | "saved" | null>(null);
-  const searchParams = useSearchParams();
-  const experienceId = searchParams.get("id");
+  // removed:
+  // const searchParams = useSearchParams();
+  // const experienceId = searchParams.get("id");
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
+    const experienceId = new URLSearchParams(window.location.search).get("id");
+
     supabase.auth.getUser().then(async ({ data }) => {
       if (!data.user) {
         window.location.href = "/en/login";
@@ -83,7 +86,6 @@ export default function ReviewPage() {
         return;
       }
 
-      // Load pending experience
       const p = getPendingExperience();
       if (!p) {
         window.location.href = "/en/journal/new";
@@ -92,7 +94,7 @@ export default function ReviewPage() {
         setSource("pending");
       }
     });
-  }, [experienceId]);
+  }, []);
 
   if (!email || !pending) return <p>Loading...</p>;
 
