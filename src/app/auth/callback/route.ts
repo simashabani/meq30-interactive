@@ -32,11 +32,11 @@ export async function GET(request: Request) {
     const { data: userData } = await supabase.auth.getUser();
     const lang = (userData?.user?.user_metadata as any)?.language || (userData?.user?.user_metadata as any)?.lang;
     if (lang === "fa") {
-      return NextResponse.redirect(new URL("/fa", url.origin));
+      return NextResponse.redirect(new URL("/fa/journal", url.origin));
     }
   } catch (err) {
     // ignore and fall back to English
   }
 
-  return NextResponse.redirect(new URL("/en", url.origin));
+  return NextResponse.redirect(new URL("/en/journal", url.origin));
 }

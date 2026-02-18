@@ -34,8 +34,8 @@ export default function Header({ locale }: Props) {
       const { error } = await supabase.auth.updateUser({ data: { language: lang } });
       if (error) throw error;
       setPrefLang(lang);
-      // redirect to that locale root
-      window.location.href = lang === "fa" ? "/fa" : "/en";
+      // redirect to that locale journal
+      window.location.href = lang === "fa" ? "/fa/journal" : "/en/journal";
     } catch (err: any) {
       alert("خطا در ذخیره‌سازی: " + (err?.message || String(err)));
     } finally {
@@ -82,7 +82,7 @@ export default function Header({ locale }: Props) {
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           {/* Language toggle */}
           <button
-            onClick={() => window.location.href = isFa ? "/en" : "/fa"}
+            onClick={() => window.location.href = isFa ? "/en/journal" : "/fa/journal"}
             style={{
               border: "1px solid #e5e7eb",
               padding: "6px 10px",
@@ -152,7 +152,7 @@ export default function Header({ locale }: Props) {
                     onClick={async () => {
                       const supabase = createSupabaseBrowserClient();
                       await supabase.auth.signOut();
-                      window.location.href = isFa ? "/fa" : "/en";
+                      window.location.href = isFa ? "/fa/journal" : "/en/journal";
                     }}
                     style={{ padding: "6px 10px", borderRadius: 6, background: "#f3f4f6", width: "100%" }}
                   >

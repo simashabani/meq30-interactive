@@ -185,9 +185,6 @@ export default function NewExperiencePage() {
     <main className="max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">New Experience</h1>
-        <Link href="/en/journal" className="text-sm underline">
-          ← Back to Journal
-        </Link>
       </div>
 
       {/* Experience metadata */}

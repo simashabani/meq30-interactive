@@ -162,9 +162,6 @@ export default function JournalPage() {
         >
           New Experience
         </Link>
-        <Link href="/en" className="text-sm underline">
-          ← Back
-        </Link>
       </div>
 
       {pendingExists && (

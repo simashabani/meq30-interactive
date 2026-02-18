@@ -173,9 +173,6 @@ export default function JournalPageFa() {
         >
           تجربهٔ جدید
         </Link>
-        <Link href="/fa" className="text-sm underline">
-          ← بازگشت
-        </Link>
       </div>
 
       {pendingExists && (
