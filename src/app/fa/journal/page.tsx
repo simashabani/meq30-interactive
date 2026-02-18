@@ -43,6 +43,11 @@ export default function JournalPageFa() {
   const [pendingExists, setPendingExists] = useState(false);
   const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "occurred_at", ascending: false });
   const [authChecked, setAuthChecked] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("fa");
+  const [researchContact, setResearchContact] = useState(false);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -147,16 +152,108 @@ export default function JournalPageFa() {
     return sortBy.ascending ? " ↑" : " ↓";
   }
 
+  const handleLogin = async () => {
+    const supabase = createSupabaseBrowserClient();
+    const options: any = { emailRedirectTo: `${window.location.origin}/auth/callback` };
+    if (authMode === "signup") {
+      options.data = {
+        default_language: defaultLanguage,
+        research_contact: researchContact,
+      };
+    }
+    const { error } = await supabase.auth.signInWithOtp({
+      email: loginEmail,
+      options,
+    });
+    setLoginMessage(error ? error.message : "لینک ورود به ایمیل شما ارسال شد.");
+  };
+
+  const handleLogout = async () => {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    window.location.href = "/fa/journal";
+  };
+
   if (!authChecked) return <p>در حال بارگذاری...</p>;
 
   if (!userId) {
     return (
       <div>
         <h1 className="text-2xl font-semibold mb-4">دفتر تجربه‌های من</h1>
-        <p className="mb-4">برای مشاهده دفتر خود وارد شوید یا ثبت‌نام کنید.</p>
-        <Link href="/fa/login" className="inline-block px-4 py-2 rounded bg-black text-white">
-          ورود / ثبت‌نام
-        </Link>
+
+        {/* Olive box */}
+        <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
+          <div className="flex items-center gap-4 mb-3">
+            <label className="text-sm">
+              <input
+                type="radio"
+                name="authMode"
+                checked={authMode === "login"}
+                onChange={() => setAuthMode("login")}
+                className="ml-2"
+              />
+              ورود
+            </label>
+            <label className="text-sm">
+              <input
+                type="radio"
+                name="authMode"
+                checked={authMode === "signup"}
+                onChange={() => setAuthMode("signup")}
+                className="ml-2"
+              />
+              ثبت‌نام
+            </label>
+          </div>
+
+          <input
+            value={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
+            className="bg-gray-100 border rounded px-2 py-1"
+            placeholder="ایمیل"
+          />
+          <button onClick={handleLogin} className="mr-2 px-3 py-1 rounded bg-black text-white">
+            {authMode === "login" ? "ارسال لینک ورود" : "ارسال لینک ثبت‌نام"}
+          </button>
+          {loginMessage && <p className="mt-2">{loginMessage}</p>}
+
+          {authMode === "signup" && (
+            <div className="mt-4 space-y-3">
+              <div>
+                <p className="text-sm mb-1">زبان پیش‌فرض</p>
+                <label className="text-sm ml-4">
+                  <input
+                    type="radio"
+                    name="defaultLanguage"
+                    checked={defaultLanguage === "fa"}
+                    onChange={() => setDefaultLanguage("fa")}
+                    className="ml-2"
+                  />
+                  فارسی
+                </label>
+                <label className="text-sm">
+                  <input
+                    type="radio"
+                    name="defaultLanguage"
+                    checked={defaultLanguage === "en"}
+                    onChange={() => setDefaultLanguage("en")}
+                    className="ml-2"
+                  />
+                  انگلیسی
+                </label>
+              </div>
+              <label className="text-sm">
+                <input
+                  type="checkbox"
+                  checked={researchContact}
+                  onChange={(e) => setResearchContact(e.target.checked)}
+                  className="ml-2"
+                />
+                مایلم پژوهشگر این اپلیکیشن برای پژوهش آموزشی با من تماس بگیرد.
+              </label>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -164,15 +261,13 @@ export default function JournalPageFa() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">دفتر تجربه‌های من</h1>
-      <p className="text-sm">خوش آمدید، {email}</p>
 
-      <div className="flex items-center gap-3">
-        <Link
-          href="/fa/journal/new"
-          className="inline-block px-4 py-2 rounded bg-black text-white"
-        >
-          تجربهٔ جدید
-        </Link>
+      {/* Olive box */}
+      <div className="border rounded p-4 flex items-center justify-between gap-4 bg-[#e8f0d8]">
+        <p className="text-sm">خوش آمدید، {email}</p>
+        <button onClick={handleLogout} className="px-3 py-1 rounded bg-gray-200">
+          خروج
+        </button>
       </div>
 
       {pendingExists && (

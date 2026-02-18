@@ -32,6 +32,11 @@ export default function JournalPage() {
   const [pendingExists, setPendingExists] = useState(false);
   const [sortBy, setSortBy] = useState<{ column: string; ascending: boolean }>({ column: "occurred_at", ascending: false });
   const [authChecked, setAuthChecked] = useState(false);
+  const [loginEmail, setLoginEmail] = useState("");
+  const [loginMessage, setLoginMessage] = useState("");
+  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
+  const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("en");
+  const [researchContact, setResearchContact] = useState(false);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -136,16 +141,108 @@ export default function JournalPage() {
     return sortBy.ascending ? " ↑" : " ↓";
   }
 
+  const handleLogin = async () => {
+    const supabase = createSupabaseBrowserClient();
+    const options: any = { emailRedirectTo: `${window.location.origin}/auth/callback` };
+    if (authMode === "signup") {
+      options.data = {
+        default_language: defaultLanguage,
+        research_contact: researchContact,
+      };
+    }
+    const { error } = await supabase.auth.signInWithOtp({
+      email: loginEmail,
+      options,
+    });
+    setLoginMessage(error ? error.message : "Check your email for the login link.");
+  };
+
+  const handleLogout = async () => {
+    const supabase = createSupabaseBrowserClient();
+    await supabase.auth.signOut();
+    window.location.href = "/en/journal";
+  };
+
   if (!authChecked) return <p>Loading...</p>;
 
   if (!userId) {
     return (
       <div>
         <h1 className="text-2xl font-semibold mb-4">My Experience Journal</h1>
-        <p className="mb-4">Please sign in or create an account to view your journal.</p>
-        <Link href="/en/login" className="inline-block px-4 py-2 rounded bg-black text-white">
-          Login / Sign Up
-        </Link>
+
+        {/* Olive box */}
+        <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
+          <div className="flex items-center gap-4 mb-3">
+            <label className="text-sm">
+              <input
+                type="radio"
+                name="authMode"
+                checked={authMode === "login"}
+                onChange={() => setAuthMode("login")}
+                className="mr-2"
+              />
+              Login
+            </label>
+            <label className="text-sm">
+              <input
+                type="radio"
+                name="authMode"
+                checked={authMode === "signup"}
+                onChange={() => setAuthMode("signup")}
+                className="mr-2"
+              />
+              Sign Up
+            </label>
+          </div>
+
+          <input
+            value={loginEmail}
+            onChange={(e) => setLoginEmail(e.target.value)}
+            className="bg-gray-100 border rounded px-2 py-1"
+            placeholder="Email"
+          />
+          <button onClick={handleLogin} className="ml-2 px-3 py-1 rounded bg-black text-white">
+            {authMode === "login" ? "Send Link to Login" : "Send Link to Sign Up"}
+          </button>
+          {loginMessage && <p className="mt-2">{loginMessage}</p>}
+
+          {authMode === "signup" && (
+            <div className="mt-4 space-y-3">
+              <div>
+                <p className="text-sm mb-1">Default language</p>
+                <label className="text-sm mr-4">
+                  <input
+                    type="radio"
+                    name="defaultLanguage"
+                    checked={defaultLanguage === "en"}
+                    onChange={() => setDefaultLanguage("en")}
+                    className="mr-2"
+                  />
+                  English
+                </label>
+                <label className="text-sm">
+                  <input
+                    type="radio"
+                    name="defaultLanguage"
+                    checked={defaultLanguage === "fa"}
+                    onChange={() => setDefaultLanguage("fa")}
+                    className="mr-2"
+                  />
+                  فارسی
+                </label>
+              </div>
+              <label className="text-sm">
+                <input
+                  type="checkbox"
+                  checked={researchContact}
+                  onChange={(e) => setResearchContact(e.target.checked)}
+                  className="mr-2"
+                />
+                I’m open to being contacted by the research team for educational research.
+              </label>
+            </div>
+          )}
+        </div>
       </div>
     );
   }
@@ -153,15 +250,13 @@ export default function JournalPage() {
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-semibold">My Experience Journal</h1>
-      <p className="text-sm">Welcome, {email}</p>
 
-      <div className="flex items-center gap-3">
-        <Link
-          href="/en/journal/new"
-          className="inline-block px-4 py-2 rounded bg-black text-white"
-        >
-          New Experience
-        </Link>
+      {/* Olive box */}
+      <div className="border rounded p-4 flex items-center justify-between gap-4 bg-[#e8f0d8]">
+        <p className="text-sm">Welcome, {email}</p>
+        <button onClick={handleLogout} className="px-3 py-1 rounded bg-gray-200">
+          Log off
+        </button>
       </div>
 
       {pendingExists && (
