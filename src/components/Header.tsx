@@ -66,13 +66,14 @@ export default function Header({ locale }: Props) {
       >
         {/* Left navigation */}
         <nav style={{ display: "flex", gap: 18, alignItems: "center" }}>
-          <Link href={isFa ? "/fa" : "/en"} style={{ fontWeight: 700 }}>
-            {isFa ? "خانه" : "Home"}
-          </Link>
-          <Link href={isFa ? "/fa/info" : "/en/info"}>
-            {isFa ? "اطلاعات" : "Info"}
-          </Link>
-          <Link href={isFa ? "/fa/journal" : "/en/journal"}>
+          <a
+            href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com/"}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {isFa ? "خانه" : "MEQ-30 Home"}
+          </a>
+          <Link href={isFa ? "/fa/journal" : "/en/journal"} style={{ fontWeight: 700 }}>
             {isFa ? "دفتر تجربه‌های من" : "My Experience Journal"}
           </Link>
         </nav>
