@@ -13,7 +13,7 @@ export default function Header({ locale }: Props) {
     <header
       style={{
         borderBottom: "1px solid #e5e7eb",
-        padding: "14px 18px",
+        padding: "16px 32px",
         position: "sticky",
         top: 0,
         background: "white",
@@ -22,7 +22,7 @@ export default function Header({ locale }: Props) {
     >
       <div
         style={{
-          maxWidth: 980,
+          maxWidth: 1200,
           margin: "0 auto",
           display: "flex",
           alignItems: "center",
@@ -30,36 +30,66 @@ export default function Header({ locale }: Props) {
           gap: 12,
         }}
       >
-        {/* Left navigation */}
-        <nav style={{ display: "flex", gap: 18, alignItems: "center" }}>
-          <a
-            href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com/"}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {isFa ? "خانه" : "MEQ-30 Home"}
-          </a>
-          <Link href={isFa ? "/fa/journal" : "/en/journal"} style={{ fontWeight: 700 }}>
-            {isFa ? "دفتر تجربه‌های من" : "My Experience Journal"}
-          </Link>
-        </nav>
-
-        {/* Right navigation */}
-        <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
-          {/* Language toggle */}
-          <button
-            onClick={() => window.location.href = isFa ? "/en/journal" : "/fa/journal"}
-            style={{
-              border: "1px solid #e5e7eb",
-              padding: "6px 10px",
-              borderRadius: 8,
-              fontSize: 14,
-              background: "white",
-              cursor: "pointer",
+        {/* Left side - Site title and navigation */}
+        <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
+          <Link 
+            href={isFa ? "/fa/journal" : "/en/journal"}
+            style={{ 
+              fontSize: "0.95rem",
+              fontFamily: "'Lora', Georgia, serif",
+              fontWeight: 400,
+              letterSpacing: "0.02em",
+              color: "#1a1a1a",
             }}
           >
-            {isFa ? "English" : "فارسی"}
-          </button>
+            MEQ-30 Assessment and Experience Journal
+          </Link>
+          
+          <nav style={{ display: "flex", gap: 24, alignItems: "center" }}>
+            <a
+              href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com/"}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ 
+                fontSize: "0.9rem",
+                fontWeight: 400,
+              }}
+            >
+              {isFa ? "خانه" : "Home"}
+            </a>
+            <Link 
+              href={isFa ? "/fa/journal" : "/en/journal"} 
+              style={{ 
+                fontSize: "0.9rem",
+                fontWeight: 600,
+              }}
+            >
+              {isFa ? "دفتر تجربه‌های من" : "My Journal"}
+            </Link>
+          </nav>
+        </div>
+
+        {/* Right side - Language toggle */}
+        <div style={{ display: "flex", gap: 8, alignItems: "center", fontSize: "0.9rem" }}>
+          <Link
+            href="/en/journal"
+            style={{
+              fontWeight: isFa ? 400 : 600,
+              textDecoration: isFa ? "none" : "underline",
+            }}
+          >
+            English
+          </Link>
+          <span style={{ color: "#999" }}>|</span>
+          <Link
+            href="/fa/journal"
+            style={{
+              fontWeight: isFa ? 600 : 400,
+              textDecoration: isFa ? "underline" : "none",
+            }}
+          >
+            Persian
+          </Link>
         </div>
       </div>
     </header>

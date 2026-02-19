@@ -160,76 +160,129 @@ export default function JournalPage() {
 
   if (!userId) {
     return (
-      <div>
-        <h1 className="text-2xl font-semibold mb-4">My Experience Journal</h1>
+      <div style={{ maxWidth: 800, margin: '0 auto' }}>
+        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>My Experience Journal</h1>
 
-        {/* Olive box */}
-        <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
-          <p className="text-sm mb-3">
+        {/* Auth box */}
+        <div style={{ background: '#f5f5f0', padding: '2rem', marginBottom: '2rem' }}>
+          <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
             We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
           </p>
-          <input
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-            className="bg-gray-100 border rounded px-2 py-1"
-            placeholder="Email"
-          />
-          <button onClick={handleLogin} className="ml-2 px-3 py-1 rounded bg-black text-white">
-            Send the Link
-          </button>
-          {loginMessage && <p className="mt-2 text-sm">{loginMessage}</p>}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <input
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+              placeholder="Email"
+            />
+            <button 
+              onClick={handleLogin} 
+              style={{ 
+                background: '#3d3d3d', 
+                color: 'white', 
+                padding: '10px 24px', 
+                border: 'none', 
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                fontSize: '0.875rem',
+                fontWeight: 500
+              }}
+            >
+              Send the Link
+            </button>
+          </div>
+          {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">My Experience Journal</h1>
+    <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>My Experience Journal</h1>
+        <Link 
+          href="/en/journal/new"
+          style={{ 
+            background: '#3d3d3d', 
+            color: 'white', 
+            padding: '12px 24px', 
+            textDecoration: 'none',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            display: 'inline-block'
+          }}
+        >
+          + New Experience
+        </Link>
+      </div>
 
-      {/* Olive box */}
-      <div className="border rounded p-4 flex items-center justify-between gap-4 bg-[#e8f0d8]">
-        <p className="text-sm">Welcome, {email}</p>
-        <button onClick={handleLogout} className="px-3 py-1 rounded bg-gray-200">
+      {/* Welcome box */}
+      <div style={{ background: '#f5f5f0', padding: '1.5rem', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+        <p>Welcome, {email}</p>
+        <button 
+          onClick={handleLogout} 
+          style={{ 
+            background: '#8c8c7e', 
+            color: 'white', 
+            padding: '8px 20px', 
+            border: 'none', 
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+            fontSize: '0.875rem'
+          }}
+        >
           Log off
         </button>
       </div>
 
       {pendingExists && (
-        <div className="border rounded p-3 bg-yellow-50">
-          <p className="text-sm">You have an unsaved experience.</p>
-          <div className="mt-2">
-            <button
-              onClick={() => (window.location.href = "/en/journal/new?loadPending=1")}
-              className="px-3 py-1 rounded bg-blue-600 text-white"
-            >
-              View / Edit Unsaved
-            </button>
-          </div>
+        <div style={{ background: '#ebebeb', padding: '1.5rem', marginBottom: '1.5rem' }}>
+          <p style={{ marginBottom: '1rem' }}>You have an unsaved experience.</p>
+          <button
+            onClick={() => (window.location.href = "/en/journal/new?loadPending=1")}
+            style={{ 
+              background: '#3d3d3d', 
+              color: 'white', 
+              padding: '10px 24px', 
+              border: 'none', 
+              cursor: 'pointer',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              fontSize: '0.875rem',
+              fontWeight: 500
+            }}
+          >
+            View / Edit Unsaved
+          </button>
         </div>
       )}
 
-      <div>
-        <h2 className="text-lg font-semibold">My Logged Experiences</h2>
+      <div style={{ marginTop: '2rem' }}>
+        <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>My Logged Experiences</h2>
         {experiences === null ? (
           <p>Loading...</p>
         ) : experiences.length === 0 ? (
-          <p>No experiences found. <Link href="/en/journal/new">Log one</Link>.</p>
+          <p>No experiences found. <Link href="/en/journal/new" style={{ textDecoration: 'underline', color: '#3d3d3d' }}>Log one</Link>.</p>
         ) : (
-          <table className="w-full text-left border-collapse mt-2">
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
             <thead>
-              <tr>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("title")}>
+              <tr style={{ borderBottom: '2px solid #3d3d3d' }}>
+                <th style={{ padding: '12px 8px', textAlign: 'left', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("title")}>
                   Name{renderSortIndicator("title")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("occurred_at")}>
+                <th style={{ padding: '12px 8px', textAlign: 'left', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("occurred_at")}>
                   Date of Experience{renderSortIndicator("occurred_at")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("complete_mystical")}>
+                <th style={{ padding: '12px 8px', textAlign: 'left', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("complete_mystical")}>
                   Mystical?{renderSortIndicator("complete_mystical")}
                 </th>
-                <th className="border-b py-2">Edit</th>
-                <th className="border-b py-2">Delete</th>
+                <th style={{ padding: '12px 8px', textAlign: 'left', fontSize: '0.9rem', fontWeight: 600 }}>Edit</th>
+                <th style={{ padding: '12px 8px', textAlign: 'left', fontSize: '0.9rem', fontWeight: 600 }}>Delete</th>
               </tr>
             </thead>
             <tbody>
@@ -245,21 +298,21 @@ export default function JournalPage() {
                     })
                   : "—";
                 return (
-                  <tr key={e.id}>
-                    <td className="py-2 border-b">
-                      <Link className="text-blue-600 underline" href={`/${entryLang}/journal/review?id=${e.id}`}>
+                  <tr key={e.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '12px 8px' }}>
+                      <Link style={{ color: '#3d3d3d', textDecoration: 'underline' }} href={`/${entryLang}/journal/review?id=${e.id}`}>
                         {e.title}
                       </Link>
                     </td>
-                    <td className="py-2 border-b">{dateOfExp}</td>
-                    <td className="py-2 border-b">{resp ? (resp.complete_mystical ? "Yes" : "No") : "—"}</td>
-                    <td className="py-2 border-b">
-                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                    <td style={{ padding: '12px 8px' }}>{dateOfExp}</td>
+                    <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "Yes" : "No") : "—"}</td>
+                    <td style={{ padding: '12px 8px' }}>
+                      <button style={{ color: '#3d3d3d', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleEdit(e.id)}>
                         Edit
                       </button>
                     </td>
-                    <td className="py-2 border-b">
-                      <button className="text-red-600 underline" onClick={() => handleDelete(e.id)}>
+                    <td style={{ padding: '12px 8px' }}>
+                      <button style={{ color: '#c53030', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleDelete(e.id)}>
                         Delete
                       </button>
                     </td>

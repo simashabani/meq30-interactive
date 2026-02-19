@@ -171,76 +171,126 @@ export default function JournalPageFa() {
 
   if (!userId) {
     return (
-      <div>
-        <h1 className="text-2xl font-semibold mb-4">دفتر تجربه‌های من</h1>
+      <div style={{ maxWidth: 800, margin: '0 auto' }}>
+        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>دفتر تجربه‌های من</h1>
 
-        {/* Olive box */}
-        <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
-          <p className="text-sm mb-3">
+        {/* Auth box */}
+        <div style={{ background: '#f5f5f0', padding: '2rem', marginBottom: '2rem' }}>
+          <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
             ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
           </p>
-          <input
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-            className="bg-gray-100 border rounded px-2 py-1"
-            placeholder="ایمیل"
-          />
-          <button onClick={handleLogin} className="mr-2 px-3 py-1 rounded bg-black text-white">
-            ارسال لینک
-          </button>
-          {loginMessage && <p className="mt-2 text-sm">{loginMessage}</p>}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+            <input
+              value={loginEmail}
+              onChange={(e) => setLoginEmail(e.target.value)}
+              style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+              placeholder="ایمیل"
+            />
+            <button 
+              onClick={handleLogin} 
+              style={{ 
+                background: '#3d3d3d', 
+                color: 'white', 
+                padding: '10px 24px', 
+                border: 'none', 
+                cursor: 'pointer',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                fontSize: '0.875rem',
+                fontWeight: 500
+              }}
+            >
+              ارسال لینک
+            </button>
+          </div>
+          {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <h1 className="text-2xl font-semibold">دفتر تجربه‌های من</h1>
+    <div style={{ maxWidth: 1000, margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
+        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>دفتر تجربه‌های من</h1>
+        <Link 
+          href="/fa/journal/new"
+          style={{ 
+            background: '#3d3d3d', 
+            color: 'white', 
+            padding: '12px 24px', 
+            textDecoration: 'none',
+            letterSpacing: '0.08em',
+            fontSize: '0.875rem',
+            fontWeight: 500,
+            display: 'inline-block'
+          }}
+        >
+          + تجربه جدید
+        </Link>
+      </div>
 
-      {/* Olive box */}
-      <div className="border rounded p-4 flex items-center justify-between gap-4 bg-[#e8f0d8]">
-        <p className="text-sm">خوش آمدید، {email}</p>
-        <button onClick={handleLogout} className="px-3 py-1 rounded bg-gray-200">
+      {/* Welcome box */}
+      <div style={{ background: '#f5f5f0', padding: '1.5rem', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+        <p>خوش آمدید، {email}</p>
+        <button 
+          onClick={handleLogout} 
+          style={{ 
+            background: '#8c8c7e', 
+            color: 'white', 
+            padding: '8px 20px', 
+            border: 'none', 
+            cursor: 'pointer',
+            letterSpacing: '0.08em',
+            fontSize: '0.875rem'
+          }}
+        >
           خروج
         </button>
       </div>
 
       {pendingExists && (
-        <div className="border rounded p-3 bg-yellow-50">
-          <p className="text-sm">شما یک تجربهٔ ذخیره‌نشده دارید.</p>
-          <div className="mt-2">
-            <button
-              onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
-              className="px-3 py-1 rounded bg-blue-600 text-white"
-            >
-              مشاهده / ویرایش ذخیره‌نشده
-            </button>
-          </div>
+        <div style={{ background: '#ebebeb', padding: '1.5rem', marginBottom: '1.5rem' }}>
+          <p style={{ marginBottom: '1rem' }}>شما یک تجربهٔ ذخیره‌نشده دارید.</p>
+          <button
+            onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
+            style={{ 
+              background: '#3d3d3d', 
+              color: 'white', 
+              padding: '10px 24px', 
+              border: 'none', 
+              cursor: 'pointer',
+              letterSpacing: '0.08em',
+              fontSize: '0.875rem',
+              fontWeight: 500
+            }}
+          >
+            مشاهده / ویرایش ذخیره‌نشده
+          </button>
         </div>
       )}
 
-      <div>
-        <h2 className="text-lg font-semibold">تجربه‌های ثبت‌شده</h2>
+      <div style={{ marginTop: '2rem' }}>
+        <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>تجربه‌های ثبت‌شده</h2>
         {experiences === null ? (
           <p>در حال بارگذاری...</p>
         ) : experiences.length === 0 ? (
-          <p>هنوز تجربه‌ای ثبت نشده. <Link href="/fa/journal/new">ثبت تجربه</Link>.</p>
+          <p>هنوز تجربه‌ای ثبت نشده. <Link href="/fa/journal/new" style={{ textDecoration: 'underline', color: '#3d3d3d' }}>ثبت تجربه</Link>.</p>
         ) : (
-          <table className="w-full text-right border-collapse mt-2">
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
             <thead>
-              <tr>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("title")}>
+              <tr style={{ borderBottom: '2px solid #3d3d3d' }}>
+                <th style={{ padding: '12px 8px', textAlign: 'right', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("title")}>
                   عنوان{renderSortIndicator("title")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("occurred_at")}>
+                <th style={{ padding: '12px 8px', textAlign: 'right', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("occurred_at")}>
                   تاریخ تجربه{renderSortIndicator("occurred_at")}
                 </th>
-                <th className="border-b py-2 cursor-pointer hover:bg-gray-100" onClick={() => handleSort("complete_mystical")}>
+                <th style={{ padding: '12px 8px', textAlign: 'right', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("complete_mystical")}>
                   صوفیانه؟{renderSortIndicator("complete_mystical")}
                 </th>
-                <th className="border-b py-2">ویرایش</th>
-                <th className="border-b py-2">حذف</th>
+                <th style={{ padding: '12px 8px', textAlign: 'right', fontSize: '0.9rem', fontWeight: 600 }}>ویرایش</th>
+                <th style={{ padding: '12px 8px', textAlign: 'right', fontSize: '0.9rem', fontWeight: 600 }}>حذف</th>
               </tr>
             </thead>
             <tbody>
@@ -249,21 +299,21 @@ export default function JournalPageFa() {
                 const entryLang = resp?.language === "fa" ? "fa" : "en";
                 const persianDateOfExperience = e.occurred_at ? formatPersianDate(gregorianToJalali(e.occurred_at.slice(0, 10))) : "—";
                 return (
-                  <tr key={e.id}>
-                    <td className="py-2 border-b">
-                      <Link className="text-blue-600 underline" href={`/${entryLang}/journal/review?id=${e.id}`}>
+                  <tr key={e.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
+                    <td style={{ padding: '12px 8px' }}>
+                      <Link style={{ color: '#3d3d3d', textDecoration: 'underline' }} href={`/${entryLang}/journal/review?id=${e.id}`}>
                         {e.title}
                       </Link>
                     </td>
-                    <td className="py-2 border-b">{persianDateOfExperience}</td>
-                    <td className="py-2 border-b">{resp ? (resp.complete_mystical ? "بله" : "خیر") : "—"}</td>
-                    <td className="py-2 border-b">
-                      <button className="text-blue-600 underline" onClick={() => handleEdit(e.id)}>
+                    <td style={{ padding: '12px 8px' }}>{persianDateOfExperience}</td>
+                    <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "بله" : "خیر") : "—"}</td>
+                    <td style={{ padding: '12px 8px' }}>
+                      <button style={{ color: '#3d3d3d', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleEdit(e.id)}>
                         ویرایش
                       </button>
                     </td>
-                    <td className="py-2 border-b">
-                      <button className="text-red-600 underline" onClick={() => handleDelete(e.id)}>
+                    <td style={{ padding: '12px 8px' }}>
+                      <button style={{ color: '#c53030', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleDelete(e.id)}>
                         حذف
                       </button>
                     </td>
