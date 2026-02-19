@@ -143,16 +143,9 @@ export default function JournalPage() {
 
   const handleLogin = async () => {
     const supabase = createSupabaseBrowserClient();
-    const options: any = { emailRedirectTo: `${window.location.origin}/auth/callback` };
-    if (authMode === "signup") {
-      options.data = {
-        default_language: defaultLanguage,
-        research_contact: researchContact,
-      };
-    }
     const { error } = await supabase.auth.signInWithOtp({
       email: loginEmail,
-      options,
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback?redirect=/en/journal` },
     });
     setLoginMessage(error ? error.message : "Check your email for the login link.");
   };
@@ -172,29 +165,9 @@ export default function JournalPage() {
 
         {/* Olive box */}
         <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
-          <div className="flex items-center gap-4 mb-3">
-            <label className="text-sm">
-              <input
-                type="radio"
-                name="authMode"
-                checked={authMode === "login"}
-                onChange={() => setAuthMode("login")}
-                className="mr-2"
-              />
-              Login
-            </label>
-            <label className="text-sm">
-              <input
-                type="radio"
-                name="authMode"
-                checked={authMode === "signup"}
-                onChange={() => setAuthMode("signup")}
-                className="mr-2"
-              />
-              Sign Up
-            </label>
-          </div>
-
+          <p className="text-sm mb-3">
+            We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
+          </p>
           <input
             value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
@@ -202,46 +175,9 @@ export default function JournalPage() {
             placeholder="Email"
           />
           <button onClick={handleLogin} className="ml-2 px-3 py-1 rounded bg-black text-white">
-            {authMode === "login" ? "Send Link to Login" : "Send Link to Sign Up"}
+            Send the Link
           </button>
-          {loginMessage && <p className="mt-2">{loginMessage}</p>}
-
-          {authMode === "signup" && (
-            <div className="mt-4 space-y-3">
-              <div>
-                <p className="text-sm mb-1">Default language</p>
-                <label className="text-sm mr-4">
-                  <input
-                    type="radio"
-                    name="defaultLanguage"
-                    checked={defaultLanguage === "en"}
-                    onChange={() => setDefaultLanguage("en")}
-                    className="mr-2"
-                  />
-                  English
-                </label>
-                <label className="text-sm">
-                  <input
-                    type="radio"
-                    name="defaultLanguage"
-                    checked={defaultLanguage === "fa"}
-                    onChange={() => setDefaultLanguage("fa")}
-                    className="mr-2"
-                  />
-                  فارسی
-                </label>
-              </div>
-              <label className="text-sm">
-                <input
-                  type="checkbox"
-                  checked={researchContact}
-                  onChange={(e) => setResearchContact(e.target.checked)}
-                  className="mr-2"
-                />
-                I’m open to being contacted by the research team for educational research.
-              </label>
-            </div>
-          )}
+          {loginMessage && <p className="mt-2 text-sm">{loginMessage}</p>}
         </div>
       </div>
     );

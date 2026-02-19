@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 export async function GET(request: Request) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
+  const redirect = url.searchParams.get("redirect");
 
   const cookieStore = await cookies();
   const supabase = createServerClient(
@@ -27,16 +28,8 @@ export async function GET(request: Request) {
   if (code) {
     await supabase.auth.exchangeCodeForSession(code);
   }
-  // After exchanging code, check user's preferred language in metadata and redirect accordingly
-  try {
-    const { data: userData } = await supabase.auth.getUser();
-    const lang = (userData?.user?.user_metadata as any)?.language || (userData?.user?.user_metadata as any)?.lang;
-    if (lang === "fa") {
-      return NextResponse.redirect(new URL("/fa/journal", url.origin));
-    }
-  } catch (err) {
-    // ignore and fall back to English
-  }
 
-  return NextResponse.redirect(new URL("/en/journal", url.origin));
+  // Use redirect param if provided, otherwise fall back to /en/journal
+  const redirectTo = redirect || "/en/journal";
+  return NextResponse.redirect(new URL(redirectTo, url.origin));
 }

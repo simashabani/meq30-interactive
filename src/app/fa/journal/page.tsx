@@ -154,16 +154,9 @@ export default function JournalPageFa() {
 
   const handleLogin = async () => {
     const supabase = createSupabaseBrowserClient();
-    const options: any = { emailRedirectTo: `${window.location.origin}/auth/callback` };
-    if (authMode === "signup") {
-      options.data = {
-        default_language: defaultLanguage,
-        research_contact: researchContact,
-      };
-    }
     const { error } = await supabase.auth.signInWithOtp({
       email: loginEmail,
-      options,
+      options: { emailRedirectTo: `${window.location.origin}/auth/callback?redirect=/fa/journal` },
     });
     setLoginMessage(error ? error.message : "لینک ورود به ایمیل شما ارسال شد.");
   };
@@ -183,29 +176,9 @@ export default function JournalPageFa() {
 
         {/* Olive box */}
         <div className="border rounded p-4 mb-4 bg-[#e8f0d8]">
-          <div className="flex items-center gap-4 mb-3">
-            <label className="text-sm">
-              <input
-                type="radio"
-                name="authMode"
-                checked={authMode === "login"}
-                onChange={() => setAuthMode("login")}
-                className="ml-2"
-              />
-              ورود
-            </label>
-            <label className="text-sm">
-              <input
-                type="radio"
-                name="authMode"
-                checked={authMode === "signup"}
-                onChange={() => setAuthMode("signup")}
-                className="ml-2"
-              />
-              ثبت‌نام
-            </label>
-          </div>
-
+          <p className="text-sm mb-3">
+            ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
+          </p>
           <input
             value={loginEmail}
             onChange={(e) => setLoginEmail(e.target.value)}
@@ -213,46 +186,9 @@ export default function JournalPageFa() {
             placeholder="ایمیل"
           />
           <button onClick={handleLogin} className="mr-2 px-3 py-1 rounded bg-black text-white">
-            {authMode === "login" ? "ارسال لینک ورود" : "ارسال لینک ثبت‌نام"}
+            ارسال لینک
           </button>
-          {loginMessage && <p className="mt-2">{loginMessage}</p>}
-
-          {authMode === "signup" && (
-            <div className="mt-4 space-y-3">
-              <div>
-                <p className="text-sm mb-1">زبان پیش‌فرض</p>
-                <label className="text-sm ml-4">
-                  <input
-                    type="radio"
-                    name="defaultLanguage"
-                    checked={defaultLanguage === "fa"}
-                    onChange={() => setDefaultLanguage("fa")}
-                    className="ml-2"
-                  />
-                  فارسی
-                </label>
-                <label className="text-sm">
-                  <input
-                    type="radio"
-                    name="defaultLanguage"
-                    checked={defaultLanguage === "en"}
-                    onChange={() => setDefaultLanguage("en")}
-                    className="ml-2"
-                  />
-                  انگلیسی
-                </label>
-              </div>
-              <label className="text-sm">
-                <input
-                  type="checkbox"
-                  checked={researchContact}
-                  onChange={(e) => setResearchContact(e.target.checked)}
-                  className="ml-2"
-                />
-                مایلم پژوهشگر این اپلیکیشن برای پژوهش آموزشی با من تماس بگیرد.
-              </label>
-            </div>
-          )}
+          {loginMessage && <p className="mt-2 text-sm">{loginMessage}</p>}
         </div>
       </div>
     );
