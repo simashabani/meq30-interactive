@@ -19,133 +19,123 @@ export default function Header({ locale }: Props) {
       }}
     >
       <style jsx>{`
-        .meq-mini-nav {
-          font-family: ${isFa ? "'IranSans', Tahoma, Arial, sans-serif" : "'Nunito', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"};
-          direction: ${isFa ? 'rtl' : 'ltr'};
-          width: 100%;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 24px;
-          padding: 12px 0;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          max-width: 1400px;
-          margin: 0 auto;
-        }
+  .meq-mini-nav {
+    font-family: ${
+      isFa
+        ? "'IranSans', Tahoma, Arial, sans-serif"
+        : "'Nunito', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+    };
+    direction: ${isFa ? "rtl" : "ltr"};
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 18px 0;             /* closer to your website */
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    max-width: 1200px;           /* website look */
+    margin: 0 auto;
+  }
 
-        .meq-mini-nav .left,
-        .meq-mini-nav .right {
-          display: flex;
-          align-items: center;
-          gap: 18px;
-          flex-wrap: wrap;
-        }
+  .meq-mini-nav .left,
+  .meq-mini-nav .right {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+  }
 
-        .meq-item {
-          color: inherit;
-          text-decoration: none;
-          position: relative;
-          display: inline-block;
-          padding-bottom: 6px;
-          line-height: 1.2;
-          white-space: nowrap;
-        }
+  .meq-item {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 6px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
 
-        .left .meq-item {
-          font-size: 16px;
-        }
+  .left .meq-item {
+    font-size: 16px;
+    font-weight: 400;
+  }
 
-        .right .meq-item {
-          font-size: 12px;
-        }
+  /* Languages: same size, active just bolder + underline */
+  .right .meq-item {
+    font-size: 12px;
+    font-weight: 400;
+  }
 
-        /* Non-active language links smaller */
-        .right a.meq-item {
-          font-size: 10px;
-          font-weight: 400;
-        }
+  a.meq-item {
+    cursor: pointer;
+  }
 
-        .right .meq-item.active {
-          font-size: 12px;
-          font-weight: 600;
-        }
+  .meq-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    bottom: 0;
+    transform: translateY(1px);
+    opacity: 0;
+    transition: opacity 180ms ease;
+    background: currentColor;
+  }
 
-        a.meq-item {
-          cursor: pointer;
-        }
+  a.meq-item:hover::after,
+  a.meq-item:focus-visible::after {
+    opacity: 1;
+  }
 
-        .meq-item::after {
-          content: "";
-          position: absolute;
-          left: 0;
-          right: 0;
-          height: 2px;
-          bottom: 0;
-          transform: translateY(1px);
-          opacity: 0;
-          transition: opacity 400ms ease;
-          background: currentColor;
-        }
+  .meq-item.active {
+    cursor: default;
+    font-weight: 600;
+  }
 
-        /* Show hover underline for clickable links */
-        a.meq-item:hover::after,
-        a.meq-item:focus-visible::after {
-          opacity: 1;
-        }
+  .meq-item.active::after {
+    opacity: 1;
+  }
 
-        .right a.meq-item:hover::after,
-        .right a.meq-item:focus-visible::after {
-          opacity: 1;
-        }
+  @media (max-width: 520px) {
+    .meq-mini-nav {
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+    }
 
-        .meq-item.active {
-          cursor: default;
-          font-weight: 600;
-        }
+    .meq-mini-nav .left {
+      flex: 1;
+      justify-content: flex-start;
+      gap: 12px;
+      flex-wrap: nowrap;
+    }
 
-        .meq-item.active::after {
-          opacity: 1;
-        }
+    .left .meq-item {
+      font-size: 12px;
+    }
 
-        @media (max-width: 520px) {
-          .meq-mini-nav {
-            flex-direction: row;
-            align-items: flex-start;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 8px 0;
-          }
+    .meq-mini-nav .right {
+      flex: 0 0 auto;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-start;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
 
-          .meq-mini-nav .left {
-            flex: 1;
-            justify-content: flex-start;
-            gap: 12px;
-            flex-wrap: nowrap;
-          }
+    .right .meq-item {
+      font-size: 10px;
+    }
 
-          .left .meq-item {
-            font-size: 12px;
-          }
-
-          .meq-mini-nav .right {
-            flex: 0 0 auto;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: flex-start;
-            gap: 6px;
-            flex-wrap: nowrap;
-          }
-
-          .right .meq-item {
-            font-size: 10px;
-          }
-
-          .meq-item::after {
-            transform: translateY(0px);
-          }
-        }
-      `}</style>
+    .meq-item::after {
+      transform: translateY(0px);
+    }
+  }
+`}</style>
 
       <nav className="meq-mini-nav" aria-label="MEQ-30 Navigation">
         <div className="left">
