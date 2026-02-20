@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 type Props = {
   locale: "en" | "fa";
 };
@@ -62,10 +60,15 @@ export default function Header({ locale }: Props) {
           font-size: 12px;
         }
 
-        /* Non-active language links slightly smaller */
+        /* Non-active language links smaller */
         .right a.meq-item {
-          font-size: 11px;
+          font-size: 10px;
           font-weight: 400;
+        }
+
+        .right .meq-item.active {
+          font-size: 12px;
+          font-weight: 600;
         }
 
         a.meq-item {
@@ -85,9 +88,14 @@ export default function Header({ locale }: Props) {
           background: currentColor;
         }
 
-        /* Show hover underline for ALL clickable links including language items */
+        /* Show hover underline for clickable links */
         a.meq-item:hover::after,
         a.meq-item:focus-visible::after {
+          opacity: 1;
+        }
+
+        .right a.meq-item:hover::after,
+        .right a.meq-item:focus-visible::after {
           opacity: 1;
         }
 
@@ -158,23 +166,23 @@ export default function Header({ locale }: Props) {
         <div className="right">
           {isFa ? (
             <>
-              <Link
+              <a
                 className="meq-item"
                 href="/en/journal"
               >
                 انگلیسی
-              </Link>
+              </a>
               <span className="meq-item active">فارسی</span>
             </>
           ) : (
             <>
               <span className="meq-item active">English</span>
-              <Link
+              <a
                 className="meq-item"
                 href="/fa/journal"
               >
                 Persian
-              </Link>
+              </a>
             </>
           )}
         </div>
