@@ -13,7 +13,7 @@ export default function Header({ locale }: Props) {
     <header
       style={{
         borderBottom: "1px solid #e5e7eb",
-        padding: "16px 32px",
+        padding: "16px 80px",
         position: "sticky",
         top: 0,
         background: "white",
@@ -32,7 +32,7 @@ export default function Header({ locale }: Props) {
           padding: 12px 0;
           text-transform: uppercase;
           letter-spacing: 0.04em;
-          max-width: 1200px;
+          max-width: 1400px;
           margin: 0 auto;
         }
 
@@ -79,8 +79,9 @@ export default function Header({ locale }: Props) {
           background: currentColor;
         }
 
-        a.meq-item:hover::after,
-        a.meq-item:focus-visible::after {
+        /* Only show hover underline for left navigation items, NOT language items */
+        .left a.meq-item:hover::after,
+        .left a.meq-item:focus-visible::after {
           opacity: 1;
         }
 
