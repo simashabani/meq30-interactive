@@ -62,6 +62,12 @@ export default function Header({ locale }: Props) {
           font-size: 12px;
         }
 
+        /* Non-active language links slightly smaller */
+        .right a.meq-item {
+          font-size: 11px;
+          font-weight: 400;
+        }
+
         a.meq-item {
           cursor: pointer;
         }
@@ -79,9 +85,9 @@ export default function Header({ locale }: Props) {
           background: currentColor;
         }
 
-        /* Only show hover underline for left navigation items, NOT language items */
-        .left a.meq-item:hover::after,
-        .left a.meq-item:focus-visible::after {
+        /* Show hover underline for ALL clickable links including language items */
+        a.meq-item:hover::after,
+        a.meq-item:focus-visible::after {
           opacity: 1;
         }
 
