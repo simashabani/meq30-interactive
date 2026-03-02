@@ -190,7 +190,7 @@ export default function JournalPageFa() {
       <>
         <section className="full-bleed-section section-gray">
           <div className="section-inner narrow">
-            <h1 style={{ marginBottom: '2rem' }}>دفتر تجربه‌های من</h1>
+            <h1 style={{ marginBottom: '2rem' }}>دفترچه تجربه‌های من</h1>
 
             <div style={{ padding: '2rem', background: '#ffffff' }}>
               <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
@@ -217,7 +217,7 @@ export default function JournalPageFa() {
 
         <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
           <div className="section-inner narrow" style={{ color: '#ffffff' }}>
-            <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفتر تجربه چیست؟</h2>
+            <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
             <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
               دفترچه‌ای که اینجا می‌بینید، فضایی امن و خصوصی است که برای کمک به شما در تأمل بر تجربه‌های شخصی‌تان و شناخت عمیق‌تر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این فضا می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید و یک تفسیر مبتنی بر پژوهش درباره این‌که تجربه شما چگونه با چهار بُعد تجربه عرفانی هم‌راستا است، مشاهده کنید.
             </p>
@@ -260,7 +260,7 @@ export default function JournalPageFa() {
 
       <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
         <div className="section-inner narrow" style={{ color: '#ffffff' }}>
-          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفتر تجربه چیست؟</h2>
+          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
           <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
             دفترچه‌ای که اینجا می‌بینید، فضایی امن و خصوصی است که برای کمک به شما در تأمل بر تجربه‌های شخصی‌تان و شناخت عمیق‌تر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این فضا می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید و یک تفسیر مبتنی بر پژوهش درباره این‌که تجربه شما چگونه با چهار بُعد تجربه عرفانی هم‌راستا است، مشاهده کنید.
           </p>
@@ -273,7 +273,7 @@ export default function JournalPageFa() {
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ margin: 0 }}>دفتر تجربه‌های من</h1>
+            <h1 style={{ margin: 0 }}>دفترچه تجربه‌های من</h1>
             <Link
               href="/fa/journal/new"
               style={newExperienceButtonStyle}
