@@ -186,7 +186,7 @@ export default function NewExperiencePageFa() {
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
-    <main dir="rtl" className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
+    <main dir="rtl" className="new-experience-page max-w-[900px] mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">تجربهٔ جدید</h1>
         <Link href="/fa/journal" className="main-page-link-button">

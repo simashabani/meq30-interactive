@@ -183,7 +183,7 @@ export default function NewExperiencePage() {
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
-    <main className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
+    <main className="new-experience-page max-w-[900px] mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-xl font-semibold">New Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">

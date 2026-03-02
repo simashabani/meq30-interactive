@@ -180,7 +180,7 @@ export default function ReviewPage() {
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
-    <main className="max-w-3xl mx-auto p-6 space-y-6">
+    <main className="max-w-[900px] mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-lg font-semibold">Review Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
