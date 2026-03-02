@@ -188,7 +188,7 @@ export default function JournalPageFa() {
   if (!userId) {
     return (
       <>
-        <section className="full-bleed-section section-gray">
+        <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
           <div className="section-inner narrow">
             <h1 style={{ marginBottom: '2rem' }}>دفترچه تجربه‌های من</h1>
 
@@ -232,7 +232,7 @@ export default function JournalPageFa() {
 
   return (
     <>
-      <section className="full-bleed-section section-gray">
+      <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
         <div className="section-inner narrow">
           <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
             <p>خوش آمدید، {email}</p>
