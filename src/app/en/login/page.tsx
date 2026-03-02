@@ -12,7 +12,7 @@ export default function LoginPage() {
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://wp.meq-30.com").replace(/\/$/, "");
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${siteUrl}/auth/callback` },
+      options: { emailRedirectTo: `${siteUrl}/en/auth/callback` },
     });
     setMessage(error ? error.message : "Check your email for the login link.");
   };

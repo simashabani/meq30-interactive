@@ -173,7 +173,7 @@ export default function JournalPageFa() {
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://wp.meq-30.com").replace(/\/$/, "");
     const { error } = await supabase.auth.signInWithOtp({
       email: loginEmail,
-      options: { emailRedirectTo: `${siteUrl}/auth/callback?redirect=/fa/journal` },
+      options: { emailRedirectTo: `${siteUrl}/fa/auth/callback?redirect=/fa/journal` },
     });
     setLoginMessage(error ? error.message : "لینک ورود به ایمیل شما ارسال شد.");
   };
