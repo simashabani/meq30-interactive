@@ -182,7 +182,7 @@ export default function NewExperiencePage() {
   const canSave = title.trim().length > 0 && answeredCount === 30;
 
   return (
-    <main className="max-w-3xl mx-auto p-6 space-y-4">
+    <main className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">New Experience</h1>
       </div>

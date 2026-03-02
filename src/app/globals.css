@@ -130,12 +130,12 @@ h3 {
 .site-footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 80px;
+  padding: 0;
 }
 
 .site-footer-grid {
   display: grid;
-  grid-template-columns: minmax(0, 700px) minmax(0, 420px);
+  grid-template-columns: minmax(0, 700px) auto;
   justify-content: space-between;
   gap: 56px;
 }
@@ -232,4 +232,8 @@ a:hover {
 .journal-intro-title {
   color: #ffffff !important;
   font-size: 20px !important;
+}
+
+.new-experience-page input[type="radio"] {
+  accent-color: #828b2c;
 }
