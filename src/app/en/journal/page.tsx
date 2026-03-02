@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { getPendingExperience, savePendingExperience } from "@/lib/pendingExperience";
@@ -37,6 +37,22 @@ export default function JournalPage() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("en");
   const [researchContact, setResearchContact] = useState(false);
+
+  const newExperienceButtonStyle: CSSProperties = {
+    background: '#3d3d3d',
+    color: 'white',
+    padding: '12px 24px',
+    textDecoration: 'none',
+    fontFamily: 'inherit',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    display: 'inline-block',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s ease'
+  };
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -160,42 +176,46 @@ export default function JournalPage() {
 
   if (!userId) {
     return (
-      <section className="full-bleed-section section-gray">
-        <div className="section-inner narrow">
-          <h1 style={{ marginBottom: '2rem' }}>My Experience Journal</h1>
+      <>
+        <section className="full-bleed-section section-gray">
+          <div className="section-inner narrow">
+            <h1 style={{ marginBottom: '2rem' }}>My Experience Journal</h1>
 
-          <div style={{ padding: '2rem', background: '#ffffff' }}>
-            <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
-            </p>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <input
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
-                placeholder="Email"
-              />
-              <button
-                onClick={handleLogin}
-                style={{
-                  background: '#3d3d3d',
-                  color: 'white',
-                  padding: '10px 24px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  fontSize: '0.875rem',
-                  fontWeight: 500
-                }}
-              >
-                Send the Link
-              </button>
+            <div style={{ padding: '2rem', background: '#ffffff' }}>
+              <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
+              </p>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <input
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+                  placeholder="Email"
+                />
+                <button
+                  onClick={handleLogin}
+                  style={newExperienceButtonStyle}
+                >
+                  Send the Link
+                </button>
+              </div>
+              {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
             </div>
-            {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+          <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+            <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>WHAT IS MEQ-30 ASSESSMENT AND EXPERIENCE JOURNAL?</h2>
+            <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+              The journal you see here is a secure, private space designed to help you reflect on and learn more about your own experiences using the MEQ-30. It allows you to record experiences, complete the questionnaire, and view a research-informed interpretation of how your experience aligns with the four mystical experience dimensions.
+            </p>
+            <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+              This tool is not a diagnostic instrument, a therapeutic assessment, or a judgment about the value or meaning of your experience. Experiences can be deeply significant in many ways, whether or not they meet formal research conventions for a “Mystical Experience”. The purpose of this journal is reflection, understanding, and careful description; not classification for its own sake.
+            </p>
+          </div>
+        </section>
+      </>
     );
   }
 
@@ -207,17 +227,7 @@ export default function JournalPage() {
             <h1 style={{ margin: 0 }}>My Experience Journal</h1>
             <Link
               href="/en/journal/new"
-              style={{
-                background: '#3d3d3d',
-                color: 'white',
-                padding: '12px 24px',
-                textDecoration: 'none',
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                display: 'inline-block'
-              }}
+              style={newExperienceButtonStyle}
             >
               + New Experience
             </Link>
@@ -231,16 +241,7 @@ export default function JournalPage() {
             <p>Welcome, {email}</p>
             <button
               onClick={handleLogout}
-              style={{
-                background: '#8c8c7e',
-                color: 'white',
-                padding: '8px 20px',
-                border: 'none',
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                fontSize: '0.875rem'
-              }}
+              style={newExperienceButtonStyle}
             >
               Log off
             </button>
@@ -251,22 +252,24 @@ export default function JournalPage() {
               <p style={{ marginBottom: '1rem' }}>You have an unsaved experience.</p>
               <button
                 onClick={() => (window.location.href = "/en/journal/new?loadPending=1")}
-                style={{
-                  background: '#3d3d3d',
-                  color: 'white',
-                  padding: '10px 24px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  fontSize: '0.875rem',
-                  fontWeight: 500
-                }}
+                style={newExperienceButtonStyle}
               >
                 View / Edit Unsaved
               </button>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>WHAT IS MEQ-30 ASSESSMENT AND EXPERIENCE JOURNAL?</h2>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+            The journal you see here is a secure, private space designed to help you reflect on and learn more about your own experiences using the MEQ-30. It allows you to record experiences, complete the questionnaire, and view a research-informed interpretation of how your experience aligns with the four mystical experience dimensions.
+          </p>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+            This tool is not a diagnostic instrument, a therapeutic assessment, or a judgment about the value or meaning of your experience. Experiences can be deeply significant in many ways, whether or not they meet formal research conventions for a “Mystical Experience”. The purpose of this journal is reflection, understanding, and careful description; not classification for its own sake.
+          </p>
         </div>
       </section>
 
@@ -316,12 +319,12 @@ export default function JournalPage() {
                     <td style={{ padding: '12px 8px' }}>{dateOfExp}</td>
                     <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "Yes" : "No") : "—"}</td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={{ color: '#3d3d3d', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleEdit(e.id)}>
+                      <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
                         Edit
                       </button>
                     </td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={{ color: '#c53030', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleDelete(e.id)}>
+                      <button style={newExperienceButtonStyle} onClick={() => handleDelete(e.id)}>
                         Delete
                       </button>
                     </td>

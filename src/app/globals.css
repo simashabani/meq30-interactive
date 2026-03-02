@@ -196,7 +196,7 @@ h3 {
 }
 
 button, .button {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-size: 0.875rem;
@@ -206,11 +206,11 @@ button, .button {
   border: none;
   padding: 12px 24px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 button:hover, .button:hover {
-  background: #2a2a2a;
+  opacity: 0.7;
 }
 
 a {
@@ -221,4 +221,15 @@ a {
 
 a:hover {
   opacity: 0.7;
+}
+
+.locale-en .journal-intro h2,
+.locale-fa .journal-intro h2 {
+  color: #ffffff !important;
+  font-size: 20px !important;
+}
+
+.journal-intro-title {
+  color: #ffffff !important;
+  font-size: 20px !important;
 }

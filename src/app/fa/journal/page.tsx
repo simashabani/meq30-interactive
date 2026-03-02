@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { getPendingExperience, savePendingExperience } from "@/lib/pendingExperience";
@@ -48,6 +48,22 @@ export default function JournalPageFa() {
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
   const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("fa");
   const [researchContact, setResearchContact] = useState(false);
+
+  const newExperienceButtonStyle: CSSProperties = {
+    background: '#3d3d3d',
+    color: 'white',
+    padding: '12px 24px',
+    textDecoration: 'none',
+    fontFamily: 'inherit',
+    textTransform: 'uppercase',
+    letterSpacing: '0.08em',
+    fontSize: '0.875rem',
+    fontWeight: 500,
+    display: 'inline-block',
+    border: 'none',
+    cursor: 'pointer',
+    transition: 'opacity 0.2s ease'
+  };
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -171,42 +187,46 @@ export default function JournalPageFa() {
 
   if (!userId) {
     return (
-      <section className="full-bleed-section section-gray">
-        <div className="section-inner narrow">
-          <h1 style={{ marginBottom: '2rem' }}>دفتر تجربه‌های من</h1>
+      <>
+        <section className="full-bleed-section section-gray">
+          <div className="section-inner narrow">
+            <h1 style={{ marginBottom: '2rem' }}>دفتر تجربه‌های من</h1>
 
-          <div style={{ padding: '2rem', background: '#ffffff' }}>
-            <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
-              ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
-            </p>
-            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-              <input
-                value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
-                style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
-                placeholder="ایمیل"
-              />
-              <button
-                onClick={handleLogin}
-                style={{
-                  background: '#3d3d3d',
-                  color: 'white',
-                  padding: '10px 24px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  fontSize: '0.875rem',
-                  fontWeight: 500
-                }}
-              >
-                ارسال لینک
-              </button>
+            <div style={{ padding: '2rem', background: '#ffffff' }}>
+              <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
+                ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
+              </p>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+                <input
+                  value={loginEmail}
+                  onChange={(e) => setLoginEmail(e.target.value)}
+                  style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+                  placeholder="ایمیل"
+                />
+                <button
+                  onClick={handleLogin}
+                  style={newExperienceButtonStyle}
+                >
+                  ارسال لینک
+                </button>
+              </div>
+              {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
             </div>
-            {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
           </div>
-        </div>
-      </section>
+        </section>
+
+        <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+          <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+            <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفتر تجربه چیست؟</h2>
+            <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+              دفترچه‌ای که اینجا می‌بینید، فضایی امن و خصوصی است که برای کمک به شما در تأمل بر تجربه‌های شخصی‌تان و شناخت عمیق‌تر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این فضا می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید و یک تفسیر مبتنی بر پژوهش درباره این‌که تجربه شما چگونه با چهار بُعد تجربه عرفانی هم‌راستا است، مشاهده کنید.
+            </p>
+            <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+              این ابزار یک وسیله تشخیصی، یک ارزیابی درمانی یا داوری درباره ارزش یا معنای تجربه شما نیست. تجربه‌ها می‌توانند از جنبه‌های مختلف عمیقاً معنادار باشند، چه با معیارهای رسمی پژوهشی برای «تجربه عرفانی» منطبق باشند و چه نباشند. هدف این دفترچه، تأمل، درک و توصیف دقیق است؛ نه صرفاً طبقه‌بندی به‌خاطر خود طبقه‌بندی.
+            </p>
+          </div>
+        </section>
+      </>
     );
   }
 
@@ -218,16 +238,7 @@ export default function JournalPageFa() {
             <h1 style={{ margin: 0 }}>دفتر تجربه‌های من</h1>
             <Link
               href="/fa/journal/new"
-              style={{
-                background: '#3d3d3d',
-                color: 'white',
-                padding: '12px 24px',
-                textDecoration: 'none',
-                letterSpacing: '0.08em',
-                fontSize: '0.875rem',
-                fontWeight: 500,
-                display: 'inline-block'
-              }}
+              style={newExperienceButtonStyle}
             >
               + تجربه جدید
             </Link>
@@ -241,15 +252,7 @@ export default function JournalPageFa() {
             <p>خوش آمدید، {email}</p>
             <button
               onClick={handleLogout}
-              style={{
-                background: '#8c8c7e',
-                color: 'white',
-                padding: '8px 20px',
-                border: 'none',
-                cursor: 'pointer',
-                letterSpacing: '0.08em',
-                fontSize: '0.875rem'
-              }}
+              style={newExperienceButtonStyle}
             >
               خروج
             </button>
@@ -260,21 +263,24 @@ export default function JournalPageFa() {
               <p style={{ marginBottom: '1rem' }}>شما یک تجربهٔ ذخیره‌نشده دارید.</p>
               <button
                 onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
-                style={{
-                  background: '#3d3d3d',
-                  color: 'white',
-                  padding: '10px 24px',
-                  border: 'none',
-                  cursor: 'pointer',
-                  letterSpacing: '0.08em',
-                  fontSize: '0.875rem',
-                  fontWeight: 500
-                }}
+                style={newExperienceButtonStyle}
               >
                 مشاهده / ویرایش ذخیره‌نشده
               </button>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفتر تجربه چیست؟</h2>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+            دفترچه‌ای که اینجا می‌بینید، فضایی امن و خصوصی است که برای کمک به شما در تأمل بر تجربه‌های شخصی‌تان و شناخت عمیق‌تر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این فضا می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید و یک تفسیر مبتنی بر پژوهش درباره این‌که تجربه شما چگونه با چهار بُعد تجربه عرفانی هم‌راستا است، مشاهده کنید.
+          </p>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+            این ابزار یک وسیله تشخیصی، یک ارزیابی درمانی یا داوری درباره ارزش یا معنای تجربه شما نیست. تجربه‌ها می‌توانند از جنبه‌های مختلف عمیقاً معنادار باشند، چه با معیارهای رسمی پژوهشی برای «تجربه عرفانی» منطبق باشند و چه نباشند. هدف این دفترچه، تأمل، درک و توصیف دقیق است؛ نه صرفاً طبقه‌بندی به‌خاطر خود طبقه‌بندی.
+          </p>
         </div>
       </section>
 
@@ -317,12 +323,12 @@ export default function JournalPageFa() {
                     <td style={{ padding: '12px 8px' }}>{persianDateOfExperience}</td>
                     <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "بله" : "خیر") : "—"}</td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={{ color: '#3d3d3d', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleEdit(e.id)}>
+                      <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
                         ویرایش
                       </button>
                     </td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={{ color: '#c53030', textDecoration: 'underline', background: 'none', border: 'none', cursor: 'pointer', padding: 0 }} onClick={() => handleDelete(e.id)}>
+                      <button style={newExperienceButtonStyle} onClick={() => handleDelete(e.id)}>
                         حذف
                       </button>
                     </td>
