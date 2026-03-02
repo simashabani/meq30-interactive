@@ -232,20 +232,6 @@ export default function JournalPageFa() {
 
   return (
     <>
-      <section className="full-bleed-section section-white">
-        <div className="section-inner narrow">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ margin: 0 }}>دفتر تجربه‌های من</h1>
-            <Link
-              href="/fa/journal/new"
-              style={newExperienceButtonStyle}
-            >
-              + تجربه جدید
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="full-bleed-section section-gray">
         <div className="section-inner narrow">
           <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -281,6 +267,20 @@ export default function JournalPageFa() {
           <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
             این ابزار یک وسیله تشخیصی، یک ارزیابی درمانی یا داوری درباره ارزش یا معنای تجربه شما نیست. تجربه‌ها می‌توانند از جنبه‌های مختلف عمیقاً معنادار باشند، چه با معیارهای رسمی پژوهشی برای «تجربه عرفانی» منطبق باشند و چه نباشند. هدف این دفترچه، تأمل، درک و توصیف دقیق است؛ نه صرفاً طبقه‌بندی به‌خاطر خود طبقه‌بندی.
           </p>
+        </div>
+      </section>
+
+      <section className="full-bleed-section section-white">
+        <div className="section-inner narrow">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <h1 style={{ margin: 0 }}>دفتر تجربه‌های من</h1>
+            <Link
+              href="/fa/journal/new"
+              style={newExperienceButtonStyle}
+            >
+              + تجربه جدید
+            </Link>
+          </div>
         </div>
       </section>
 

@@ -221,20 +221,6 @@ export default function JournalPage() {
 
   return (
     <>
-      <section className="full-bleed-section section-white">
-        <div className="section-inner narrow">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ margin: 0 }}>My Experience Journal</h1>
-            <Link
-              href="/en/journal/new"
-              style={newExperienceButtonStyle}
-            >
-              + New Experience
-            </Link>
-          </div>
-        </div>
-      </section>
-
       <section className="full-bleed-section section-gray">
         <div className="section-inner narrow">
           <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -270,6 +256,20 @@ export default function JournalPage() {
           <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
             This tool is not a diagnostic instrument, a therapeutic assessment, or a judgment about the value or meaning of your experience. Experiences can be deeply significant in many ways, whether or not they meet formal research conventions for a “Mystical Experience”. The purpose of this journal is reflection, understanding, and careful description; not classification for its own sake.
           </p>
+        </div>
+      </section>
+
+      <section className="full-bleed-section section-white">
+        <div className="section-inner narrow">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <h1 style={{ margin: 0 }}>My Experience Journal</h1>
+            <Link
+              href="/en/journal/new"
+              style={newExperienceButtonStyle}
+            >
+              + New Experience
+            </Link>
+          </div>
         </div>
       </section>
 
