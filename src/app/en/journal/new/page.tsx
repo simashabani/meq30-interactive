@@ -185,6 +185,9 @@ export default function NewExperiencePage() {
     <main className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">New Experience</h1>
+        <Link href="/en/journal" className="main-page-link-button">
+          My Experiences List Main Page
+        </Link>
       </div>
 
       {/* Experience metadata */}
@@ -286,13 +289,18 @@ export default function NewExperiencePage() {
       <MEQ30Form lang="en" value={answers} onChange={setAnswers} />
 
       {/* Analyze */}
-      <button
-        className="mt-6 px-4 py-2 disabled:opacity-50"
-        disabled={!canSave || saving}
-        onClick={handleSave}
-      >
-        {saving ? "Analyzing..." : "Analyze"}
-      </button>
+      <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+        <button
+          className="px-4 py-2 disabled:opacity-50"
+          disabled={!canSave || saving}
+          onClick={handleSave}
+        >
+          {saving ? "Analyzing..." : "Analyze"}
+        </button>
+        <Link href="/en/journal" className="main-page-link-button">
+          My Experiences List Main Page
+        </Link>
+      </div>
     </main>
   );
 }

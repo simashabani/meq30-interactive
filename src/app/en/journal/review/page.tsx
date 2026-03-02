@@ -182,8 +182,8 @@ export default function ReviewPage() {
     <main className="max-w-3xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">Review Experience</h1>
-        <Link href="/en/journal" className="text-sm underline">
-          ← Back to Journal
+        <Link href="/en/journal" className="main-page-link-button">
+          My Experiences List Main Page
         </Link>
       </div>
 
@@ -269,45 +269,55 @@ export default function ReviewPage() {
       </div>
 
       {source === "pending" && (
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="px-4 py-2 disabled:opacity-50"
-          >
-            {saving ? "Saving..." : "Save"}
-          </button>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-4 py-2 disabled:opacity-50"
+            >
+              {saving ? "Saving..." : "Save"}
+            </button>
 
-          <button
-            onClick={handleEdit}
-            className="px-4 py-2"
-          >
-            Edit
-          </button>
+            <button
+              onClick={handleEdit}
+              className="px-4 py-2"
+            >
+              Edit
+            </button>
 
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2"
-          >
-            Delete
-          </button>
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2"
+            >
+              Delete
+            </button>
+          </div>
+          <Link href="/en/journal" className="main-page-link-button">
+            My Experiences List Main Page
+          </Link>
         </div>
       )}
 
       {source === "saved" && (
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleEditSaved}
-            className="px-4 py-2"
-          >
-            Edit
-          </button>
-          <button
-            onClick={handleDeleteSaved}
-            className="px-4 py-2"
-          >
-            Delete
-          </button>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleEditSaved}
+              className="px-4 py-2"
+            >
+              Edit
+            </button>
+            <button
+              onClick={handleDeleteSaved}
+              className="px-4 py-2"
+            >
+              Delete
+            </button>
+          </div>
+          <Link href="/en/journal" className="main-page-link-button">
+            My Experiences List Main Page
+          </Link>
         </div>
       )}
     </main>

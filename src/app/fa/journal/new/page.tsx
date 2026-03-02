@@ -188,8 +188,8 @@ export default function NewExperiencePageFa() {
     <main dir="rtl" className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">تجربهٔ جدید</h1>
-        <Link href="/fa/journal" className="text-sm underline">
-          ← بازگشت به دفتر
+        <Link href="/fa/journal" className="main-page-link-button">
+          صفحه اصلی فهرست تجربه‌های من
         </Link>
       </div>
 
@@ -335,13 +335,18 @@ export default function NewExperiencePageFa() {
 
       <MEQ30Form lang="fa" value={answers} onChange={setAnswers} />
 
-      <button
-        className="mt-6 px-4 py-2 disabled:opacity-50"
-        disabled={!canSave || saving}
-        onClick={handleSave}
-      >
-        {saving ? "درحال تجزیه..." : "تجزیه"}
-      </button>
+      <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+        <Link href="/fa/journal" className="main-page-link-button">
+          صفحه اصلی فهرست تجربه‌های من
+        </Link>
+        <button
+          className="px-4 py-2 disabled:opacity-50"
+          disabled={!canSave || saving}
+          onClick={handleSave}
+        >
+          {saving ? "درحال تجزیه..." : "تجزیه"}
+        </button>
+      </div>
     </main>
   );
 }

@@ -185,8 +185,8 @@ export default function ReviewPage() {
     <main dir="rtl" className="max-w-3xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-semibold">بررسی تجربه</h1>
-        <Link href="/fa/journal" className="text-sm underline">
-          بازگشت به دفتر ←
+        <Link href="/fa/journal" className="main-page-link-button">
+          صفحه اصلی فهرست تجربه‌های من
         </Link>
       </div>
 
@@ -272,45 +272,55 @@ export default function ReviewPage() {
       </div>
 
       {source === "pending" && (
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleSave}
-            disabled={saving}
-            className="px-4 py-2 disabled:opacity-50"
-          >
-            {saving ? "در حال ذخیره..." : "ذخیره"}
-          </button>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <Link href="/fa/journal" className="main-page-link-button">
+            صفحه اصلی فهرست تجربه‌های من
+          </Link>
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleSave}
+              disabled={saving}
+              className="px-4 py-2 disabled:opacity-50"
+            >
+              {saving ? "در حال ذخیره..." : "ذخیره"}
+            </button>
 
-          <button
-            onClick={handleEdit}
-            className="px-4 py-2"
-          >
-            ویرایش
-          </button>
+            <button
+              onClick={handleEdit}
+              className="px-4 py-2"
+            >
+              ویرایش
+            </button>
 
-          <button
-            onClick={handleDelete}
-            className="px-4 py-2"
-          >
-            حذف
-          </button>
+            <button
+              onClick={handleDelete}
+              className="px-4 py-2"
+            >
+              حذف
+            </button>
+          </div>
         </div>
       )}
 
       {source === "saved" && (
-        <div className="flex items-center gap-3">
-          <button
-            onClick={handleEditSaved}
-            className="px-4 py-2"
-          >
-            ویرایش
-          </button>
-          <button
-            onClick={handleDeleteSaved}
-            className="px-4 py-2"
-          >
-            حذف
-          </button>
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <Link href="/fa/journal" className="main-page-link-button">
+            صفحه اصلی فهرست تجربه‌های من
+          </Link>
+          <div className="flex items-center gap-3 flex-wrap">
+            <button
+              onClick={handleEditSaved}
+              className="px-4 py-2"
+            >
+              ویرایش
+            </button>
+            <button
+              onClick={handleDeleteSaved}
+              className="px-4 py-2"
+            >
+              حذف
+            </button>
+          </div>
         </div>
       )}
     </main>

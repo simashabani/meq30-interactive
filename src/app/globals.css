@@ -237,3 +237,16 @@ a:hover {
 .new-experience-page input[type="radio"] {
   accent-color: #828b2c;
 }
+
+.main-page-link-button {
+  display: inline-block;
+  background: #828b2c;
+  color: #ffffff !important;
+  border: none;
+  padding: 12px 24px;
+  font-family: 'Nunito', 'IranSans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
