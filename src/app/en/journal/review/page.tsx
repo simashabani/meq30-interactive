@@ -179,16 +179,17 @@ export default function ReviewPage() {
   }
 
   return (
+    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main className="max-w-3xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">Review Experience</h1>
+        <h1 className="text-lg font-semibold">Review Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page
         </Link>
       </div>
 
       {/* Experience Details */}
-      <div className="border p-4 space-y-4">
+      <div className="border p-4 space-y-4 bg-white">
         <div>
           <label className="text-sm font-medium">Title</label>
           <p className="text-lg">{pending.title}</p>
@@ -215,7 +216,7 @@ export default function ReviewPage() {
       </div>
 
       {/* Scores */}
-      <div className="border p-4 space-y-4">
+      <div className="border p-4 space-y-4 bg-white">
         <h2 className="text-lg font-semibold">MEQ-30 Scores</h2>
         <p className="text-sm font-medium">
           {pending.scores.complete_mystical
@@ -263,7 +264,7 @@ export default function ReviewPage() {
       </div>
 
       {/* Interpretation */}
-      <div className="border p-4 space-y-3">
+      <div className="border p-4 space-y-3 bg-white">
         <h2 className="text-lg font-semibold">Interpretation</h2>
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
@@ -321,5 +322,6 @@ export default function ReviewPage() {
         </div>
       )}
     </main>
+    </div>
   );
 }

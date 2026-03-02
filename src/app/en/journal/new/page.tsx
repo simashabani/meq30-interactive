@@ -182,16 +182,17 @@ export default function NewExperiencePage() {
   const canSave = title.trim().length > 0 && answeredCount === 30;
 
   return (
+    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">New Experience</h1>
+        <h1 className="text-xl font-semibold">New Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page
         </Link>
       </div>
 
       {/* Experience metadata */}
-      <div className="space-y-3 border p-4">
+      <div className="space-y-3 border p-4 bg-white">
         <div className="space-y-1">
           <label className="text-sm font-medium">Title (required)</label>
           <input
@@ -264,7 +265,7 @@ export default function NewExperiencePage() {
       </p>
 
       {pendingExists && !pendingLoaded && (
-        <div className="border p-4 bg-yellow-50">
+        <div className="border p-4 bg-white">
           <p className="text-sm">
             You have an unsaved experience. Would you like to view/edit and save it, or start a new blank experience?
           </p>
@@ -302,5 +303,6 @@ export default function NewExperiencePage() {
         </Link>
       </div>
     </main>
+    </div>
   );
 }

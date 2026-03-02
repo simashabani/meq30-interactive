@@ -54,7 +54,7 @@ export default function MEQ30Form({ lang, value, onChange }: Props) {
         const selected = value[key];
 
         return (
-          <fieldset key={q.canonicalId} className="border p-4">
+          <fieldset key={q.canonicalId} className="border p-4 bg-white">
             <legend className="font-medium">
               {lang === "fa" ? toPersianNumerals(q.order) : q.order}. {q.text[lang] || q.text.en}
             </legend>

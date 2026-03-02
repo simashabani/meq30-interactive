@@ -185,16 +185,17 @@ export default function NewExperiencePageFa() {
   const canSave = title.trim().length > 0 && answeredCount === 30;
 
   return (
+    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main dir="rtl" className="new-experience-page max-w-3xl mx-auto p-6 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">تجربهٔ جدید</h1>
+        <h1 className="text-xl font-semibold">تجربهٔ جدید</h1>
         <Link href="/fa/journal" className="main-page-link-button">
           صفحه اصلی فهرست تجربه‌های من
         </Link>
       </div>
 
       {/* Experience metadata */}
-      <div className="space-y-3 border p-4">
+      <div className="space-y-3 border p-4 bg-white">
         <div className="space-y-1">
           <label className="text-sm font-medium">عنوان (اجباری)</label>
           <input
@@ -312,7 +313,7 @@ export default function NewExperiencePageFa() {
       </p>
 
       {pendingExists && !pendingLoaded && (
-        <div className="border p-4 bg-yellow-50">
+        <div className="border p-4 bg-white">
           <p className="text-sm">
             شما یک تجربهٔ ذخیره‌نشده دارید. آیا می‌خواهید آن را ببینید/ویرایش و ذخیره کنید، یا یک تجربهٔ جدید ثبت کنید؟
           </p>
@@ -348,5 +349,6 @@ export default function NewExperiencePageFa() {
         </button>
       </div>
     </main>
+    </div>
   );
 }

@@ -182,15 +182,16 @@ export default function ReviewPage() {
   }
 
   return (
+    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main dir="rtl" className="max-w-3xl mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold">بررسی تجربه</h1>
+        <h1 className="text-lg font-semibold">بررسی تجربه</h1>
         <Link href="/fa/journal" className="main-page-link-button">
           صفحه اصلی فهرست تجربه‌های من
         </Link>
       </div>
 
-      <div className="border p-4 space-y-4">
+      <div className="border p-4 space-y-4 bg-white">
         <div>
           <label className="text-sm font-medium">عنوان</label>
           <p className="text-lg">{pending.title}</p>
@@ -215,7 +216,7 @@ export default function ReviewPage() {
         )}
       </div>
 
-      <div className="border p-4 space-y-4">
+      <div className="border p-4 space-y-4 bg-white">
         <h2 className="text-lg font-semibold">امتیازهای MEQ-30</h2>
         <p className="text-sm font-medium">
           {pending.scores.complete_mystical
@@ -266,7 +267,7 @@ export default function ReviewPage() {
         </div>
       </div>
 
-      <div className="border p-4 space-y-3">
+      <div className="border p-4 space-y-3 bg-white">
         <h2 className="text-lg font-semibold">تفسیر</h2>
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
@@ -324,5 +325,6 @@ export default function ReviewPage() {
         </div>
       )}
     </main>
+    </div>
   );
 }
