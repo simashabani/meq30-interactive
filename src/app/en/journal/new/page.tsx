@@ -188,11 +188,11 @@ export default function NewExperiencePage() {
       </div>
 
       {/* Experience metadata */}
-      <div className="space-y-3 border rounded-lg p-4">
+      <div className="space-y-3 border p-4">
         <div className="space-y-1">
           <label className="text-sm font-medium">Title (required)</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border px-3 py-2"
             type="text"
             placeholder="e.g., Mountain sunset meditation"
             value={title}
@@ -203,7 +203,7 @@ export default function NewExperiencePage() {
         <div className="space-y-1">
           <label className="text-sm font-medium">Date (optional)</label>
           <input
-            className={`border rounded px-3 py-2 ${
+            className={`border px-3 py-2 ${
               noDate ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
             }`}
             type="date"
@@ -227,7 +227,7 @@ export default function NewExperiencePage() {
         <div className="space-y-1">
           <label className="text-sm font-medium">Notes (optional)</label>
           <textarea
-            className="w-full border rounded px-3 py-2"
+            className="w-full border px-3 py-2"
             placeholder="Any context you want to remember..."
             rows={4}
             value={notes}
@@ -239,7 +239,7 @@ export default function NewExperiencePage() {
         <div className="flex items-center gap-2 pt-2">
           <button
             type="button"
-            className="px-3 py-2 rounded border text-sm"
+            className="px-3 py-2 border text-sm"
             onClick={() => autofillAll(3)}
           >
             Test: Fill all = 3 (moderate)
@@ -247,7 +247,7 @@ export default function NewExperiencePage() {
 
           <button
             type="button"
-            className="px-3 py-2 rounded border text-sm"
+            className="px-3 py-2 border text-sm"
             onClick={() => setAnswers({})}
           >
             Clear answers
@@ -261,20 +261,20 @@ export default function NewExperiencePage() {
       </p>
 
       {pendingExists && !pendingLoaded && (
-        <div className="border rounded-lg p-4 bg-yellow-50">
+        <div className="border p-4 bg-yellow-50">
           <p className="text-sm">
             You have an unsaved experience. Would you like to view/edit and save it, or start a new blank experience?
           </p>
           <div className="mt-3 flex gap-2">
             <button
               onClick={loadPending}
-              className="px-3 py-1 rounded bg-blue-600 text-white"
+              className="px-3 py-1"
             >
               View / Edit Unsaved
             </button>
             <button
               onClick={startNew}
-              className="px-3 py-1 rounded bg-gray-200"
+              className="px-3 py-1"
             >
               Start New (discard unsaved)
             </button>
@@ -287,7 +287,7 @@ export default function NewExperiencePage() {
 
       {/* Analyze */}
       <button
-        className="mt-6 px-4 py-2 rounded bg-black text-white disabled:opacity-50"
+        className="mt-6 px-4 py-2 disabled:opacity-50"
         disabled={!canSave || saving}
         onClick={handleSave}
       >

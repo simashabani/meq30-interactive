@@ -194,11 +194,11 @@ export default function NewExperiencePageFa() {
       </div>
 
       {/* Experience metadata */}
-      <div className="space-y-3 border rounded-lg p-4">
+      <div className="space-y-3 border p-4">
         <div className="space-y-1">
           <label className="text-sm font-medium">عنوان (اجباری)</label>
           <input
-            className="w-full border rounded px-3 py-2"
+            className="w-full border px-3 py-2"
             type="text"
             placeholder="مثلاً: مراقبه در غروب کوهستان"
             value={title}
@@ -238,7 +238,7 @@ export default function NewExperiencePageFa() {
             <div>
               <label className="text-xs text-gray-600">تاریخ میلادی</label>
               <input
-                className={`w-full border rounded px-3 py-2 ${
+                className={`w-full border px-3 py-2 ${
                   noDate || calendarMode !== "english"
                     ? "bg-gray-100 text-gray-500 cursor-not-allowed"
                     : ""
@@ -278,7 +278,7 @@ export default function NewExperiencePageFa() {
         <div className="space-y-1">
           <label className="text-sm font-medium">یادداشت (اختیاری)</label>
           <textarea
-            className="w-full border rounded px-3 py-2"
+            className="w-full border px-3 py-2"
             placeholder="هر نکته‌ای که می‌خواهید ثبت کنید..."
             rows={4}
             value={notes}
@@ -290,7 +290,7 @@ export default function NewExperiencePageFa() {
         <div className="flex items-center gap-2 pt-2">
           <button
             type="button"
-            className="px-3 py-2 rounded border text-sm"
+            className="px-3 py-2 border text-sm"
             onClick={() => autofillAll(3)}
           >
             تست: پر کردن همه = ۳ (متوسط)
@@ -298,7 +298,7 @@ export default function NewExperiencePageFa() {
 
           <button
             type="button"
-            className="px-3 py-2 rounded border text-sm"
+            className="px-3 py-2 border text-sm"
             onClick={() => setAnswers({})}
           >
             پاک کردن پاسخ‌ها
@@ -312,20 +312,20 @@ export default function NewExperiencePageFa() {
       </p>
 
       {pendingExists && !pendingLoaded && (
-        <div className="border rounded-lg p-4 bg-yellow-50">
+        <div className="border p-4 bg-yellow-50">
           <p className="text-sm">
             شما یک تجربهٔ ذخیره‌نشده دارید. آیا می‌خواهید آن را ببینید/ویرایش و ذخیره کنید، یا یک تجربهٔ جدید ثبت کنید؟
           </p>
           <div className="mt-3 flex gap-2">
             <button
               onClick={loadPending}
-              className="px-3 py-1 rounded bg-blue-600 text-white"
+              className="px-3 py-1"
             >
               مشاهده / ویرایش ذخیره‌نشده
             </button>
             <button
               onClick={startNew}
-              className="px-3 py-1 rounded bg-gray-200"
+              className="px-3 py-1"
             >
               شروع جدید (حذف ذخیره‌نشده)
             </button>
@@ -336,7 +336,7 @@ export default function NewExperiencePageFa() {
       <MEQ30Form lang="fa" value={answers} onChange={setAnswers} />
 
       <button
-        className="mt-6 px-4 py-2 rounded bg-black text-white disabled:opacity-50"
+        className="mt-6 px-4 py-2 disabled:opacity-50"
         disabled={!canSave || saving}
         onClick={handleSave}
       >

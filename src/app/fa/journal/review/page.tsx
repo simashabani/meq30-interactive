@@ -190,7 +190,7 @@ export default function ReviewPage() {
         </Link>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-4">
+      <div className="border p-4 space-y-4">
         <div>
           <label className="text-sm font-medium">عنوان</label>
           <p className="text-lg">{pending.title}</p>
@@ -215,7 +215,7 @@ export default function ReviewPage() {
         )}
       </div>
 
-      <div className="border rounded-lg p-4 space-y-4">
+      <div className="border p-4 space-y-4">
         <h2 className="text-lg font-semibold">امتیازهای MEQ-30</h2>
         <p className="text-sm font-medium">
           {pending.scores.complete_mystical
@@ -257,8 +257,8 @@ export default function ReviewPage() {
           </div>
 
           {pending.scores.complete_mystical && (
-            <div className="col-span-2 bg-blue-50 border border-blue-200 rounded p-3">
-              <p className="text-sm font-medium text-blue-900">
+            <div className="col-span-2 bg-gray-100 border border-gray-300 p-3">
+              <p className="text-sm font-medium text-gray-800">
                 ✓ تجربه عرفانی کامل (همه زیرمقیاس‌ها ≥ ۶۰٪)
               </p>
             </div>
@@ -266,7 +266,7 @@ export default function ReviewPage() {
         </div>
       </div>
 
-      <div className="border rounded-lg p-4 space-y-3">
+      <div className="border p-4 space-y-3">
         <h2 className="text-lg font-semibold">تفسیر</h2>
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
@@ -276,21 +276,21 @@ export default function ReviewPage() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-2 rounded bg-green-600 text-white disabled:opacity-50"
+            className="px-4 py-2 disabled:opacity-50"
           >
             {saving ? "در حال ذخیره..." : "ذخیره"}
           </button>
 
           <button
             onClick={handleEdit}
-            className="px-4 py-2 rounded bg-blue-600 text-white"
+            className="px-4 py-2"
           >
             ویرایش
           </button>
 
           <button
             onClick={handleDelete}
-            className="px-4 py-2 rounded bg-red-600 text-white"
+            className="px-4 py-2"
           >
             حذف
           </button>
@@ -301,13 +301,13 @@ export default function ReviewPage() {
         <div className="flex items-center gap-3">
           <button
             onClick={handleEditSaved}
-            className="px-4 py-2 rounded bg-blue-600 text-white"
+            className="px-4 py-2"
           >
             ویرایش
           </button>
           <button
             onClick={handleDeleteSaved}
-            className="px-4 py-2 rounded bg-red-600 text-white"
+            className="px-4 py-2"
           >
             حذف
           </button>

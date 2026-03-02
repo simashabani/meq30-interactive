@@ -25,22 +25,22 @@ const SUBSCALE_LABELS = {
   MYSTICAL: {
     en: "Mystical (Unity / Noetic / Sacredness)",
     fa: "رازمندانه (وحدت / درک / تقدس)",
-    color: "bg-blue-50 border-blue-200 text-blue-700",
+    style: { backgroundColor: "#697124", borderColor: "#697124", color: "#ffffff" },
   },
   POSITIVE_MOOD: {
     en: "Positive Mood",
     fa: "حالت مثبت",
-    color: "bg-green-50 border-green-200 text-green-700",
+    style: { backgroundColor: "#828b2c", borderColor: "#828b2c", color: "#ffffff" },
   },
   TIME_SPACE: {
     en: "Transcendence of Time and Space",
     fa: "فراتر رفتن از زمان و فضا",
-    color: "bg-purple-50 border-purple-200 text-purple-700",
+    style: { backgroundColor: "#939d32", borderColor: "#939d32", color: "#ffffff" },
   },
   INEFFABILITY: {
     en: "Ineffability",
     fa: "ناگفتنی",
-    color: "bg-amber-50 border-amber-200 text-amber-700",
+    style: { backgroundColor: "#a3af37", borderColor: "#a3af37", color: "#ffffff" },
   },
 } as const;
 
@@ -54,12 +54,12 @@ export default function MEQ30Form({ lang, value, onChange }: Props) {
         const selected = value[key];
 
         return (
-          <fieldset key={q.canonicalId} className="border rounded-lg p-4">
+          <fieldset key={q.canonicalId} className="border p-4">
             <legend className="font-medium">
               {lang === "fa" ? toPersianNumerals(q.order) : q.order}. {q.text[lang] || q.text.en}
             </legend>
             
-            <div className={`mt-2 mb-4 p-2 text-xs font-semibold border rounded ${SUBSCALE_LABELS[q.subscale].color}`}>
+            <div className="mt-2 mb-4 p-2 text-xs font-semibold border" style={SUBSCALE_LABELS[q.subscale].style}>
               {SUBSCALE_LABELS[q.subscale][lang]}
             </div>
 

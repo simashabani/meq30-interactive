@@ -93,7 +93,7 @@ export default function PersianDatePicker({
         type="button"
         onClick={() => !disabled && setIsOpen(!isOpen)}
         disabled={disabled}
-        className={`w-full border rounded px-3 py-2 text-left ${
+        className={`w-full border px-3 py-2 text-left ${
           disabled ? "bg-gray-100 text-gray-500 cursor-not-allowed" : "bg-white"
         }`}
       >
@@ -101,7 +101,7 @@ export default function PersianDatePicker({
       </button>
 
       {isOpen && !disabled && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border rounded shadow-lg p-4 z-10">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-white border shadow-lg p-4 z-10">
           <div className="space-y-3">
             {/* Persian Calendar - Year */}
                 <div>
@@ -114,7 +114,7 @@ export default function PersianDatePicker({
                       const asNum = Number(parsed.replace(/[^0-9]/g, "")) || 0;
                       setTempPYear(asNum);
                     }}
-                    className="w-full border rounded px-2 py-1 text-right"
+                    className="w-full border px-2 py-1 text-right"
                     dir="rtl"
                   />
                 </div>
@@ -132,7 +132,7 @@ export default function PersianDatePicker({
                     setTempPDay(maxPersianDays);
                   }
                 }}
-                className="w-full border rounded px-2 py-1"
+                className="w-full border px-2 py-1"
               >
                 {PERSIAN_MONTHS.map((month, idx) => (
                   <option key={idx} value={idx + 1}>
@@ -157,7 +157,7 @@ export default function PersianDatePicker({
                     }}
                     min={1}
                     max={maxPersianDays}
-                    className="w-full border rounded px-2 py-1 text-right"
+                    className="w-full border px-2 py-1 text-right"
                     dir="rtl"
                   />
                 </div>
@@ -167,14 +167,14 @@ export default function PersianDatePicker({
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-3 py-1 rounded bg-gray-200"
+                className="px-3 py-1"
               >
                 لغو
               </button>
               <button
                 type="button"
                 onClick={syncToGregorian}
-                className="px-3 py-1 rounded bg-blue-600 text-white"
+                className="px-3 py-1"
               >
                 تأیید
               </button>
