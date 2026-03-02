@@ -9,9 +9,10 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     const supabase = createSupabaseBrowserClient();
+    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://wp.meq-30.com").replace(/\/$/, "");
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      options: { emailRedirectTo: `${siteUrl}/auth/callback` },
     });
     setMessage(error ? error.message : "Check your email for the login link.");
   };
