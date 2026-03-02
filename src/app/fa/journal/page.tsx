@@ -171,107 +171,116 @@ export default function JournalPageFa() {
 
   if (!userId) {
     return (
-      <div style={{ maxWidth: 800, margin: '0 auto' }}>
-        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, marginBottom: '2rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>دفتر تجربه‌های من</h1>
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow">
+          <h1 style={{ marginBottom: '2rem' }}>دفتر تجربه‌های من</h1>
 
-        {/* Auth box */}
-        <div style={{ background: '#f5f5f0', padding: '2rem', marginBottom: '2rem' }}>
-          <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
-            ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
-          </p>
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-            <input
-              value={loginEmail}
-              onChange={(e) => setLoginEmail(e.target.value)}
-              style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
-              placeholder="ایمیل"
-            />
-            <button 
-              onClick={handleLogin} 
-              style={{ 
-                background: '#3d3d3d', 
-                color: 'white', 
-                padding: '10px 24px', 
-                border: 'none', 
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                letterSpacing: '0.08em',
-                fontSize: '0.875rem',
-                fontWeight: 500
-              }}
-            >
-              ارسال لینک
-            </button>
+          <div style={{ padding: '2rem', background: '#ffffff' }}>
+            <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
+              ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک URL منحصر به فرد، محدود به زمان و یک‌بار مصرف به صندوق ورودی شما ارسال می‌کند تا هویت شما را تأیید کند. تنها چیزی که برای ثبت‌نام یا ورود نیاز دارید یک آدرس ایمیل معتبر است.
+            </p>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <input
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+                placeholder="ایمیل"
+              />
+              <button
+                onClick={handleLogin}
+                style={{
+                  background: '#3d3d3d',
+                  color: 'white',
+                  padding: '10px 24px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.08em',
+                  fontSize: '0.875rem',
+                  fontWeight: 500
+                }}
+              >
+                ارسال لینک
+              </button>
+            </div>
+            {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
           </div>
-          {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
         </div>
-      </div>
+      </section>
     );
   }
 
   return (
-    <div style={{ maxWidth: 1000, margin: '0 auto' }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-        <h1 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '2rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em', margin: 0 }}>دفتر تجربه‌های من</h1>
-        <Link 
-          href="/fa/journal/new"
-          style={{ 
-            background: '#3d3d3d', 
-            color: 'white', 
-            padding: '12px 24px', 
-            textDecoration: 'none',
-            letterSpacing: '0.08em',
-            fontSize: '0.875rem',
-            fontWeight: 500,
-            display: 'inline-block'
-          }}
-        >
-          + تجربه جدید
-        </Link>
-      </div>
-
-      {/* Welcome box */}
-      <div style={{ background: '#f5f5f0', padding: '1.5rem', marginBottom: '1.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-        <p>خوش آمدید، {email}</p>
-        <button 
-          onClick={handleLogout} 
-          style={{ 
-            background: '#8c8c7e', 
-            color: 'white', 
-            padding: '8px 20px', 
-            border: 'none', 
-            cursor: 'pointer',
-            letterSpacing: '0.08em',
-            fontSize: '0.875rem'
-          }}
-        >
-          خروج
-        </button>
-      </div>
-
-      {pendingExists && (
-        <div style={{ background: '#ebebeb', padding: '1.5rem', marginBottom: '1.5rem' }}>
-          <p style={{ marginBottom: '1rem' }}>شما یک تجربهٔ ذخیره‌نشده دارید.</p>
-          <button
-            onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
-            style={{ 
-              background: '#3d3d3d', 
-              color: 'white', 
-              padding: '10px 24px', 
-              border: 'none', 
-              cursor: 'pointer',
-              letterSpacing: '0.08em',
-              fontSize: '0.875rem',
-              fontWeight: 500
-            }}
-          >
-            مشاهده / ویرایش ذخیره‌نشده
-          </button>
+    <>
+      <section className="full-bleed-section section-white">
+        <div className="section-inner narrow">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <h1 style={{ margin: 0 }}>دفتر تجربه‌های من</h1>
+            <Link
+              href="/fa/journal/new"
+              style={{
+                background: '#3d3d3d',
+                color: 'white',
+                padding: '12px 24px',
+                textDecoration: 'none',
+                letterSpacing: '0.08em',
+                fontSize: '0.875rem',
+                fontWeight: 500,
+                display: 'inline-block'
+              }}
+            >
+              + تجربه جدید
+            </Link>
+          </div>
         </div>
-      )}
+      </section>
 
-      <div style={{ marginTop: '2rem' }}>
-        <h2 style={{ fontFamily: "'Lora', Georgia, serif", fontSize: '1.5rem', fontWeight: 600, marginBottom: '1.5rem' }}>تجربه‌های ثبت‌شده</h2>
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow">
+          <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+            <p>خوش آمدید، {email}</p>
+            <button
+              onClick={handleLogout}
+              style={{
+                background: '#8c8c7e',
+                color: 'white',
+                padding: '8px 20px',
+                border: 'none',
+                cursor: 'pointer',
+                letterSpacing: '0.08em',
+                fontSize: '0.875rem'
+              }}
+            >
+              خروج
+            </button>
+          </div>
+
+          {pendingExists && (
+            <div style={{ padding: '1.5rem', marginTop: '1.25rem', background: '#ffffff' }}>
+              <p style={{ marginBottom: '1rem' }}>شما یک تجربهٔ ذخیره‌نشده دارید.</p>
+              <button
+                onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
+                style={{
+                  background: '#3d3d3d',
+                  color: 'white',
+                  padding: '10px 24px',
+                  border: 'none',
+                  cursor: 'pointer',
+                  letterSpacing: '0.08em',
+                  fontSize: '0.875rem',
+                  fontWeight: 500
+                }}
+              >
+                مشاهده / ویرایش ذخیره‌نشده
+              </button>
+            </div>
+          )}
+        </div>
+      </section>
+
+      <section className="full-bleed-section section-white">
+        <div className="section-inner narrow">
+          <h2 style={{ marginBottom: '1.5rem' }}>تجربه‌های ثبت‌شده</h2>
         {experiences === null ? (
           <p>در حال بارگذاری...</p>
         ) : experiences.length === 0 ? (
@@ -323,7 +332,8 @@ export default function JournalPageFa() {
             </tbody>
           </table>
         )}
-      </div>
-    </div>
+        </div>
+      </section>
+    </>
   );
 }
