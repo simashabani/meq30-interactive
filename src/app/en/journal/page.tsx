@@ -225,7 +225,12 @@ export default function JournalPage() {
       <section className="full-bleed-section section-gray">
         <div className="section-inner narrow">
           <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <p>Welcome, {email}</p>
+            <div>
+              <p style={{ margin: 0 }}>Welcome, {email}</p>
+              <Link href="/en/user-info" style={{ textDecoration: 'underline', fontSize: '0.92rem' }}>
+                User Information
+              </Link>
+            </div>
             <button
               onClick={handleLogout}
               style={newExperienceButtonStyle}
