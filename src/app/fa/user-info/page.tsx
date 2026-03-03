@@ -38,6 +38,7 @@ export default function UserInfoPageFa() {
   const [form, setForm] = useState<Demographics>(EMPTY_FORM);
   const [agreeAcademic, setAgreeAcademic] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
+  const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("fa");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -56,6 +57,7 @@ export default function UserInfoPageFa() {
       setForm({ ...EMPTY_FORM, ...saved });
       setAgreeAcademic(Boolean(md.demographics_share_anonymous));
       setNewsletter(Boolean(md.newsletter_opt_in));
+      setDefaultLanguage(md.default_language === "en" ? "en" : "fa");
     });
   }, []);
 
@@ -80,6 +82,7 @@ export default function UserInfoPageFa() {
       demographics: form,
       demographics_share_anonymous: agreeAcademic,
       newsletter_opt_in: newsletter,
+      default_language: defaultLanguage,
     };
 
     const { error } = await supabase.auth.updateUser({ data: payload });
@@ -132,6 +135,18 @@ export default function UserInfoPageFa() {
           </div>
 
           <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
+            <label style={checkboxLabelStyle}>
+              <span style={{ minWidth: "130px" }}>زبان پیش‌فرض:</span>
+              <select
+                value={defaultLanguage}
+                onChange={(e) => setDefaultLanguage(e.target.value === "en" ? "en" : "fa")}
+                style={inputStyle}
+              >
+                <option value="fa">فارسی</option>
+                <option value="en">English</option>
+              </select>
+            </label>
+
             <label style={checkboxLabelStyle}>
               <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
               موافقم اطلاعات من به‌صورت ناشناس برای اهداف دانشگاهی استفاده شود.

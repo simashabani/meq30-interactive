@@ -37,6 +37,7 @@ export default function UserInfoPage() {
   const [form, setForm] = useState<Demographics>(EMPTY_FORM);
   const [agreeAcademic, setAgreeAcademic] = useState(false);
   const [newsletter, setNewsletter] = useState(false);
+  const [defaultLanguage, setDefaultLanguage] = useState<"en" | "fa">("en");
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -55,6 +56,7 @@ export default function UserInfoPage() {
       setForm({ ...EMPTY_FORM, ...saved });
       setAgreeAcademic(Boolean(md.demographics_share_anonymous));
       setNewsletter(Boolean(md.newsletter_opt_in));
+      setDefaultLanguage(md.default_language === "fa" ? "fa" : "en");
     });
   }, []);
 
@@ -79,6 +81,7 @@ export default function UserInfoPage() {
       demographics: form,
       demographics_share_anonymous: agreeAcademic,
       newsletter_opt_in: newsletter,
+      default_language: defaultLanguage,
     };
 
     const { error } = await supabase.auth.updateUser({ data: payload });
@@ -125,6 +128,18 @@ export default function UserInfoPage() {
           </div>
 
           <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
+            <label style={checkboxLabelStyle}>
+              <span style={{ minWidth: "130px" }}>Default language:</span>
+              <select
+                value={defaultLanguage}
+                onChange={(e) => setDefaultLanguage(e.target.value === "fa" ? "fa" : "en")}
+                style={inputStyle}
+              >
+                <option value="en">English</option>
+                <option value="fa">Farsi</option>
+              </select>
+            </label>
+
             <label style={checkboxLabelStyle}>
               <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
               I agree to share my information anonymously for academic purposes.

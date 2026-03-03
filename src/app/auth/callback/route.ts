@@ -29,7 +29,13 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  // Use redirect param if provided, otherwise fall back to /en/journal
-  const redirectTo = redirect || "/en/journal";
+  let redirectTo = redirect;
+  if (!redirectTo) {
+    const { data } = await supabase.auth.getUser();
+    const md = (data.user?.user_metadata ?? {}) as Record<string, any>;
+    const lang = md.default_language === "fa" ? "fa" : "en";
+    redirectTo = `/${lang}/journal`;
+  }
+
   return NextResponse.redirect(new URL(redirectTo, url.origin));
 }
