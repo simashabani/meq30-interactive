@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   const handleLogin = async () => {
     const supabase = createSupabaseBrowserClient();
-    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://wp.meq-30.com").replace(/\/$/, "");
+    const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://app.meq-30.com").replace(/\/$/, "");
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: { emailRedirectTo: `${siteUrl}/en/auth/callback` },
