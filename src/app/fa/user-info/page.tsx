@@ -3,6 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
+import PersianDatePicker from "@/components/PersianDatePicker";
 
 type Demographics = {
   firstName: string;
@@ -113,7 +114,13 @@ export default function UserInfoPageFa() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
             <input style={inputStyle} placeholder="نام" value={form.firstName} onChange={(e) => updateField("firstName", e.target.value)} />
             <input style={inputStyle} placeholder="نام خانوادگی" value={form.lastName} onChange={(e) => updateField("lastName", e.target.value)} />
-            <input style={inputStyle} type="date" value={form.dateOfBirth} onChange={(e) => updateField("dateOfBirth", e.target.value)} />
+            <div style={fieldStackStyle}>
+              <label style={labelStyle}>تاریخ تولد (شمسی)</label>
+              <PersianDatePicker
+                value={form.dateOfBirth}
+                onChange={(value) => updateField("dateOfBirth", value)}
+              />
+            </div>
             <input style={inputStyle} placeholder="شماره تلفن" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
             <input style={inputStyle} placeholder="آدرس" value={form.address} onChange={(e) => updateField("address", e.target.value)} />
             <input style={inputStyle} placeholder="شهر" value={form.city} onChange={(e) => updateField("city", e.target.value)} />
@@ -159,4 +166,14 @@ const checkboxLabelStyle: CSSProperties = {
   display: "flex",
   gap: "8px",
   alignItems: "center",
+};
+
+const fieldStackStyle: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "6px",
+};
+
+const labelStyle: CSSProperties = {
+  fontSize: "0.9rem",
 };
