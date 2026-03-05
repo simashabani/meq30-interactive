@@ -312,28 +312,6 @@ export default function NewExperiencePageFa() {
         پاسخ داده‌شده: <b>{toPersianNumerals(answeredCount)}</b> / {toPersianNumerals(30)}
       </p>
 
-      {pendingExists && !pendingLoaded && (
-        <div className="border p-4 bg-white">
-          <p className="text-sm">
-            شما یک تجربهٔ ذخیره‌نشده دارید. آیا می‌خواهید آن را ببینید/ویرایش و ذخیره کنید، یا یک تجربهٔ جدید ثبت کنید؟
-          </p>
-          <div className="mt-3 flex gap-2">
-            <button
-              onClick={loadPending}
-              className="px-3 py-1"
-            >
-              مشاهده / ویرایش ذخیره‌نشده
-            </button>
-            <button
-              onClick={startNew}
-              className="px-3 py-1"
-            >
-              شروع جدید (حذف ذخیره‌نشده)
-            </button>
-          </div>
-        </div>
-      )}
-
       <MEQ30Form lang="fa" value={answers} onChange={setAnswers} />
 
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">

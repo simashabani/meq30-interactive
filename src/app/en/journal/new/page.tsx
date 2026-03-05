@@ -264,28 +264,6 @@ export default function NewExperiencePage() {
         Answered: <b>{answeredCount}</b> / 30
       </p>
 
-      {pendingExists && !pendingLoaded && (
-        <div className="border p-4 bg-white">
-          <p className="text-sm">
-            You have an unsaved experience. Would you like to view/edit and save it, or start a new blank experience?
-          </p>
-          <div className="mt-3 flex gap-2">
-            <button
-              onClick={loadPending}
-              className="px-3 py-1"
-            >
-              View / Edit Unsaved
-            </button>
-            <button
-              onClick={startNew}
-              className="px-3 py-1"
-            >
-              Start New (discard unsaved)
-            </button>
-          </div>
-        </div>
-      )}
-
       {/* MEQ form */}
       <MEQ30Form lang="en" value={answers} onChange={setAnswers} />
 
