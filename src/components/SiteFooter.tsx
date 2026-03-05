@@ -9,7 +9,7 @@ export default function SiteFooter({ locale }: Props) {
     return (
       <footer className="site-footer site-footer-fa">
         <div className="site-footer-inner site-footer-grid site-footer-fa-grid">
-          <div className="site-footer-fa-left" style={{ alignSelf: "center" }}>
+          <div className="site-footer-fa-left" style={{ alignSelf: "end" }}>
             <p className="site-footer-text" style={{ margin: 0 }}>
               وب‌سایت و اپلیکیشن توسط : Maud Consulting LLC
             </p>
@@ -77,7 +77,7 @@ export default function SiteFooter({ locale }: Props) {
           </p>
         </div>
 
-        <div className="site-footer-right" style={{ alignSelf: "center" }}>
+        <div className="site-footer-right" style={{ alignSelf: "end" }}>
           <p className="site-footer-text" style={{ margin: 0 }}>
             {isFa ? "وب‌سایت و اپلیکیشن توسط" : "Website and application developed by"}
           </p>
