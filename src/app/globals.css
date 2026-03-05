@@ -177,7 +177,7 @@ h3 {
 .site-footer-inner {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 24px;
 }
 
 .site-footer-grid {
