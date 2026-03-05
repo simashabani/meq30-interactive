@@ -173,15 +173,22 @@ h3 {
 }
 
 .site-footer-fa-grid {
+  direction: ltr;
   grid-template-columns: minmax(0, 420px) minmax(0, 760px);
 }
 
 .site-footer-fa-right {
+  direction: rtl;
+  grid-column: 2;
+  justify-self: end;
   text-align: right;
 }
 
 .site-footer-fa-left {
-  text-align: center;
+  direction: rtl;
+  grid-column: 1;
+  justify-self: start;
+  text-align: right;
 }
 
 .site-footer-fa .site-footer-title,
@@ -235,7 +242,7 @@ h3 {
 
   .site-footer-fa-right,
   .site-footer-fa-left {
-    text-align: center;
+    text-align: right;
   }
 
   .site-footer-fa-right {
