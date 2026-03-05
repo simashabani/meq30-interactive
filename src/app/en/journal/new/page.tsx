@@ -101,7 +101,8 @@ export default function NewExperiencePage() {
     if (!canSave || saving) return;
 
     setSaving(true);
-    try {
+    (async () => {
+      try {
       // Score the answers
       const scores = scoreMEQ30(answers);
 
@@ -116,12 +117,32 @@ export default function NewExperiencePage() {
         isDirty: true,
       });
 
-      // Redirect to review page
-      window.location.href = "/en/journal/review";
-    } catch (e: any) {
-      alert("Error: " + (e?.message ?? String(e)));
-      setSaving(false);
-    }
+      const res = await fetch("/api/meq30/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          experienceId: editingExperienceId ?? undefined,
+          title,
+          date,
+          notes,
+          answers,
+          language: "en",
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Save failed");
+
+      clearPendingExperience();
+      const nextExperienceId = json?.experienceId || editingExperienceId;
+      window.location.href = nextExperienceId
+        ? `/en/journal/review?id=${nextExperienceId}`
+        : "/en/journal/review";
+      } catch (e: any) {
+        alert("Error: " + (e?.message ?? String(e)));
+        setSaving(false);
+      }
+    })();
   }
 
   useEffect(() => {
@@ -267,14 +288,14 @@ export default function NewExperiencePage() {
       {/* MEQ form */}
       <MEQ30Form lang="en" value={answers} onChange={setAnswers} />
 
-      {/* Analyze */}
+      {/* Save and Analyze */}
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
         <button
           className="px-4 py-2 disabled:opacity-50"
           disabled={!canSave || saving}
           onClick={handleSave}
         >
-          {saving ? "Analyzing..." : "Analyze"}
+          {saving ? "Saving and analyzing..." : "Save and Analyze"}
         </button>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page

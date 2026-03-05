@@ -5,8 +5,6 @@ import Link from "next/link";
 // removed: import { useSearchParams } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
-  getPendingExperience,
-  clearPendingExperience,
   savePendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
@@ -19,8 +17,6 @@ type ReviewExperience = PendingExperience & {
 export default function ReviewPage() {
   const [email, setEmail] = useState<string | null>(null);
   const [pending, setPending] = useState<ReviewExperience | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [source, setSource] = useState<"pending" | "saved" | null>(null);
   // removed:
   // const searchParams = useSearchParams();
   // const experienceId = searchParams.get("id");
@@ -82,17 +78,10 @@ export default function ReviewPage() {
           language: respData.language === "fa" ? "fa" : "en",
           isDirty: false,
         });
-        setSource("saved");
         return;
       }
 
-      const p = getPendingExperience();
-      if (!p) {
-        window.location.href = "/en/journal/new";
-      } else {
-        setPending({ ...p, language: "en" });
-        setSource("pending");
-      }
+      window.location.href = "/en/journal/new";
     });
   }, []);
 
@@ -102,48 +91,6 @@ export default function ReviewPage() {
     pending.scores,
     pending.language
   );
-
-  async function handleSave() {
-    if (saving) return;
-    if (!pending) return;
-
-    setSaving(true);
-    try {
-      const res = await fetch("/api/meq30/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          experienceId: pending.experienceId,
-          title: pending.title,
-          date: pending.date,
-          notes: pending.notes,
-          answers: pending.answers,
-          language: "en",
-        }),
-      });
-
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Submit failed");
-
-      clearPendingExperience();
-      window.location.href = "/en/journal";
-    } catch (e: any) {
-      alert("Save failed: " + (e?.message ?? String(e)));
-      setSaving(false);
-    }
-  }
-
-  function handleEdit() {
-    // Keep the pending experience and go back to edit
-    window.location.href = "/en/journal/new?loadPending=1";
-  }
-
-  function handleDelete() {
-    if (confirm("Are you sure you want to discard this experience?")) {
-      clearPendingExperience();
-      window.location.href = "/en/journal/new";
-    }
-  }
 
   async function handleEditSaved() {
     if (!pending) return;
@@ -269,58 +216,25 @@ export default function ReviewPage() {
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
 
-      {source === "pending" && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-3 flex-wrap">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-4 py-2 disabled:opacity-50"
-            >
-              {saving ? "Saving..." : "Save"}
-            </button>
-
-            <button
-              onClick={handleEdit}
-              className="px-4 py-2"
-            >
-              Edit
-            </button>
-
-            <button
-              onClick={handleDelete}
-              className="px-4 py-2"
-            >
-              Delete
-            </button>
-          </div>
-          <Link href="/en/journal" className="main-page-link-button">
-            My Experiences List Main Page
-          </Link>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            onClick={handleEditSaved}
+            className="px-4 py-2"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleDeleteSaved}
+            className="px-4 py-2"
+          >
+            Delete
+          </button>
         </div>
-      )}
-
-      {source === "saved" && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <div className="flex items-center gap-3 flex-wrap">
-            <button
-              onClick={handleEditSaved}
-              className="px-4 py-2"
-            >
-              Edit
-            </button>
-            <button
-              onClick={handleDeleteSaved}
-              className="px-4 py-2"
-            >
-              Delete
-            </button>
-          </div>
-          <Link href="/en/journal" className="main-page-link-button">
-            My Experiences List Main Page
-          </Link>
-        </div>
-      )}
+        <Link href="/en/journal" className="main-page-link-button">
+          My Experiences List Main Page
+        </Link>
+      </div>
     </main>
     </div>
   );

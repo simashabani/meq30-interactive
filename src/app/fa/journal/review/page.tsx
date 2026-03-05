@@ -4,8 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 import {
-  getPendingExperience,
-  clearPendingExperience,
   savePendingExperience,
   PendingExperience,
 } from "@/lib/pendingExperience";
@@ -21,8 +19,6 @@ const toPersianNumerals = (value: string | number) =>
 export default function ReviewPage() {
   const [email, setEmail] = useState<string | null>(null);
   const [pending, setPending] = useState<ReviewExperience | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [source, setSource] = useState<"pending" | "saved" | null>(null);
 
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
@@ -81,17 +77,10 @@ export default function ReviewPage() {
           language: respData.language === "fa" ? "fa" : "en",
           isDirty: false,
         });
-        setSource("saved");
         return;
       }
 
-      const p = getPendingExperience();
-      if (!p) {
-        window.location.href = "/fa/journal/new";
-      } else {
-        setPending({ ...p, language: "fa" });
-        setSource("pending");
-      }
+      window.location.href = "/fa/journal/new";
     });
   }, []);
 
@@ -101,47 +90,6 @@ export default function ReviewPage() {
     pending.scores,
     pending.language
   );
-
-  async function handleSave() {
-    if (saving || !pending) return;
-
-    setSaving(true);
-    try {
-      const res = await fetch("/api/meq30/submit", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          experienceId: pending.experienceId,
-          title: pending.title,
-          date: pending.date,
-          notes: pending.notes,
-          answers: pending.answers,
-          language: "fa",
-        }),
-      });
-
-      const json = await res.json();
-      if (!res.ok) throw new Error(json.error || "Submit failed");
-
-      clearPendingExperience();
-      window.location.href = "/fa/journal";
-    } catch (e: unknown) {
-      const message = e instanceof Error ? e.message : String(e);
-      alert("ذخیره ناموفق بود: " + message);
-      setSaving(false);
-    }
-  }
-
-  function handleEdit() {
-    window.location.href = "/fa/journal/new?loadPending=1";
-  }
-
-  function handleDelete() {
-    if (confirm("آیا مطمئن هستید که می‌خواهید این تجربه را حذف کنید؟")) {
-      clearPendingExperience();
-      window.location.href = "/fa/journal/new";
-    }
-  }
 
   async function handleEditSaved() {
     if (!pending) return;
@@ -272,58 +220,25 @@ export default function ReviewPage() {
         <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
       </div>
 
-      {source === "pending" && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <Link href="/fa/journal" className="main-page-link-button">
-            صفحه اصلی فهرست تجربه‌های من
-          </Link>
-          <div className="flex items-center gap-3 flex-wrap">
-            <button
-              onClick={handleSave}
-              disabled={saving}
-              className="px-4 py-2 disabled:opacity-50"
-            >
-              {saving ? "در حال ذخیره..." : "ذخیره"}
-            </button>
-
-            <button
-              onClick={handleEdit}
-              className="px-4 py-2"
-            >
-              ویرایش
-            </button>
-
-            <button
-              onClick={handleDelete}
-              className="px-4 py-2"
-            >
-              حذف
-            </button>
-          </div>
+      <div className="flex items-center justify-between gap-3 flex-wrap">
+        <Link href="/fa/journal" className="main-page-link-button">
+          صفحه اصلی فهرست تجربه‌های من
+        </Link>
+        <div className="flex items-center gap-3 flex-wrap">
+          <button
+            onClick={handleEditSaved}
+            className="px-4 py-2"
+          >
+            ویرایش
+          </button>
+          <button
+            onClick={handleDeleteSaved}
+            className="px-4 py-2"
+          >
+            حذف
+          </button>
         </div>
-      )}
-
-      {source === "saved" && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <Link href="/fa/journal" className="main-page-link-button">
-            صفحه اصلی فهرست تجربه‌های من
-          </Link>
-          <div className="flex items-center gap-3 flex-wrap">
-            <button
-              onClick={handleEditSaved}
-              className="px-4 py-2"
-            >
-              ویرایش
-            </button>
-            <button
-              onClick={handleDeleteSaved}
-              className="px-4 py-2"
-            >
-              حذف
-            </button>
-          </div>
-        </div>
-      )}
+      </div>
     </main>
     </div>
   );

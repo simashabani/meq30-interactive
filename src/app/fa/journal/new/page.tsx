@@ -119,8 +119,27 @@ export default function NewExperiencePageFa() {
         isDirty: true,
       });
 
-      // Redirect to review page
-      window.location.href = "/fa/journal/review";
+      const res = await fetch("/api/meq30/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          experienceId: editingExperienceId ?? undefined,
+          title,
+          date,
+          notes,
+          answers,
+          language: "fa",
+        }),
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || "Save failed");
+
+      clearPendingExperience();
+      const nextExperienceId = json?.experienceId || editingExperienceId;
+      window.location.href = nextExperienceId
+        ? `/fa/journal/review?id=${nextExperienceId}`
+        : "/fa/journal/review";
     } catch (e: any) {
       alert("خطا: " + (e?.message ?? String(e)));
       setSaving(false);
@@ -323,7 +342,7 @@ export default function NewExperiencePageFa() {
           disabled={!canSave || saving}
           onClick={handleSave}
         >
-          {saving ? "درحال تجزیه..." : "تجزیه"}
+          {saving ? "در حال ثبت و تحلیل..." : "تحلیل و ثبت"}
         </button>
       </div>
     </main>
