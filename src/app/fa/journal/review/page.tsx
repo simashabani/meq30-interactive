@@ -181,14 +181,14 @@ export default function ReviewPage() {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="text-sm font-medium">رازمندانه</label>
+            <label className="text-sm font-medium">احساس یگانگی، کیفیت معرفتی، و حسّ تقدّس</label>
             <p className="text-xl font-bold">
               {toPersianNumerals(pending.scores.mystical_percentage.toFixed(0))}%
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">خلق مثبت</label>
+            <label className="text-sm font-medium">حالت عاطفی مثبت</label>
             <p className="text-xl font-bold">
               {toPersianNumerals(
                 pending.scores.positive_mood_percentage.toFixed(0)
@@ -198,14 +198,14 @@ export default function ReviewPage() {
           </div>
 
           <div>
-            <label className="text-sm font-medium">زمان و فضا</label>
+            <label className="text-sm font-medium">فراتر رفتن از زمان و مکان</label>
             <p className="text-xl font-bold">
               {toPersianNumerals(pending.scores.time_space_percentage.toFixed(0))}%
             </p>
           </div>
 
           <div>
-            <label className="text-sm font-medium">وصف‌ناپذیری</label>
+            <label className="text-sm font-medium">ناگفتنی بودن و وصف‌ناپذیری</label>
             <p className="text-xl font-bold">
               {toPersianNumerals(pending.scores.ineffability_percentage.toFixed(0))}
               %

@@ -20,28 +20,28 @@ const SCALE = [
   { v: 2, en: "slight", fa: "خفیف" },
   { v: 3, en: "moderate", fa: "متوسط" },
   { v: 4, en: "strong", fa: "قوی" },
-  { v: 5, en: "extreme", fa: "شدید" },
+  { v: 5, en: "extreme", fa: "بسیار قوی" },
 ] as const;
 
 const SUBSCALE_LABELS = {
   MYSTICAL: {
     en: "Mystical (Unity / Noetic / Sacredness)",
-    fa: "رازمندانه (وحدت / درک / تقدس)",
+    fa: "احساس یگانگی، کیفیت معرفتی، و حسّ تقدّس",
     style: { backgroundColor: "#697124", borderColor: "#697124", color: "#ffffff" },
   },
   POSITIVE_MOOD: {
     en: "Positive Mood",
-    fa: "حالت مثبت",
+    fa: "حالت عاطفی مثبت",
     style: { backgroundColor: "#828b2c", borderColor: "#828b2c", color: "#ffffff" },
   },
   TIME_SPACE: {
     en: "Transcendence of Time and Space",
-    fa: "فراتر رفتن از زمان و فضا",
+    fa: "فراتر رفتن از زمان و مکان",
     style: { backgroundColor: "#939d32", borderColor: "#939d32", color: "#ffffff" },
   },
   INEFFABILITY: {
     en: "Ineffability",
-    fa: "ناگفتنی",
+    fa: "ناگفتنی بودن و وصف‌ناپذیری",
     style: { backgroundColor: "#a3af37", borderColor: "#a3af37", color: "#ffffff" },
   },
 } as const;

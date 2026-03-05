@@ -308,7 +308,7 @@ export default function JournalPageFa() {
                   تاریخ تجربه{renderSortIndicator("occurred_at")}
                 </th>
                 <th style={{ padding: '12px 8px', textAlign: 'right', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("complete_mystical")}>
-                  صوفیانه؟{renderSortIndicator("complete_mystical")}
+                  عرفانی؟{renderSortIndicator("complete_mystical")}
                 </th>
                 <th style={{ padding: '12px 8px', textAlign: 'right', fontSize: '0.9rem', fontWeight: 600 }}>ویرایش</th>
                 <th style={{ padding: '12px 8px', textAlign: 'right', fontSize: '0.9rem', fontWeight: 600 }}>حذف</th>
