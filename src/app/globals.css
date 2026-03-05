@@ -251,6 +251,11 @@ h3 {
   .site-footer-fa-right,
   .site-footer-fa-left {
     text-align: right;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    padding-right: 0;
   }
 
   .site-footer-fa-right {
