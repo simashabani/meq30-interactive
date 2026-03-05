@@ -22,7 +22,7 @@ export default function SiteFooter({ locale }: Props) {
             </p>
 
             <p className="site-footer-text" style={{ marginTop: "18px", marginBottom: 0 }}>
-              © 2026 Maud Consulting LLC. کلیه حقوق محفوظ می‌باشد.
+              © 2026 Maud Consulting LLC. کلیه حقوق محفوظ می‌باشد
             </p>
           </div>
 
