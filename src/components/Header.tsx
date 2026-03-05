@@ -22,7 +22,7 @@ export default function Header({ locale }: Props) {
   .meq-mini-nav {
     font-family: ${
       isFa
-        ? "'IranSans', Tahoma, Arial, sans-serif"
+        ? "'IranSansRegularLocal', Tahoma, Arial, sans-serif"
         : "'Nunito', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
     };
     direction: ${isFa ? "rtl" : "ltr"};
