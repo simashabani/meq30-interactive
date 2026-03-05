@@ -221,9 +221,6 @@ export default function ReviewPage() {
       </div>
 
       <div className="flex items-center justify-between gap-3 flex-wrap">
-        <Link href="/fa/journal" className="main-page-link-button">
-          صفحه اصلی فهرست تجربه‌های من
-        </Link>
         <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={handleEditSaved}
@@ -238,6 +235,9 @@ export default function ReviewPage() {
             حذف
           </button>
         </div>
+        <Link href="/fa/journal" className="main-page-link-button">
+          صفحه اصلی فهرست تجربه‌های من
+        </Link>
       </div>
     </main>
     </div>
