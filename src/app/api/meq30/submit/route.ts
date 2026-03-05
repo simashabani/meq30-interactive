@@ -36,10 +36,32 @@ export async function POST(req: Request) {
     const occurred_at =
       body.date && body.date.trim() ? new Date(body.date).toISOString() : null;
 
-    // Source of truth: compute on server.
-    const scores = scoreMEQ30(body.answers);
+    const answeredCount = Object.values(body.answers).filter(
+      (value) => Number.isInteger(value) && value >= 0 && value <= 5
+    ).length;
+    const isComplete = answeredCount === 30;
 
-    const interpretation = generateMeq30Interpretation(scores, body.language);
+    // Source of truth: compute on server when complete, otherwise mark inconclusive.
+    const scores = isComplete
+      ? scoreMEQ30(body.answers)
+      : {
+          mystical_percentage: 0,
+          positive_mood_percentage: 0,
+          time_space_percentage: 0,
+          ineffability_percentage: 0,
+          complete_mystical: false,
+        };
+
+    const interpretation = isComplete
+      ? generateMeq30Interpretation(scores, body.language)
+      : {
+          key: "meq30.incomplete",
+          version: "v1",
+          paragraph:
+            body.language === "fa"
+              ? "همهٔ سؤال‌های MEQ-30 پاسخ داده نشده‌اند؛ بنابراین نتیجهٔ عرفانی در حال حاضر نامشخص است."
+              : "Not all MEQ-30 questions were answered, so the mystical result is currently inconclusive.",
+        };
 
     let experienceId = body.experienceId?.trim() || null;
 

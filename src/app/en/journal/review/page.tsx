@@ -91,6 +91,11 @@ export default function ReviewPage() {
     pending.scores,
     pending.language
   );
+  const answeredCount = pending.answers ? Object.keys(pending.answers).length : 0;
+  const isCompleteResponse = answeredCount === 30;
+  const interpretationParagraph = isCompleteResponse
+    ? interpretation.paragraph
+    : "Not all MEQ-30 questions were answered, so the mystical result is currently inconclusive.";
 
   async function handleEditSaved() {
     if (!pending) return;
@@ -166,7 +171,9 @@ export default function ReviewPage() {
       <div className="border p-4 space-y-4 bg-white">
         <h2 className="text-lg font-semibold">MEQ-30 Scores</h2>
         <p className="text-sm font-medium">
-          {pending.scores.complete_mystical
+          {!isCompleteResponse
+            ? "Inconclusive: not all questions were answered."
+            : pending.scores.complete_mystical
             ? "Your experience is mystical."
             : "Your experience is not mystical."}
         </p>
@@ -200,7 +207,7 @@ export default function ReviewPage() {
             </p>
           </div>
 
-          {pending.scores.complete_mystical && (
+          {isCompleteResponse && pending.scores.complete_mystical && (
             <div className="col-span-2 bg-gray-100 border border-gray-300 p-3">
               <p className="text-sm font-medium text-gray-800">
                 ✓ Complete Mystical Experience (all subscales ≥ 60%)
@@ -213,7 +220,7 @@ export default function ReviewPage() {
       {/* Interpretation */}
       <div className="border p-4 space-y-3 bg-white">
         <h2 className="text-lg font-semibold">Interpretation</h2>
-        <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
+        <p className="text-sm leading-relaxed">{interpretationParagraph}</p>
       </div>
 
       <div className="flex items-center justify-between gap-3 flex-wrap">

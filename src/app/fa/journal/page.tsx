@@ -85,7 +85,7 @@ export default function JournalPageFa() {
     (async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language)`)
+        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language,answers)`)
         .eq("user_id", userId);
       if (error) {
         console.error("Failed to load experiences", error);
@@ -319,6 +319,14 @@ export default function JournalPageFa() {
                 const resp = Array.isArray(e.meq30_responses) ? e.meq30_responses[0] : e.meq30_responses;
                 const entryLang = resp?.language === "fa" ? "fa" : "en";
                 const persianDateOfExperience = e.occurred_at ? formatPersianDate(gregorianToJalali(e.occurred_at.slice(0, 10))) : "—";
+                const answeredCount = resp?.answers ? Object.keys(resp.answers).length : 0;
+                const mysticalCell = !resp
+                  ? "—"
+                  : answeredCount < 30
+                    ? "نامشخص"
+                    : resp.complete_mystical
+                      ? "بله"
+                      : "خیر";
                 return (
                   <tr key={e.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
                     <td style={{ padding: '12px 8px' }}>
@@ -327,7 +335,7 @@ export default function JournalPageFa() {
                       </Link>
                     </td>
                     <td style={{ padding: '12px 8px' }}>{persianDateOfExperience}</td>
-                    <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "بله" : "خیر") : "—"}</td>
+                    <td style={{ padding: '12px 8px' }}>{mysticalCell}</td>
                     <td style={{ padding: '12px 8px' }}>
                       <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
                         ویرایش

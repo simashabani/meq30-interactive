@@ -10,6 +10,8 @@ type Props = {
   lang: "en" | "fa";
   value: MEQAnswersMap;
   onChange: (next: MEQAnswersMap) => void;
+  highlightUnanswered?: boolean;
+  missingCanonicalIds?: number[];
 };
 
 const SCALE = [
@@ -44,17 +46,33 @@ const SUBSCALE_LABELS = {
   },
 } as const;
 
-export default function MEQ30Form({ lang, value, onChange }: Props) {
+export default function MEQ30Form({
+  lang,
+  value,
+  onChange,
+  highlightUnanswered = false,
+  missingCanonicalIds = [],
+}: Props) {
   const dir = lang === "fa" ? "rtl" : "ltr";
+  const missingSet = new Set(missingCanonicalIds.map((id) => String(id)));
 
   return (
     <div dir={dir} className="space-y-6">
       {MEQ30_QUESTIONS.map((q) => {
         const key = String(q.canonicalId);
         const selected = value[key];
+        const isMissing = highlightUnanswered && missingSet.has(key);
 
         return (
-          <fieldset key={q.canonicalId} className="border p-4 bg-white">
+          <fieldset
+            key={q.canonicalId}
+            className="border p-4 bg-white"
+            style={
+              isMissing
+                ? { backgroundColor: "#fff5f5", borderColor: "#f1caca" }
+                : undefined
+            }
+          >
             <legend className="font-medium">
               {lang === "fa" ? toPersianNumerals(q.order) : q.order}. {q.text[lang] || q.text.en}
             </legend>

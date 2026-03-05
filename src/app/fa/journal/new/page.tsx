@@ -30,6 +30,8 @@ export default function NewExperiencePageFa() {
   const [answers, setAnswers] = React.useState<MEQAnswersMap>({});
 
   const [saving, setSaving] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
+  const [validationMessages, setValidationMessages] = useState<string[]>([]);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
   const skipDirtyRef = useRef(true);
@@ -101,12 +103,46 @@ export default function NewExperiencePageFa() {
   }
 
   async function handleSave() {
-    if (!canSave || saving) return;
+    if (saving) return;
+
+    const missingTitle = title.trim().length === 0;
+    const missingQuestions = MEQ30_QUESTIONS.filter(
+      (q) => typeof answers[String(q.canonicalId)] !== "number"
+    ).map((q) => q.order);
+
+    const messages: string[] = [];
+    if (missingTitle) {
+      messages.push("برای ثبت تجربه، عنوان الزامی است.");
+    }
+    if (missingQuestions.length > 0) {
+      messages.push(
+        `برخی سؤال‌ها پاسخ داده نشده‌اند (${toPersianNumerals(
+          missingQuestions.join("، ")
+        )}). اگر همه سؤال‌ها پاسخ داده نشوند، ممکن است تحلیل کامل دریافت نکنید.`
+      );
+    }
+
+    setValidationMessages(messages);
+    setShowValidation(true);
+
+    if (missingTitle) {
+      return;
+    }
 
     setSaving(true);
     try {
-      // Score the answers
-      const scores = scoreMEQ30(answers);
+      // Score only when complete; otherwise keep placeholder scores.
+      let scores: MEQ30Scores = {
+        mystical_percentage: 0,
+        positive_mood_percentage: 0,
+        time_space_percentage: 0,
+        ineffability_percentage: 0,
+        complete_mystical: false,
+      };
+
+      if (missingQuestions.length === 0) {
+        scores = scoreMEQ30(answers);
+      }
 
       // Save to session storage
       savePendingExperience({
@@ -201,7 +237,10 @@ export default function NewExperiencePageFa() {
   if (!email) return <p>در حال بارگذاری...</p>;
 
   const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0 && answeredCount === 30;
+  const canSave = title.trim().length > 0;
+  const missingCanonicalIds = MEQ30_QUESTIONS.filter(
+    (q) => typeof answers[String(q.canonicalId)] !== "number"
+  ).map((q) => q.canonicalId);
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
@@ -227,7 +266,7 @@ export default function NewExperiencePageFa() {
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">تاریخ (اختیاری)</label>
+          <label className="text-sm font-medium block mb-2">تاریخ (اختیاری)</label>
 
           {/* Calendar mode selection - Radio buttons */}
           <div className="flex gap-4 mb-3">
@@ -331,7 +370,28 @@ export default function NewExperiencePageFa() {
         پاسخ داده‌شده: <b>{toPersianNumerals(answeredCount)}</b> / {toPersianNumerals(30)}
       </p>
 
-      <MEQ30Form lang="fa" value={answers} onChange={setAnswers} />
+      {showValidation && validationMessages.length > 0 && (
+        <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+          {validationMessages.map((message) => (
+            <p key={message} className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+              {message}
+            </p>
+          ))}
+          {Object.keys(answers).length < 30 && (
+            <p className="text-sm" style={{ margin: 0 }}>
+              تجربه شما همچنان ذخیره می‌شود، اما نتیجهٔ عرفانی تا زمان تکمیل همهٔ سؤال‌ها نامشخص خواهد بود.
+            </p>
+          )}
+        </div>
+      )}
+
+      <MEQ30Form
+        lang="fa"
+        value={answers}
+        onChange={setAnswers}
+        highlightUnanswered={showValidation}
+        missingCanonicalIds={missingCanonicalIds}
+      />
 
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
         <Link href="/fa/journal" className="main-page-link-button">

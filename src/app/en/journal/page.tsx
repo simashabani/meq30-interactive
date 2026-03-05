@@ -74,7 +74,7 @@ export default function JournalPage() {
     (async () => {
       const { data, error } = await supabase
         .from("experiences")
-        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language)`)
+        .select(`id,title,occurred_at,notes,meq30_responses(complete_mystical,language,answers)`)
         .eq("user_id", userId);
       if (error) {
         console.error("Failed to load experiences", error);
@@ -315,6 +315,14 @@ export default function JournalPage() {
                       timeZone: "UTC",
                     })
                   : "—";
+                const answeredCount = resp?.answers ? Object.keys(resp.answers).length : 0;
+                const mysticalCell = !resp
+                  ? "—"
+                  : answeredCount < 30
+                    ? "Inconclusive"
+                    : resp.complete_mystical
+                      ? "Yes"
+                      : "No";
                 return (
                   <tr key={e.id} style={{ borderBottom: '1px solid #e5e7eb' }}>
                     <td style={{ padding: '12px 8px' }}>
@@ -323,7 +331,7 @@ export default function JournalPage() {
                       </Link>
                     </td>
                     <td style={{ padding: '12px 8px' }}>{dateOfExp}</td>
-                    <td style={{ padding: '12px 8px' }}>{resp ? (resp.complete_mystical ? "Yes" : "No") : "—"}</td>
+                    <td style={{ padding: '12px 8px' }}>{mysticalCell}</td>
                     <td style={{ padding: '12px 8px' }}>
                       <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
                         Edit

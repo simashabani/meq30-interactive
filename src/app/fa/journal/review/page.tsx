@@ -90,6 +90,11 @@ export default function ReviewPage() {
     pending.scores,
     pending.language
   );
+  const answeredCount = pending.answers ? Object.keys(pending.answers).length : 0;
+  const isCompleteResponse = answeredCount === 30;
+  const interpretationParagraph = isCompleteResponse
+    ? interpretation.paragraph
+    : "همهٔ سؤال‌های MEQ-30 پاسخ داده نشده‌اند؛ بنابراین نتیجهٔ عرفانی در حال حاضر نامشخص است.";
 
   async function handleEditSaved() {
     if (!pending) return;
@@ -167,7 +172,9 @@ export default function ReviewPage() {
       <div className="border p-4 space-y-4 bg-white">
         <h2 className="text-lg font-semibold">امتیازهای MEQ-30</h2>
         <p className="text-sm font-medium">
-          {pending.scores.complete_mystical
+          {!isCompleteResponse
+            ? "نتیجه نامشخص است: همهٔ سؤال‌ها پاسخ داده نشده‌اند."
+            : pending.scores.complete_mystical
             ? "تجربه شما عرفانی است."
             : "تجربه شما عرفانی نیست."}
         </p>
@@ -205,7 +212,7 @@ export default function ReviewPage() {
             </p>
           </div>
 
-          {pending.scores.complete_mystical && (
+          {isCompleteResponse && pending.scores.complete_mystical && (
             <div className="col-span-2 bg-gray-100 border border-gray-300 p-3">
               <p className="text-sm font-medium text-gray-800">
                 ✓ تجربه عرفانی کامل (همه زیرمقیاس‌ها ≥ ۶۰٪)
@@ -217,7 +224,7 @@ export default function ReviewPage() {
 
       <div className="border p-4 space-y-3 bg-white">
         <h2 className="text-lg font-semibold">تفسیر</h2>
-        <p className="text-sm leading-relaxed">{interpretation.paragraph}</p>
+        <p className="text-sm leading-relaxed">{interpretationParagraph}</p>
       </div>
 
       <div className="flex items-center justify-between gap-3 flex-wrap">

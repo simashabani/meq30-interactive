@@ -26,6 +26,8 @@ export default function NewExperiencePage() {
   const [answers, setAnswers] = React.useState<MEQAnswersMap>({});
 
   const [saving, setSaving] = useState(false);
+  const [showValidation, setShowValidation] = useState(false);
+  const [validationMessages, setValidationMessages] = useState<string[]>([]);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
   const skipDirtyRef = useRef(false);
@@ -98,13 +100,45 @@ export default function NewExperiencePage() {
   }
 
   function handleSave() {
-    if (!canSave || saving) return;
+    if (saving) return;
+
+    const missingTitle = title.trim().length === 0;
+    const missingQuestions = MEQ30_QUESTIONS.filter(
+      (q) => typeof answers[String(q.canonicalId)] !== "number"
+    ).map((q) => q.order);
+
+    const messages: string[] = [];
+    if (missingTitle) {
+      messages.push("You are required to have a title for your journal entry.");
+    }
+    if (missingQuestions.length > 0) {
+      messages.push(
+        `Some questions are not answered (${missingQuestions.join(", " )}). You may not get analysis if you don't answer all questions.`
+      );
+    }
+
+    setValidationMessages(messages);
+    setShowValidation(true);
+
+    if (missingTitle) {
+      return;
+    }
 
     setSaving(true);
     (async () => {
       try {
-      // Score the answers
-      const scores = scoreMEQ30(answers);
+      // Score only when complete; otherwise keep placeholder scores.
+      let scores: MEQ30Scores = {
+        mystical_percentage: 0,
+        positive_mood_percentage: 0,
+        time_space_percentage: 0,
+        ineffability_percentage: 0,
+        complete_mystical: false,
+      };
+
+      if (missingQuestions.length === 0) {
+        scores = scoreMEQ30(answers);
+      }
 
       // Save to session storage
       savePendingExperience({
@@ -200,7 +234,10 @@ export default function NewExperiencePage() {
   if (!email) return <p>Loading...</p>;
 
   const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0 && answeredCount === 30;
+  const canSave = title.trim().length > 0;
+  const missingCanonicalIds = MEQ30_QUESTIONS.filter(
+    (q) => typeof answers[String(q.canonicalId)] !== "number"
+  ).map((q) => q.canonicalId);
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
@@ -226,7 +263,7 @@ export default function NewExperiencePage() {
         </div>
 
         <div className="space-y-1">
-          <label className="text-sm font-medium">Date (optional)</label>
+          <label className="text-sm font-medium block mb-2">Date (optional)</label>
           <input
             className={`border px-3 py-2 ${
               noDate ? "bg-gray-100 text-gray-500 cursor-not-allowed" : ""
@@ -285,8 +322,29 @@ export default function NewExperiencePage() {
         Answered: <b>{answeredCount}</b> / 30
       </p>
 
+      {showValidation && validationMessages.length > 0 && (
+        <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+          {validationMessages.map((message) => (
+            <p key={message} className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+              {message}
+            </p>
+          ))}
+          {Object.keys(answers).length < 30 && (
+            <p className="text-sm" style={{ margin: 0 }}>
+              Your entry can still be saved, but the mystical result will be inconclusive until all questions are answered.
+            </p>
+          )}
+        </div>
+      )}
+
       {/* MEQ form */}
-      <MEQ30Form lang="en" value={answers} onChange={setAnswers} />
+      <MEQ30Form
+        lang="en"
+        value={answers}
+        onChange={setAnswers}
+        highlightUnanswered={showValidation}
+        missingCanonicalIds={missingCanonicalIds}
+      />
 
       {/* Save and Analyze */}
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
