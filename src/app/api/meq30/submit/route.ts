@@ -71,7 +71,7 @@ export async function POST(req: Request) {
         .update({
           title: body.title.trim(),
           occurred_at,
-          notes: body.notes?.trim() || null
+          notes: body.notes?.trim() || ""
         })
         .eq("id", experienceId)
         .eq("user_id", userData.user.id)
@@ -92,7 +92,7 @@ export async function POST(req: Request) {
           user_id: userData.user.id,
           title: body.title.trim(),
           occurred_at,
-          notes: body.notes?.trim() || null,
+          notes: body.notes?.trim() || "",
           is_shared_for_research: false
         })
         .select("id")

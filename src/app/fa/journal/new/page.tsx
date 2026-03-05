@@ -30,8 +30,7 @@ export default function NewExperiencePageFa() {
   const [answers, setAnswers] = React.useState<MEQAnswersMap>({});
 
   const [saving, setSaving] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
-  const [validationMessages, setValidationMessages] = useState<string[]>([]);
+  const [allowIncompleteSave, setAllowIncompleteSave] = useState(false);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
   const skipDirtyRef = useRef(true);
@@ -105,27 +104,9 @@ export default function NewExperiencePageFa() {
   async function handleSave() {
     if (saving) return;
 
-    const missingTitle = title.trim().length === 0;
-    const missingQuestions = MEQ30_QUESTIONS.filter(
-      (q) => typeof answers[String(q.canonicalId)] !== "number"
-    ).map((q) => q.order);
-
-    const messages: string[] = [];
-    if (missingTitle) {
-      messages.push("برای ثبت تجربه، عنوان الزامی است.");
-    }
-    if (missingQuestions.length > 0) {
-      messages.push(
-        `برخی سؤال‌ها پاسخ داده نشده‌اند (${toPersianNumerals(
-          missingQuestions.join("، ")
-        )}). اگر همه سؤال‌ها پاسخ داده نشوند، ممکن است تحلیل کامل دریافت نکنید.`
-      );
-    }
-
-    setValidationMessages(messages);
-    setShowValidation(true);
-
-    if (missingTitle) {
+    const hasMissingTitle = title.trim().length === 0;
+    const hasMissingQuestions = missingQuestionOrders.length > 0;
+    if (hasMissingTitle || (hasMissingQuestions && !allowIncompleteSave)) {
       return;
     }
 
@@ -140,7 +121,7 @@ export default function NewExperiencePageFa() {
         complete_mystical: false,
       };
 
-      if (missingQuestions.length === 0) {
+      if (missingQuestionOrders.length === 0) {
         scores = scoreMEQ30(answers);
       }
 
@@ -237,10 +218,14 @@ export default function NewExperiencePageFa() {
   if (!email) return <p>در حال بارگذاری...</p>;
 
   const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0;
+  const missingQuestionOrders = MEQ30_QUESTIONS.filter(
+    (q) => typeof answers[String(q.canonicalId)] !== "number"
+  ).map((q) => q.order);
   const missingCanonicalIds = MEQ30_QUESTIONS.filter(
     (q) => typeof answers[String(q.canonicalId)] !== "number"
   ).map((q) => q.canonicalId);
+  const hasMissingTitle = title.trim().length === 0;
+  const canSave = !hasMissingTitle && (missingQuestionOrders.length === 0 || allowIncompleteSave);
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
@@ -370,40 +355,60 @@ export default function NewExperiencePageFa() {
         پاسخ داده‌شده: <b>{toPersianNumerals(answeredCount)}</b> / {toPersianNumerals(30)}
       </p>
 
-      {showValidation && validationMessages.length > 0 && (
-        <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
-          {validationMessages.map((message) => (
-            <p key={message} className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
-              {message}
-            </p>
-          ))}
-          {Object.keys(answers).length < 30 && (
-            <p className="text-sm" style={{ margin: 0 }}>
-              تجربه شما همچنان ذخیره می‌شود، اما نتیجهٔ عرفانی تا زمان تکمیل همهٔ سؤال‌ها نامشخص خواهد بود.
-            </p>
-          )}
-        </div>
-      )}
-
       <MEQ30Form
         lang="fa"
         value={answers}
         onChange={setAnswers}
-        highlightUnanswered={showValidation}
+        highlightUnanswered={missingQuestionOrders.length > 0}
         missingCanonicalIds={missingCanonicalIds}
       />
 
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
+        <div className="flex-1 min-w-[300px]">
+          {(hasMissingTitle || missingQuestionOrders.length > 0) && (
+            <div className="border p-4 bg-white mb-3" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+              {hasMissingTitle && (
+                <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
+                  بدون عنوان نمی‌توانید تجربه خود را ذخیره کنید.
+                </p>
+              )}
+              {missingQuestionOrders.length > 0 && (
+                <>
+                  <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+                    برخی سؤال‌ها پاسخ داده نشده‌اند ({toPersianNumerals(
+                      missingQuestionOrders.join("، ")
+                    )}).
+                  </p>
+                  <p className="text-sm" style={{ margin: 0 }}>
+                    اگر الآن ذخیره کنید، نتیجه نامشخص خواهد بود.
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+
+          {missingQuestionOrders.length > 0 && (
+            <label className="flex items-center gap-2 text-sm mb-3">
+              <input
+                type="checkbox"
+                checked={allowIncompleteSave}
+                onChange={(e) => setAllowIncompleteSave(e.target.checked)}
+              />
+              می‌خواهم فرم ناقص ذخیره شود؛ نتیجه نامشخص خواهد بود.
+            </label>
+          )}
+
+          <button
+            className="px-4 py-2 disabled:opacity-50"
+            disabled={!canSave || saving}
+            onClick={handleSave}
+          >
+            {saving ? "در حال ثبت و تحلیل..." : "تحلیل و ثبت"}
+          </button>
+        </div>
         <Link href="/fa/journal" className="main-page-link-button">
           صفحه اصلی فهرست تجربه‌های من
         </Link>
-        <button
-          className="px-4 py-2 disabled:opacity-50"
-          disabled={!canSave || saving}
-          onClick={handleSave}
-        >
-          {saving ? "در حال ثبت و تحلیل..." : "تحلیل و ثبت"}
-        </button>
       </div>
     </main>
     </div>

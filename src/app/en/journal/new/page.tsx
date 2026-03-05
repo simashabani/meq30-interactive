@@ -26,8 +26,7 @@ export default function NewExperiencePage() {
   const [answers, setAnswers] = React.useState<MEQAnswersMap>({});
 
   const [saving, setSaving] = useState(false);
-  const [showValidation, setShowValidation] = useState(false);
-  const [validationMessages, setValidationMessages] = useState<string[]>([]);
+  const [allowIncompleteSave, setAllowIncompleteSave] = useState(false);
   const [pendingExists, setPendingExists] = useState(false);
   const [pendingLoaded, setPendingLoaded] = useState(false);
   const skipDirtyRef = useRef(false);
@@ -102,25 +101,9 @@ export default function NewExperiencePage() {
   function handleSave() {
     if (saving) return;
 
-    const missingTitle = title.trim().length === 0;
-    const missingQuestions = MEQ30_QUESTIONS.filter(
-      (q) => typeof answers[String(q.canonicalId)] !== "number"
-    ).map((q) => q.order);
-
-    const messages: string[] = [];
-    if (missingTitle) {
-      messages.push("You are required to have a title for your journal entry.");
-    }
-    if (missingQuestions.length > 0) {
-      messages.push(
-        `Some questions are not answered (${missingQuestions.join(", " )}). You may not get analysis if you don't answer all questions.`
-      );
-    }
-
-    setValidationMessages(messages);
-    setShowValidation(true);
-
-    if (missingTitle) {
+    const hasMissingTitle = title.trim().length === 0;
+    const hasMissingQuestions = missingQuestionOrders.length > 0;
+    if (hasMissingTitle || (hasMissingQuestions && !allowIncompleteSave)) {
       return;
     }
 
@@ -136,7 +119,7 @@ export default function NewExperiencePage() {
         complete_mystical: false,
       };
 
-      if (missingQuestions.length === 0) {
+      if (missingQuestionOrders.length === 0) {
         scores = scoreMEQ30(answers);
       }
 
@@ -234,10 +217,14 @@ export default function NewExperiencePage() {
   if (!email) return <p>Loading...</p>;
 
   const answeredCount = Object.keys(answers).length;
-  const canSave = title.trim().length > 0;
+  const missingQuestionOrders = MEQ30_QUESTIONS.filter(
+    (q) => typeof answers[String(q.canonicalId)] !== "number"
+  ).map((q) => q.order);
   const missingCanonicalIds = MEQ30_QUESTIONS.filter(
     (q) => typeof answers[String(q.canonicalId)] !== "number"
   ).map((q) => q.canonicalId);
+  const hasMissingTitle = title.trim().length === 0;
+  const canSave = !hasMissingTitle && (missingQuestionOrders.length === 0 || allowIncompleteSave);
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
@@ -322,39 +309,57 @@ export default function NewExperiencePage() {
         Answered: <b>{answeredCount}</b> / 30
       </p>
 
-      {showValidation && validationMessages.length > 0 && (
-        <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
-          {validationMessages.map((message) => (
-            <p key={message} className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
-              {message}
-            </p>
-          ))}
-          {Object.keys(answers).length < 30 && (
-            <p className="text-sm" style={{ margin: 0 }}>
-              Your entry can still be saved, but the mystical result will be inconclusive until all questions are answered.
-            </p>
-          )}
-        </div>
-      )}
-
       {/* MEQ form */}
       <MEQ30Form
         lang="en"
         value={answers}
         onChange={setAnswers}
-        highlightUnanswered={showValidation}
+        highlightUnanswered={missingQuestionOrders.length > 0}
         missingCanonicalIds={missingCanonicalIds}
       />
 
       {/* Save and Analyze */}
       <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
-        <button
-          className="px-4 py-2 disabled:opacity-50"
-          disabled={!canSave || saving}
-          onClick={handleSave}
-        >
-          {saving ? "Saving and analyzing..." : "Save and Analyze"}
-        </button>
+        <div className="flex-1 min-w-[300px]">
+          {(hasMissingTitle || missingQuestionOrders.length > 0) && (
+            <div className="border p-4 bg-white mb-3" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+              {hasMissingTitle && (
+                <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
+                  Without a title you cannot save your experience.
+                </p>
+              )}
+              {missingQuestionOrders.length > 0 && (
+                <>
+                  <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+                    Some questions are not answered ({missingQuestionOrders.join(", ")}).
+                  </p>
+                  <p className="text-sm" style={{ margin: 0 }}>
+                    If you save now, the result will be inconclusive.
+                  </p>
+                </>
+              )}
+            </div>
+          )}
+
+          {missingQuestionOrders.length > 0 && (
+            <label className="flex items-center gap-2 text-sm mb-3">
+              <input
+                type="checkbox"
+                checked={allowIncompleteSave}
+                onChange={(e) => setAllowIncompleteSave(e.target.checked)}
+              />
+              I want to save incomplete form, the result will be inconclusive.
+            </label>
+          )}
+
+          <button
+            className="px-4 py-2 disabled:opacity-50"
+            disabled={!canSave || saving}
+            onClick={handleSave}
+          >
+            {saving ? "Saving and analyzing..." : "Save and Analyze"}
+          </button>
+        </div>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page
         </Link>
