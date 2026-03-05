@@ -319,39 +319,39 @@ export default function NewExperiencePage() {
       />
 
       {/* Save and Analyze */}
-      <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex-1 min-w-[300px]">
-          {(hasMissingTitle || missingQuestionOrders.length > 0) && (
-            <div className="border p-4 bg-white mb-3" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
-              {hasMissingTitle && (
-                <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
-                  Without a title you cannot save your experience.
+      <div className="mt-6 space-y-3">
+        {(hasMissingTitle || missingQuestionOrders.length > 0) && (
+          <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+            {hasMissingTitle && (
+              <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
+                Without a title you cannot save your experience.
+              </p>
+            )}
+            {missingQuestionOrders.length > 0 && (
+              <>
+                <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+                  Some questions are not answered ({missingQuestionOrders.join(", ")}).
                 </p>
-              )}
-              {missingQuestionOrders.length > 0 && (
-                <>
-                  <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
-                    Some questions are not answered ({missingQuestionOrders.join(", ")}).
-                  </p>
-                  <p className="text-sm" style={{ margin: 0 }}>
-                    If you save now, the result will be inconclusive.
-                  </p>
-                </>
-              )}
-            </div>
-          )}
+                <p className="text-sm" style={{ margin: 0 }}>
+                  If you save now, the result will be inconclusive.
+                </p>
+              </>
+            )}
+          </div>
+        )}
 
-          {missingQuestionOrders.length > 0 && (
-            <label className="flex items-center gap-2 text-sm mb-3">
-              <input
-                type="checkbox"
-                checked={allowIncompleteSave}
-                onChange={(e) => setAllowIncompleteSave(e.target.checked)}
-              />
-              I want to save incomplete form, the result will be inconclusive.
-            </label>
-          )}
+        {missingQuestionOrders.length > 0 && (
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={allowIncompleteSave}
+              onChange={(e) => setAllowIncompleteSave(e.target.checked)}
+            />
+            I want to save incomplete form, the result will be inconclusive.
+          </label>
+        )}
 
+        <div className="flex items-center justify-between gap-3 flex-nowrap">
           <button
             className="px-4 py-2 disabled:opacity-50"
             disabled={!canSave || saving}
@@ -359,10 +359,10 @@ export default function NewExperiencePage() {
           >
             {saving ? "Saving and analyzing..." : "Save and Analyze"}
           </button>
+          <Link href="/en/journal" className="main-page-link-button">
+            My Experiences List Main Page
+          </Link>
         </div>
-        <Link href="/en/journal" className="main-page-link-button">
-          My Experiences List Main Page
-        </Link>
       </div>
     </main>
     </div>

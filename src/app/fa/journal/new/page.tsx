@@ -363,41 +363,41 @@ export default function NewExperiencePageFa() {
         missingCanonicalIds={missingCanonicalIds}
       />
 
-      <div className="mt-6 flex items-center justify-between gap-3 flex-wrap">
-        <div className="flex-1 min-w-[300px]">
-          {(hasMissingTitle || missingQuestionOrders.length > 0) && (
-            <div className="border p-4 bg-white mb-3" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
-              {hasMissingTitle && (
-                <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
-                  بدون عنوان نمی‌توانید تجربه خود را ذخیره کنید.
+      <div className="mt-6 space-y-3">
+        {(hasMissingTitle || missingQuestionOrders.length > 0) && (
+          <div className="border p-4 bg-white" style={{ borderColor: "#e7b0b0", background: "#fff8f8" }}>
+            {hasMissingTitle && (
+              <p className="text-sm" style={{ margin: 0, marginBottom: missingQuestionOrders.length > 0 ? "0.5rem" : 0 }}>
+                بدون عنوان نمی‌توانید تجربه خود را ذخیره کنید.
+              </p>
+            )}
+            {missingQuestionOrders.length > 0 && (
+              <>
+                <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
+                  برخی سؤال‌ها پاسخ داده نشده‌اند ({toPersianNumerals(
+                    missingQuestionOrders.join("، ")
+                  )}).
                 </p>
-              )}
-              {missingQuestionOrders.length > 0 && (
-                <>
-                  <p className="text-sm" style={{ margin: 0, marginBottom: "0.5rem" }}>
-                    برخی سؤال‌ها پاسخ داده نشده‌اند ({toPersianNumerals(
-                      missingQuestionOrders.join("، ")
-                    )}).
-                  </p>
-                  <p className="text-sm" style={{ margin: 0 }}>
-                    اگر الآن ذخیره کنید، نتیجه نامشخص خواهد بود.
-                  </p>
-                </>
-              )}
-            </div>
-          )}
+                <p className="text-sm" style={{ margin: 0 }}>
+                  اگر الآن ذخیره کنید، نتیجه نامشخص خواهد بود.
+                </p>
+              </>
+            )}
+          </div>
+        )}
 
-          {missingQuestionOrders.length > 0 && (
-            <label className="flex items-center gap-2 text-sm mb-3">
-              <input
-                type="checkbox"
-                checked={allowIncompleteSave}
-                onChange={(e) => setAllowIncompleteSave(e.target.checked)}
-              />
-              می‌خواهم فرم ناقص ذخیره شود؛ نتیجه نامشخص خواهد بود.
-            </label>
-          )}
+        {missingQuestionOrders.length > 0 && (
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={allowIncompleteSave}
+              onChange={(e) => setAllowIncompleteSave(e.target.checked)}
+            />
+            می‌خواهم فرم ناقص ذخیره شود؛ نتیجه نامشخص خواهد بود.
+          </label>
+        )}
 
+        <div className="flex items-center justify-between gap-3 flex-nowrap">
           <button
             className="px-4 py-2 disabled:opacity-50"
             disabled={!canSave || saving}
@@ -405,10 +405,10 @@ export default function NewExperiencePageFa() {
           >
             {saving ? "در حال ثبت و تحلیل..." : "تحلیل و ثبت"}
           </button>
+          <Link href="/fa/journal" className="main-page-link-button">
+            صفحه اصلی فهرست تجربه‌های من
+          </Link>
         </div>
-        <Link href="/fa/journal" className="main-page-link-button">
-          صفحه اصلی فهرست تجربه‌های من
-        </Link>
       </div>
     </main>
     </div>
