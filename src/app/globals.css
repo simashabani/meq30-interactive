@@ -250,7 +250,7 @@ h3 {
 }
 
 .site-footer-fa .site-footer-title {
-  font-size: 24px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 1.7;
 }
@@ -258,6 +258,7 @@ h3 {
 .site-footer-fa .site-footer-text,
 .site-footer-fa .site-footer-link {
   font-size: 14px;
+  font-weight: 400;
   line-height: 1.8;
 }
 
@@ -315,12 +316,14 @@ h3 {
 
   .site-footer-fa .site-footer-title {
     font-size: 18px;
+    font-weight: 400;
     line-height: 1.6;
   }
 
   .site-footer-fa .site-footer-text,
   .site-footer-fa .site-footer-link {
     font-size: 14px;
+    font-weight: 400;
     line-height: 1.7;
   }
 }
