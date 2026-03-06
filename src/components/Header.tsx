@@ -65,6 +65,13 @@ export default function Header({ locale }: Props) {
     window.location.href = isFa ? "/fa/journal" : "/en/journal";
   }
 
+  const displayName = email
+    ? email
+        .split("@")[0]
+        .replace(/[._-]+/g, " ")
+        .replace(/\b\w/g, (character) => character.toUpperCase())
+    : "";
+
   const userMenu = (
     <div className="user-menu-wrap" ref={menuRef}>
       <button
@@ -72,9 +79,12 @@ export default function Header({ locale }: Props) {
         className={`user-menu-trigger ${email ? "logged-in" : "logged-out"}`}
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label={isFa ? "منوی کاربر" : "User menu"}
+        aria-expanded={menuOpen}
+        aria-haspopup="menu"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v1h16v-1c0-2.76-3.58-5-8-5Z" />
+          <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
+          <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
       </button>
 
@@ -84,13 +94,14 @@ export default function Header({ locale }: Props) {
             <p className="user-menu-line">{isFa ? "در حال بارگذاری..." : "Loading..."}</p>
           ) : email ? (
             <>
-              <p className="user-menu-line user-menu-email">
-                {isFa ? "ورود با" : "Logged in as"} {email}
-              </p>
-              <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link">
+              <div className="user-menu-head">
+                <p className="user-menu-name">{displayName}</p>
+                <p className="user-menu-email">{email}</p>
+              </div>
+              <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
                 {isFa ? "اطلاعات کاربر" : "User Information"}
               </a>
-              <button type="button" className="user-menu-link user-menu-action" onClick={handleLogout}>
+              <button type="button" className="user-menu-link user-menu-action" onClick={handleLogout} role="menuitem">
                 {isFa ? "خروج" : "Log out"}
               </button>
             </>
@@ -171,45 +182,54 @@ export default function Header({ locale }: Props) {
 
   .user-menu-wrap {
     position: relative;
+    flex: 0 0 auto;
   }
 
   .user-menu-trigger {
-    width: 30px;
-    height: 30px;
-    border: none;
-    background: transparent;
-    display: inline-flex;
+    all: unset;
+    width: 34px;
+    height: 34px;
+    border-radius: 9999px;
+    border: 1px solid currentColor;
+    background: #ffffff;
+    box-sizing: border-box;
+    display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0;
     cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease;
   }
 
   .user-menu-trigger svg {
-    width: 22px;
-    height: 22px;
-    fill: currentColor;
+    width: 18px;
+    height: 18px;
   }
 
   .user-menu-trigger.logged-in {
-    color: #828b2c;
+    color: #7b8f2f;
   }
 
   .user-menu-trigger.logged-out {
     color: #8c8c7e;
   }
 
+  .user-menu-trigger:hover,
+  .user-menu-trigger:focus-visible {
+    background: #f7f7f4;
+  }
+
   .user-menu-dropdown {
     position: absolute;
     top: calc(100% + 10px);
-    width: 310px;
+    width: 320px;
     border: 1px solid #e5e7eb;
     background: #ffffff;
-    padding: 12px;
-    z-index: 10000;
+    border-radius: 14px;
+    padding: 12px 14px;
+    z-index: 10001;
     text-transform: none;
     letter-spacing: normal;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   }
 
   .user-menu-dropdown.en {
@@ -234,25 +254,55 @@ export default function Header({ locale }: Props) {
     line-height: 1.5;
   }
 
+  .user-menu-head {
+    padding: 2px 2px 12px;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #ecece6;
+  }
+
+  .user-menu-name {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.2;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
   .user-menu-email {
-    margin: 0 0 10px;
+    margin: 6px 0 0;
+    font-size: 13px;
     color: #4a4a43;
+    overflow-wrap: anywhere;
   }
 
   .user-menu-link {
-    display: block;
-    margin: 0 0 8px;
-    text-decoration: underline;
+    all: unset;
+    display: flex;
+    width: 100%;
+    box-sizing: border-box;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 2px;
+    margin: 0;
+    text-decoration: none;
     color: #4a4a43;
-    background: transparent;
-    border: none;
-    padding: 0;
+    border-radius: 8px;
     cursor: pointer;
-    text-align: inherit;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.4;
+  }
+
+  .user-menu-link:hover,
+  .user-menu-link:focus-visible {
+    background: #f7f7f4;
   }
 
   .user-menu-action {
-    margin-bottom: 0;
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid #ecece6;
   }
 
   .user-menu-input {
@@ -377,7 +427,7 @@ export default function Header({ locale }: Props) {
     }
 
     .user-menu-dropdown {
-      width: 260px;
+      width: 280px;
     }
   }
 `}</style>
