@@ -148,10 +148,18 @@ export default function Header({ locale }: Props) {
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "10px 0 14px" }} />
 
               <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
-                <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
+                <p className="user-menu-language-title" style={{ marginBottom: "12px" }}>
+                  {isFa ? "زبان" : "Language"}
+                </p>
                 <div
                   className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}
-                  style={{ display: "flex", alignItems: "center", gap: "18px", direction: isFa ? "rtl" : "ltr" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "18px",
+                    direction: isFa ? "rtl" : "ltr",
+                    marginBottom: "12px",
+                  }}
                 >
                   {isFa ? (
                     <>
@@ -327,10 +335,18 @@ export default function Header({ locale }: Props) {
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
 
               <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
-                <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
+                <p className="user-menu-language-title" style={{ marginBottom: "12px" }}>
+                  {isFa ? "زبان" : "Language"}
+                </p>
                 <div
                   className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}
-                  style={{ display: "flex", alignItems: "center", gap: "24px", direction: isFa ? "rtl" : "ltr" }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "24px",
+                    direction: isFa ? "rtl" : "ltr",
+                    marginBottom: "12px",
+                  }}
                 >
                   {isFa ? (
                     <>
