@@ -240,25 +240,10 @@ export default function JournalPageFa() {
 
   return (
     <div style={{ marginTop: '-40px', marginBottom: '-40px' }}>
-      <section className="full-bleed-section section-gray">
-        <div className="section-inner narrow">
-          <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <div>
-              <p style={{ margin: 0 }}>خوش آمدید، {email}</p>
-              <Link href="/fa/user-info" style={{ textDecoration: 'underline', fontSize: '0.92rem' }}>
-                اطلاعات کاربر
-              </Link>
-            </div>
-            <button
-              onClick={handleLogout}
-              style={newExperienceButtonStyle}
-            >
-              خروج
-            </button>
-          </div>
-
-          {pendingExists && (
-            <div style={{ padding: '1.5rem', marginTop: '1.25rem', background: '#ffffff' }}>
+      {pendingExists && (
+        <section className="full-bleed-section section-gray">
+          <div className="section-inner narrow">
+            <div style={{ padding: '1.5rem', background: '#ffffff' }}>
               <p style={{ marginBottom: '1rem' }}>شما یک تجربهٔ ذخیره‌نشده دارید.</p>
               <button
                 onClick={() => (window.location.href = "/fa/journal/new?loadPending=1")}
@@ -267,9 +252,9 @@ export default function JournalPageFa() {
                 مشاهده / ویرایش ذخیره‌نشده
               </button>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">

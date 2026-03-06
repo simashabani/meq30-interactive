@@ -229,25 +229,10 @@ export default function JournalPage() {
 
   return (
     <div style={{ marginTop: '-40px', marginBottom: '-40px' }}>
-      <section className="full-bleed-section section-gray">
-        <div className="section-inner narrow">
-          <div style={{ padding: '1.5rem', background: '#ffffff', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <div>
-              <p style={{ margin: 0 }}>Welcome, {email}</p>
-              <Link href="/en/user-info" style={{ textDecoration: 'underline', fontSize: '0.92rem' }}>
-                User Information
-              </Link>
-            </div>
-            <button
-              onClick={handleLogout}
-              style={newExperienceButtonStyle}
-            >
-              Log off
-            </button>
-          </div>
-
-          {pendingExists && (
-            <div style={{ padding: '1.5rem', marginTop: '1.25rem', background: '#ffffff' }}>
+      {pendingExists && (
+        <section className="full-bleed-section section-gray">
+          <div className="section-inner narrow">
+            <div style={{ padding: '1.5rem', background: '#ffffff' }}>
               <p style={{ marginBottom: '1rem' }}>You have an unsaved experience.</p>
               <button
                 onClick={() => (window.location.href = "/en/journal/new?loadPending=1")}
@@ -256,9 +241,9 @@ export default function JournalPage() {
                 View / Edit Unsaved
               </button>
             </div>
-          )}
-        </div>
-      </section>
+          </div>
+        </section>
+      )}
 
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
