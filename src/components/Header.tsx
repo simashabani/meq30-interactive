@@ -143,7 +143,12 @@ export default function Header({ locale }: Props) {
                     ? "شما با آدرس ایمیل زیر وارد شده‌اید:"
                     : "You are logged in with the following email address:"}
                 </p>
-                <p className="user-menu-email user-menu-email-logged">{email}</p>
+                <p
+                  className="user-menu-email user-menu-email-logged"
+                  style={{ color: "#828b2c", fontWeight: 700 }}
+                >
+                  {email}
+                </p>
               </div>
 
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "12px 0" }} />
