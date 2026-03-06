@@ -210,7 +210,7 @@ export default function Header({ locale }: Props) {
               <div className="user-menu-row user-menu-row-note" style={{ marginTop: "0" }}>
                 <p className="user-menu-note" style={{ fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
                   {isFa
-                    ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک لینک یکتا، محدود به زمان و یک‌بارمصرف به ایمیل شما ارسال می‌کند. برای ثبت‌نام یا ورود فقط به یک ایمیل معتبر نیاز دارید."
+                    ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم. در این روش، یک لینک منحصر‌به‌فرد، با مدت اعتبار محدود و قابل استفاده تنها یک‌بار، به صندوق ایمیل شما ارسال می‌شود تا هویت شما تأیید شود. برای ثبت‌نام یا ورود، تنها به یک آدرس ایمیل معتبر نیاز دارید."
                     : "We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address."}
                 </p>
               </div>
