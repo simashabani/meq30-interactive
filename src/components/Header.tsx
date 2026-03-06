@@ -963,19 +963,19 @@ export default function Header({ locale }: Props) {
           {isFa && userMenu}
 
           <a
+            className="meq-item active"
+            href={isFa ? "/fa/journal" : "/en/journal"}
+          >
+            {isFa ? "خانه" : "Home"}
+          </a>
+
+          <a
             className="meq-item"
             href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com"}
             target="_top"
             rel="noopener"
           >
             {isFa ? "دربارهٔ MEQ-30" : "About MEQ-30"}
-          </a>
-
-          <a
-            className="meq-item active"
-            href={isFa ? "/fa/journal" : "/en/journal"}
-          >
-            {isFa ? "خانه" : "Home"}
           </a>
         </div>
 

@@ -228,7 +228,7 @@ export default function NewExperiencePageFa() {
   const canSave = !hasMissingTitle && (missingQuestionOrders.length === 0 || allowIncompleteSave);
 
   return (
-    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
+    <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', marginTop: '-40px', marginBottom: '-40px', background: '#f8f8f6' }}>
     <main dir="rtl" className="new-experience-page max-w-[900px] mx-auto p-6 space-y-4">
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-xl font-semibold">تجربهٔ جدید</h1>
