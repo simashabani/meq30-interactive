@@ -253,18 +253,17 @@ export default function JournalPage() {
 
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
-          <Link
-            href="/en/journal/new"
-            style={newExperienceButtonStyle}
-          >
-            + New Experience
-          </Link>
         </div>
       </section>
 
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
-          <h2 style={{ marginBottom: '1.5rem' }}>My Logged Experiences</h2>
+          <div className="main-page-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
+            <h2 style={{ margin: 0 }}>My Logged Experiences</h2>
+            <Link href="/en/journal/new" className="main-page-link-button">
+              + New Experience
+            </Link>
+          </div>
         {experiences === null ? (
           <p>Loading...</p>
         ) : experiences.length === 0 ? (
