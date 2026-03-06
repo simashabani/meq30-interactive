@@ -621,7 +621,6 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-email-logged {
-    margin-top: 10px !important;
     margin-bottom: 2px;
     font-size: 16px;
     font-weight: 700;
