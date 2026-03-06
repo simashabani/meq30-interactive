@@ -136,7 +136,7 @@ export default function ReviewPage() {
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-lg font-semibold">Review Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
-          My Experiences List Main Page
+          Back to Experiences List
         </Link>
       </div>
 
@@ -239,7 +239,7 @@ export default function ReviewPage() {
           </button>
         </div>
         <Link href="/en/journal" className="main-page-link-button">
-          My Experiences List Main Page
+          Back to Experiences List
         </Link>
       </div>
     </main>

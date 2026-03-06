@@ -17,6 +17,7 @@ type Demographics = {
   gender: string;
   education: string;
   occupation: string;
+  educationalOrganization: string;
 };
 
 const EMPTY_FORM: Demographics = {
@@ -31,6 +32,7 @@ const EMPTY_FORM: Demographics = {
   gender: "",
   education: "",
   occupation: "",
+  educationalOrganization: "",
 };
 
 export default function UserInfoPageFa() {
@@ -51,8 +53,12 @@ export default function UserInfoPageFa() {
       }
 
       setEmail(data.user.email ?? null);
-      const md = (data.user.user_metadata ?? {}) as Record<string, any>;
-      const saved = (md.demographics ?? {}) as Partial<Demographics>;
+      const md = (data.user.user_metadata ?? {}) as Record<string, unknown>;
+      const savedRaw = md.demographics;
+      const saved =
+        typeof savedRaw === "object" && savedRaw !== null
+          ? (savedRaw as Partial<Demographics>)
+          : {};
 
       setForm({ ...EMPTY_FORM, ...saved });
       setAgreeAcademic(Boolean(md.demographics_share_anonymous));
@@ -76,7 +82,7 @@ export default function UserInfoPageFa() {
       return;
     }
 
-    const existing = (userData.user.user_metadata ?? {}) as Record<string, any>;
+    const existing = (userData.user.user_metadata ?? {}) as Record<string, unknown>;
     const payload = {
       ...existing,
       demographics: form,
@@ -100,73 +106,124 @@ export default function UserInfoPageFa() {
   if (!email) return <p>در حال بارگذاری...</p>;
 
   return (
-    <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
-      <div className="section-inner narrow" dir="rtl">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <h1 style={{ margin: 0 }}>اطلاعات کاربر</h1>
-          <Link href="/fa/journal" style={{ textDecoration: "underline" }}>
-            بازگشت به دفترچه
-          </Link>
+    <div style={{ marginTop: "-40px", marginBottom: "-40px" }}>
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow" dir="rtl">
+          <h1 style={{ margin: 0, textAlign: "center" }}>اطلاعات کاربر</h1>
         </div>
+      </section>
 
-        <div style={{ marginTop: "1.5rem", background: "#ffffff", padding: "1.5rem" }}>
-          <p style={{ marginBottom: "1.25rem" }}>
-            این بخش اختیاری است. هر اطلاعاتی که مایل هستید وارد کنید.
-          </p>
+      <section className="full-bleed-section section-white" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+        <div className="section-inner narrow" dir="rtl">
+          <div
+            className="main-page-row"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "1.25rem",
+            }}
+          >
+            <p style={{ margin: 0 }}>این بخش اختیاری است. هر اطلاعاتی که مایل هستید وارد کنید.</p>
+            <Link href="/fa/journal" className="main-page-link-button">
+              بازگشت به فهرست تجربه‌ها
+            </Link>
+          </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
-            <input style={inputStyle} placeholder="نام" value={form.firstName} onChange={(e) => updateField("firstName", e.target.value)} />
-            <input style={inputStyle} placeholder="نام خانوادگی" value={form.lastName} onChange={(e) => updateField("lastName", e.target.value)} />
-            <div style={fieldStackStyle}>
-              <label style={labelStyle}>تاریخ تولد (شمسی)</label>
-              <PersianDatePicker
-                value={form.dateOfBirth}
-                onChange={(value) => updateField("dateOfBirth", value)}
-              />
+          <div style={{ background: "#ffffff", border: "1px solid #d9ddd3", padding: "1.25rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>نام</label>
+                <input style={inputStyle} value={form.firstName} onChange={(e) => updateField("firstName", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>نام خانوادگی</label>
+                <input style={inputStyle} value={form.lastName} onChange={(e) => updateField("lastName", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>تاریخ تولد (شمسی)</label>
+                <PersianDatePicker
+                  value={form.dateOfBirth}
+                  onChange={(value) => updateField("dateOfBirth", value)}
+                />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>شماره تلفن</label>
+                <input style={inputStyle} value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>آدرس</label>
+                <input style={inputStyle} value={form.address} onChange={(e) => updateField("address", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>شهر</label>
+                <input style={inputStyle} value={form.city} onChange={(e) => updateField("city", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>کد پستی</label>
+                <input style={inputStyle} value={form.postalCode} onChange={(e) => updateField("postalCode", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>کشور</label>
+                <input style={inputStyle} value={form.country} onChange={(e) => updateField("country", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>جنسیت</label>
+                <input style={inputStyle} value={form.gender} onChange={(e) => updateField("gender", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>تحصیلات</label>
+                <input style={inputStyle} value={form.education} onChange={(e) => updateField("education", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>شغل</label>
+                <input style={inputStyle} value={form.occupation} onChange={(e) => updateField("occupation", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>آیا با سازمان آموزشی خاصی همکاری دارید؟ نام سازمان</label>
+                <input
+                  style={inputStyle}
+                  value={form.educationalOrganization}
+                  onChange={(e) => updateField("educationalOrganization", e.target.value)}
+                />
+              </div>
             </div>
-            <input style={inputStyle} placeholder="شماره تلفن" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
-            <input style={inputStyle} placeholder="آدرس" value={form.address} onChange={(e) => updateField("address", e.target.value)} />
-            <input style={inputStyle} placeholder="شهر" value={form.city} onChange={(e) => updateField("city", e.target.value)} />
-            <input style={inputStyle} placeholder="کد پستی" value={form.postalCode} onChange={(e) => updateField("postalCode", e.target.value)} />
-            <input style={inputStyle} placeholder="کشور" value={form.country} onChange={(e) => updateField("country", e.target.value)} />
-            <input style={inputStyle} placeholder="جنسیت" value={form.gender} onChange={(e) => updateField("gender", e.target.value)} />
-            <input style={inputStyle} placeholder="تحصیلات" value={form.education} onChange={(e) => updateField("education", e.target.value)} />
-            <input style={inputStyle} placeholder="شغل" value={form.occupation} onChange={(e) => updateField("occupation", e.target.value)} />
-          </div>
 
-          <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
-            <label style={checkboxLabelStyle}>
-              <span style={{ minWidth: "130px" }}>زبان پیش‌فرض:</span>
-              <select
-                value={defaultLanguage}
-                onChange={(e) => setDefaultLanguage(e.target.value === "en" ? "en" : "fa")}
-                style={inputStyle}
-              >
-                <option value="fa">فارسی</option>
-                <option value="en">English</option>
-              </select>
-            </label>
+            <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
+              <label style={checkboxLabelStyle}>
+                <span style={{ minWidth: "130px", fontSize: "0.82rem" }}>زبان پیش‌فرض:</span>
+                <select
+                  value={defaultLanguage}
+                  onChange={(e) => setDefaultLanguage(e.target.value === "en" ? "en" : "fa")}
+                  style={inputStyle}
+                >
+                  <option value="fa">فارسی</option>
+                  <option value="en">English</option>
+                </select>
+              </label>
 
-            <label style={checkboxLabelStyle}>
-              <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
-              موافقم اطلاعات من به‌صورت ناشناس برای اهداف دانشگاهی استفاده شود.
-            </label>
+              <label style={checkboxLabelStyle}>
+                <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
+                موافقم اطلاعات من به‌صورت ناشناس برای اهداف دانشگاهی استفاده شود.
+              </label>
 
-            <label style={checkboxLabelStyle}>
-              <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
-              مایل هستم عضو خبرنامه شوم.
-            </label>
-          </div>
+              <label style={checkboxLabelStyle}>
+                <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
+                مایل هستم عضو خبرنامه شوم.
+              </label>
+            </div>
 
-          <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "10px" }}>
-            <button onClick={handleSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
-              {saving ? "در حال ذخیره..." : "ذخیره"}
-            </button>
-            {message && <p style={{ margin: 0 }}>{message}</p>}
+            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <button className="button" onClick={handleSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
+                {saving ? "در حال ذخیره..." : "ذخیره"}
+              </button>
+              {message && <p style={{ margin: 0 }}>{message}</p>}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -190,5 +247,6 @@ const fieldStackStyle: CSSProperties = {
 };
 
 const labelStyle: CSSProperties = {
-  fontSize: "0.9rem",
+  fontSize: "0.82rem",
+  color: "#64675e",
 };

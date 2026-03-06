@@ -16,6 +16,7 @@ type Demographics = {
   gender: string;
   education: string;
   occupation: string;
+  educationalOrganization: string;
 };
 
 const EMPTY_FORM: Demographics = {
@@ -30,6 +31,7 @@ const EMPTY_FORM: Demographics = {
   gender: "",
   education: "",
   occupation: "",
+  educationalOrganization: "",
 };
 
 export default function UserInfoPage() {
@@ -50,8 +52,12 @@ export default function UserInfoPage() {
       }
 
       setEmail(data.user.email ?? null);
-      const md = (data.user.user_metadata ?? {}) as Record<string, any>;
-      const saved = (md.demographics ?? {}) as Partial<Demographics>;
+      const md = (data.user.user_metadata ?? {}) as Record<string, unknown>;
+      const savedRaw = md.demographics;
+      const saved =
+        typeof savedRaw === "object" && savedRaw !== null
+          ? (savedRaw as Partial<Demographics>)
+          : {};
 
       setForm({ ...EMPTY_FORM, ...saved });
       setAgreeAcademic(Boolean(md.demographics_share_anonymous));
@@ -75,7 +81,7 @@ export default function UserInfoPage() {
       return;
     }
 
-    const existing = (userData.user.user_metadata ?? {}) as Record<string, any>;
+    const existing = (userData.user.user_metadata ?? {}) as Record<string, unknown>;
     const payload = {
       ...existing,
       demographics: form,
@@ -99,67 +105,121 @@ export default function UserInfoPage() {
   if (!email) return <p>Loading...</p>;
 
   return (
-    <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
-      <div className="section-inner narrow">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
-          <h1 style={{ margin: 0 }}>User Information</h1>
-          <Link href="/en/journal" style={{ textDecoration: "underline" }}>
-            Back to Journal
-          </Link>
+    <div style={{ marginTop: "-40px", marginBottom: "-40px" }}>
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow">
+          <h1 style={{ margin: 0, textAlign: "center" }}>User Information</h1>
         </div>
+      </section>
 
-        <div style={{ marginTop: "1.5rem", background: "#ffffff", padding: "1.5rem" }}>
-          <p style={{ marginBottom: "1.25rem" }}>
-            This section is optional. Share any information you wish.
-          </p>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
-            <input style={inputStyle} placeholder="First Name" value={form.firstName} onChange={(e) => updateField("firstName", e.target.value)} />
-            <input style={inputStyle} placeholder="Last Name" value={form.lastName} onChange={(e) => updateField("lastName", e.target.value)} />
-            <input style={inputStyle} type="date" value={form.dateOfBirth} onChange={(e) => updateField("dateOfBirth", e.target.value)} />
-            <input style={inputStyle} placeholder="Phone Number" value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
-            <input style={inputStyle} placeholder="Address" value={form.address} onChange={(e) => updateField("address", e.target.value)} />
-            <input style={inputStyle} placeholder="City" value={form.city} onChange={(e) => updateField("city", e.target.value)} />
-            <input style={inputStyle} placeholder="Postal Code" value={form.postalCode} onChange={(e) => updateField("postalCode", e.target.value)} />
-            <input style={inputStyle} placeholder="Country" value={form.country} onChange={(e) => updateField("country", e.target.value)} />
-            <input style={inputStyle} placeholder="Gender" value={form.gender} onChange={(e) => updateField("gender", e.target.value)} />
-            <input style={inputStyle} placeholder="Education" value={form.education} onChange={(e) => updateField("education", e.target.value)} />
-            <input style={inputStyle} placeholder="Occupation" value={form.occupation} onChange={(e) => updateField("occupation", e.target.value)} />
+      <section className="full-bleed-section section-white" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+        <div className="section-inner narrow">
+          <div
+            className="main-page-row"
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "12px",
+              marginBottom: "1.25rem",
+            }}
+          >
+            <p style={{ margin: 0 }}>This section is optional. Share any information you wish.</p>
+            <Link href="/en/journal" className="main-page-link-button">
+              Back to Experiences List
+            </Link>
           </div>
 
-          <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
-            <label style={checkboxLabelStyle}>
-              <span style={{ minWidth: "130px" }}>Default language:</span>
-              <select
-                value={defaultLanguage}
-                onChange={(e) => setDefaultLanguage(e.target.value === "fa" ? "fa" : "en")}
-                style={inputStyle}
-              >
-                <option value="en">English</option>
-                <option value="fa">Farsi</option>
-              </select>
-            </label>
+          <div style={{ background: "#ffffff", border: "1px solid #d9ddd3", padding: "1.25rem" }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))", gap: "12px" }}>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>First Name</label>
+                <input style={inputStyle} value={form.firstName} onChange={(e) => updateField("firstName", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Last Name</label>
+                <input style={inputStyle} value={form.lastName} onChange={(e) => updateField("lastName", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Date of Birth</label>
+                <input style={inputStyle} type="date" value={form.dateOfBirth} onChange={(e) => updateField("dateOfBirth", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Phone Number</label>
+                <input style={inputStyle} value={form.phone} onChange={(e) => updateField("phone", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Address</label>
+                <input style={inputStyle} value={form.address} onChange={(e) => updateField("address", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>City</label>
+                <input style={inputStyle} value={form.city} onChange={(e) => updateField("city", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Postal Code</label>
+                <input style={inputStyle} value={form.postalCode} onChange={(e) => updateField("postalCode", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Country</label>
+                <input style={inputStyle} value={form.country} onChange={(e) => updateField("country", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Gender</label>
+                <input style={inputStyle} value={form.gender} onChange={(e) => updateField("gender", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Education</label>
+                <input style={inputStyle} value={form.education} onChange={(e) => updateField("education", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Occupation</label>
+                <input style={inputStyle} value={form.occupation} onChange={(e) => updateField("occupation", e.target.value)} />
+              </div>
+              <div style={fieldStackStyle}>
+                <label style={labelStyle}>Are you affiliated with any educational organization? Name of the organization</label>
+                <input
+                  style={inputStyle}
+                  value={form.educationalOrganization}
+                  onChange={(e) => updateField("educationalOrganization", e.target.value)}
+                />
+              </div>
+            </div>
 
-            <label style={checkboxLabelStyle}>
-              <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
-              I agree to share my information anonymously for academic purposes.
-            </label>
+            <div style={{ marginTop: "1rem", display: "grid", gap: "10px" }}>
+              <label style={checkboxLabelStyle}>
+                <span style={{ minWidth: "130px", fontSize: "0.82rem" }}>Default language:</span>
+                <select
+                  value={defaultLanguage}
+                  onChange={(e) => setDefaultLanguage(e.target.value === "fa" ? "fa" : "en")}
+                  style={inputStyle}
+                >
+                  <option value="en">English</option>
+                  <option value="fa">Farsi</option>
+                </select>
+              </label>
 
-            <label style={checkboxLabelStyle}>
-              <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
-              I would like to sign up for newsletters.
-            </label>
-          </div>
+              <label style={checkboxLabelStyle}>
+                <input type="checkbox" checked={agreeAcademic} onChange={(e) => setAgreeAcademic(e.target.checked)} />
+                I agree to share my information anonymously for academic purposes.
+              </label>
 
-          <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "10px" }}>
-            <button onClick={handleSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
-              {saving ? "Saving..." : "Save"}
-            </button>
-            {message && <p style={{ margin: 0 }}>{message}</p>}
+              <label style={checkboxLabelStyle}>
+                <input type="checkbox" checked={newsletter} onChange={(e) => setNewsletter(e.target.checked)} />
+                I would like to sign up for newsletters.
+              </label>
+            </div>
+
+            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+              <button className="button" onClick={handleSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
+                {saving ? "Saving..." : "Save"}
+              </button>
+              {message && <p style={{ margin: 0 }}>{message}</p>}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   );
 }
 
@@ -168,6 +228,17 @@ const inputStyle: CSSProperties = {
   padding: "10px 12px",
   fontSize: "0.95rem",
   background: "#ffffff",
+};
+
+const fieldStackStyle: CSSProperties = {
+  display: "flex",
+  flexDirection: "column",
+  gap: "6px",
+};
+
+const labelStyle: CSSProperties = {
+  fontSize: "0.82rem",
+  color: "#64675e",
 };
 
 const checkboxLabelStyle: CSSProperties = {
