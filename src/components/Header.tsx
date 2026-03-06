@@ -150,29 +150,46 @@ export default function Header({ locale }: Props) {
               </button>
             </>
           ) : (
-            <>
-              <label className="user-menu-label" htmlFor={`user-menu-email-${locale}`}>
-                {isFa ? "ایمیل" : "Email"}
-              </label>
-              <input
-                id={`user-menu-email-${locale}`}
-                className="user-menu-input"
-                type="email"
-                value={loginEmail}
-                onChange={(event) => setLoginEmail(event.target.value)}
-                placeholder={isFa ? "example@email.com" : "example@email.com"}
-              />
-              <button type="button" className="user-menu-auth-button" onClick={handleSendLink}>
-                {isFa ? "ورود / ثبت‌نام" : "Log In / Sign Up"}
-              </button>
-              {loginMessage && <p className="user-menu-msg">{loginMessage}</p>}
+            <div className="user-menu-auth-layout">
+              <div className="user-menu-row user-menu-row-label">
+                <label className="user-menu-label" htmlFor={`user-menu-email-${locale}`}>
+                  {isFa ? "ایمیل" : "Email"}
+                </label>
+              </div>
+
+              <div className="user-menu-row user-menu-row-input">
+                <input
+                  id={`user-menu-email-${locale}`}
+                  className="user-menu-input"
+                  type="email"
+                  value={loginEmail}
+                  onChange={(event) => setLoginEmail(event.target.value)}
+                  placeholder={isFa ? "example@email.com" : "example@email.com"}
+                />
+              </div>
+
+              <div className="user-menu-row user-menu-row-button">
+                <button type="button" className="user-menu-auth-button" onClick={handleSendLink}>
+                  {isFa ? "ورود / ثبت‌نام" : "Log In / Sign Up"}
+                </button>
+              </div>
+
+              {loginMessage && (
+                <div className="user-menu-row user-menu-row-message">
+                  <p className="user-menu-msg">{loginMessage}</p>
+                </div>
+              )}
+
               <div className="user-menu-divider" />
-              <p className="user-menu-note">
-                {isFa
-                  ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک لینک یکتا، محدود به زمان و یک‌بارمصرف به ایمیل شما ارسال می‌کند. برای ثبت‌نام یا ورود فقط به یک ایمیل معتبر نیاز دارید."
-                  : "We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address."}
-              </p>
-            </>
+
+              <div className="user-menu-row user-menu-row-note">
+                <p className="user-menu-note">
+                  {isFa
+                    ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک لینک یکتا، محدود به زمان و یک‌بارمصرف به ایمیل شما ارسال می‌کند. برای ثبت‌نام یا ورود فقط به یک ایمیل معتبر نیاز دارید."
+                    : "We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address."}
+                </p>
+              </div>
+            </div>
           )}
         </div>
       )}
@@ -357,17 +374,49 @@ export default function Header({ locale }: Props) {
   .user-menu-input {
     width: 100%;
     border: 1px solid #d1d5db;
-    padding: 8px 10px;
-    margin: 2px 0 6px;
+    padding: 9px 10px;
+    margin: 0;
     font-family: inherit;
     background: #ffffff;
     box-sizing: border-box;
+    border-radius: 4px;
+  }
+
+  .user-menu-auth-layout {
+    padding: 6px 2px 4px;
+  }
+
+  .user-menu-row {
+    width: 100%;
+  }
+
+  .user-menu-row-label {
+    margin-bottom: 8px;
+  }
+
+  .user-menu-row-input {
+    margin-bottom: 14px;
+  }
+
+  .user-menu-row-button {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 12px;
+  }
+
+  .user-menu-row-message {
+    margin-top: -4px;
+    margin-bottom: 8px;
+  }
+
+  .user-menu-row-note {
+    margin-top: 10px;
   }
 
   .user-menu-label {
     display: block;
     margin: 0;
-    font-size: 11px;
+    font-size: 12px;
     color: #66685f;
     text-transform: none;
     letter-spacing: 0;
@@ -376,12 +425,12 @@ export default function Header({ locale }: Props) {
   .user-menu-auth-button {
     display: block;
     width: auto;
-    min-width: 180px;
+    min-width: 190px;
     border: none;
     background: #3d3d3d;
     color: #ffffff;
-    padding: 7px 14px;
-    margin: 4px auto 0;
+    padding: 8px 14px;
+    margin: 0;
     font-family: inherit;
     font-size: 11px;
     letter-spacing: 0.04em;
@@ -398,13 +447,13 @@ export default function Header({ locale }: Props) {
   .user-menu-divider {
     height: 1px;
     background: #ecece6;
-    margin: 10px 0 8px;
+    margin: 0;
   }
 
   .user-menu-note {
     margin: 0;
     font-size: 10px;
-    line-height: 1.45;
+    line-height: 1.55;
     color: #5a5d52;
   }
 
