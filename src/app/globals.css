@@ -413,6 +413,11 @@ a:hover {
 
   .locale-fa .main-page-row {
     align-items: flex-end !important;
+    text-align: right;
+  }
+
+  .locale-fa .main-page-row > * {
+    margin-left: auto;
   }
 
   .main-page-link-button {
