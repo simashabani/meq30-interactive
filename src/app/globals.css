@@ -328,6 +328,16 @@ h3 {
   }
 }
 
+@media (max-width: 640px) {
+  .locale-en h1 { font-size: 2.05rem !important; }
+  .locale-en h2 { font-size: 1.55rem !important; }
+  .locale-en h3 { font-size: 1.3rem !important; }
+
+  .locale-fa h1 { font-size: 1.95rem !important; }
+  .locale-fa h2 { font-size: 1.5rem !important; }
+  .locale-fa h3 { font-size: 1.25rem !important; }
+}
+
 button, .button {
   font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   text-transform: uppercase;
