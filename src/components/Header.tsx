@@ -713,7 +713,7 @@ export default function Header({ locale }: Props) {
     border-radius: 8px;
     cursor: pointer;
     text-align: left;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 1.4;
   }
 
