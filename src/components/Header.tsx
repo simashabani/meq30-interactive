@@ -270,7 +270,7 @@ export default function Header({ locale }: Props) {
                   onClick={handleLogout}
                   role="menuitem"
                 >
-                  {isFa ? "خروج" : "Log out"}
+                  {isFa ? "خروج" : "LOG OUT"}
                 </button>
               </div>
             </>
@@ -320,7 +320,7 @@ export default function Header({ locale }: Props) {
                     letterSpacing: "0.04em",
                   }}
                 >
-                  {isFa ? "ورود / ثبت‌نام" : "Log In / Sign Up"}
+                  {isFa ? "ورود / ثبت‌نام" : "LOG IN / SIGN UP"}
                 </button>
               </div>
 
