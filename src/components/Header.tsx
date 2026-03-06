@@ -373,7 +373,7 @@ export default function Header({ locale }: Props) {
 
   .user-menu-input {
     width: 100%;
-    border: 1px solid #d1d5db;
+    border: 1px solid #d8dbd2;
     padding: 9px 10px;
     margin: 0;
     font-family: inherit;
@@ -383,7 +383,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-auth-layout {
-    padding: 6px 2px 4px;
+    padding: 12px 6px 10px;
   }
 
   .user-menu-row {
@@ -391,17 +391,17 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-row-label {
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
 
   .user-menu-row-input {
-    margin-bottom: 14px;
+    margin-bottom: 18px;
   }
 
   .user-menu-row-button {
     display: flex;
     justify-content: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .user-menu-row-message {
@@ -410,7 +410,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-row-note {
-    margin-top: 10px;
+    margin-top: 14px;
   }
 
   .user-menu-label {
@@ -447,12 +447,12 @@ export default function Header({ locale }: Props) {
   .user-menu-divider {
     height: 1px;
     background: #ecece6;
-    margin: 0;
+    margin: 0 0 2px;
   }
 
   .user-menu-note {
     margin: 0;
-    font-size: 10px;
+    font-size: 11px;
     line-height: 1.55;
     color: #5a5d52;
   }
