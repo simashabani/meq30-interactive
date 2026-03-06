@@ -65,6 +65,13 @@ export default function JournalPageFa() {
     transition: 'opacity 0.2s ease'
   };
 
+  const rowActionButtonStyle: CSSProperties = {
+    ...newExperienceButtonStyle,
+    padding: '8px 12px',
+    fontSize: '0.78rem',
+    letterSpacing: '0.02em',
+  };
+
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.getUser().then(({ data }) => {
@@ -298,7 +305,8 @@ export default function JournalPageFa() {
         ) : experiences.length === 0 ? (
           <p>هنوز تجربه‌ای ثبت نشده. <Link href="/fa/journal/new" style={{ textDecoration: 'underline', color: '#3d3d3d' }}>ثبت تجربه</Link>.</p>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table className="journal-table">
             <thead>
               <tr style={{ borderBottom: '2px solid #3d3d3d' }}>
                 <th style={{ padding: '12px 8px', textAlign: 'right', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("title")}>
@@ -337,12 +345,12 @@ export default function JournalPageFa() {
                     <td style={{ padding: '12px 8px' }}>{persianDateOfExperience}</td>
                     <td style={{ padding: '12px 8px' }}>{mysticalCell}</td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
+                      <button className="row-action-btn" style={rowActionButtonStyle} onClick={() => handleEdit(e.id)}>
                         ویرایش
                       </button>
                     </td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={newExperienceButtonStyle} onClick={() => handleDelete(e.id)}>
+                      <button className="row-action-btn" style={rowActionButtonStyle} onClick={() => handleDelete(e.id)}>
                         حذف
                       </button>
                     </td>
@@ -351,6 +359,7 @@ export default function JournalPageFa() {
               })}
             </tbody>
           </table>
+          </div>
         )}
         </div>
       </section>

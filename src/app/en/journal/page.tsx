@@ -54,6 +54,13 @@ export default function JournalPage() {
     transition: 'opacity 0.2s ease'
   };
 
+  const rowActionButtonStyle: CSSProperties = {
+    ...newExperienceButtonStyle,
+    padding: '8px 12px',
+    fontSize: '0.78rem',
+    letterSpacing: '0.03em',
+  };
+
   useEffect(() => {
     const supabase = createSupabaseBrowserClient();
     supabase.auth.getUser().then(({ data }) => {
@@ -287,7 +294,8 @@ export default function JournalPage() {
         ) : experiences.length === 0 ? (
           <p>No experiences found. <Link href="/en/journal/new" style={{ textDecoration: 'underline', color: '#3d3d3d' }}>Log one</Link>.</p>
         ) : (
-          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '1rem' }}>
+          <div style={{ overflowX: 'auto' }}>
+          <table className="journal-table">
             <thead>
               <tr style={{ borderBottom: '2px solid #3d3d3d' }}>
                 <th style={{ padding: '12px 8px', textAlign: 'left', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600 }} onClick={() => handleSort("title")}>
@@ -333,12 +341,12 @@ export default function JournalPage() {
                     <td style={{ padding: '12px 8px' }}>{dateOfExp}</td>
                     <td style={{ padding: '12px 8px' }}>{mysticalCell}</td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={newExperienceButtonStyle} onClick={() => handleEdit(e.id)}>
+                      <button className="row-action-btn" style={rowActionButtonStyle} onClick={() => handleEdit(e.id)}>
                         Edit
                       </button>
                     </td>
                     <td style={{ padding: '12px 8px' }}>
-                      <button style={newExperienceButtonStyle} onClick={() => handleDelete(e.id)}>
+                      <button className="row-action-btn" style={rowActionButtonStyle} onClick={() => handleDelete(e.id)}>
                         Delete
                       </button>
                     </td>
@@ -347,6 +355,7 @@ export default function JournalPage() {
               })}
             </tbody>
           </table>
+          </div>
         )}
         </div>
       </section>

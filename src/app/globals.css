@@ -394,6 +394,34 @@ a:hover {
   text-transform: none;
 }
 
+.journal-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.journal-table a {
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+  .journal-table th {
+    font-size: 0.78rem !important;
+    padding: 8px 4px !important;
+  }
+
+  .journal-table td {
+    font-size: 0.76rem !important;
+    padding: 10px 4px !important;
+  }
+
+  .journal-table .row-action-btn {
+    padding: 8px 10px !important;
+    font-size: 0.72rem !important;
+    letter-spacing: 0.02em !important;
+  }
+}
+
 /* Final Farsi font lock: keep at end so it wins cascade everywhere */
 .locale-fa,
 .locale-fa * {

@@ -7,7 +7,7 @@ export default function EnLayout({ children }: { children: React.ReactNode }) {
     <div className="locale-en" lang="en" dir="ltr">
       <TabCloseHandler />
       <Header locale="en" />
-      <main style={{ maxWidth: 1400, margin: "0 auto", padding: "48px 80px", minHeight: "calc(100vh - 200px)" }}>
+      <main style={{ maxWidth: 1400, margin: "0 auto", padding: "40px clamp(16px, 4vw, 80px)", minHeight: "calc(100vh - 200px)" }}>
         {children}
       </main>
       <SiteFooter locale="en" />
