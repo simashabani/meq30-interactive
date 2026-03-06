@@ -251,7 +251,7 @@ export default function JournalPage() {
         </div>
       </section>
 
-      <section className="full-bleed-section section-white" style={{ paddingTop: '12px' }}>
+      <section className="full-bleed-section section-white" style={{ paddingTop: '30px' }}>
         <div className="section-inner narrow">
           <div className="main-page-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
             <h2 style={{ margin: 0 }}>My Logged Experiences</h2>
