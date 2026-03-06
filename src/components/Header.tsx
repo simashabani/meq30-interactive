@@ -76,20 +76,6 @@ export default function Header({ locale }: Props) {
       <button
         type="button"
         className={`user-menu-trigger ${email ? "logged-in" : "logged-out"}`}
-        style={{
-          all: "unset",
-          width: "34px",
-          height: "34px",
-          borderRadius: "8px",
-          border: "0.9px solid currentColor",
-          background: "#ffffff",
-          boxSizing: "border-box",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          cursor: "pointer",
-          flex: "0 0 auto",
-        }}
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label={isFa ? "منوی کاربر" : "User menu"}
         aria-expanded={menuOpen}
