@@ -160,7 +160,7 @@ export default function Header({ locale }: Props) {
             target="_top"
             rel="noopener"
           >
-            {isFa ? "خانه" : "Home"}
+            {isFa ? "دربارهٔ MEQ-30" : "About MEQ-30"}
           </a>
 
           <a className="meq-item active" href={isFa ? "/fa/journal" : "/en/journal"}>
