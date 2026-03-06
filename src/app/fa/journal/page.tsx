@@ -256,17 +256,20 @@ export default function JournalPageFa() {
         </section>
       )}
 
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow">
+          <h1 style={{ margin: 0, textAlign: 'center' }}>دفترچه تجربه‌های من</h1>
+        </div>
+      </section>
+
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ margin: 0 }}>دفترچه تجربه‌های من</h1>
-            <Link
-              href="/fa/journal/new"
-              style={newExperienceButtonStyle}
-            >
-              + تجربه جدید
-            </Link>
-          </div>
+          <Link
+            href="/fa/journal/new"
+            style={newExperienceButtonStyle}
+          >
+            + تجربه جدید
+          </Link>
         </div>
       </section>
 

@@ -245,17 +245,20 @@ export default function JournalPage() {
         </section>
       )}
 
+      <section className="full-bleed-section section-gray">
+        <div className="section-inner narrow">
+          <h1 style={{ margin: 0, textAlign: 'center' }}>My Experience Journal</h1>
+        </div>
+      </section>
+
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
-            <h1 style={{ margin: 0 }}>My Experience Journal</h1>
-            <Link
-              href="/en/journal/new"
-              style={newExperienceButtonStyle}
-            >
-              + New Experience
-            </Link>
-          </div>
+          <Link
+            href="/en/journal/new"
+            style={newExperienceButtonStyle}
+          >
+            + New Experience
+          </Link>
         </div>
       </section>
 
