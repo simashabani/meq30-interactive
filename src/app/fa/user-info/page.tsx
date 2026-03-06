@@ -131,7 +131,7 @@ export default function UserInfoPageFa() {
               marginBottom: "1.25rem",
             }}
           >
-            <p style={{ margin: 0 }}>این بخش اختیاری است. هر اطلاعاتی که مایل هستید وارد کنید.</p>
+            <p style={{ margin: 0, width: "100%", textAlign: "right" }}>این بخش اختیاری است. هر اطلاعاتی که مایل هستید وارد کنید.</p>
           </div>
 
           <div style={{ background: "#ffffff", border: "1px solid #d9ddd3", padding: "1.25rem" }}>
