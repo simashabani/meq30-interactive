@@ -147,6 +147,25 @@ export default function Header({ locale }: Props) {
 
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "10px 0 14px" }} />
 
+              <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
+                <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
+                <div className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}>
+                  {isFa ? (
+                    <>
+                      <a className="user-menu-language-item" href="/en/journal">انگلیسی</a>
+                      <span className="user-menu-language-item active">فارسی</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="user-menu-language-item active">English</span>
+                      <a className="user-menu-language-item" href="/fa/journal">Persian</a>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+
               <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "14px" }}>
                 <a
                   href={isFa ? "/fa/user-info" : "/en/user-info"}
@@ -428,10 +447,77 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-email-logged {
-    margin-top: 8px;
+    margin-top: 14px;
     margin-bottom: 2px;
     font-size: 16px;
     line-height: 1.35;
+  }
+
+  .user-menu-language-section {
+    padding: 0 2px;
+  }
+
+  .user-menu-language-title {
+    margin: 0 0 8px;
+    font-size: 11px;
+    color: #66685f;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .user-menu-language-nav {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .user-menu-language-nav.fa {
+    direction: rtl;
+  }
+
+  .user-menu-language-nav.en {
+    direction: ltr;
+  }
+
+  .user-menu-language-item {
+    color: inherit;
+    text-decoration: none;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+    line-height: 1.2;
+    white-space: nowrap;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .user-menu-language-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 2px;
+    bottom: 0;
+    transform: translateY(1px);
+    opacity: 0;
+    transition: opacity 180ms ease;
+    background: currentColor;
+  }
+
+  a.user-menu-language-item:hover::after,
+  a.user-menu-language-item:focus-visible::after {
+    opacity: 1;
+  }
+
+  .user-menu-language-item.active {
+    cursor: default;
+    font-weight: 600;
+  }
+
+  .user-menu-language-item.active::after {
+    opacity: 1;
   }
 
   .user-menu-account-link {
@@ -697,27 +783,6 @@ export default function Header({ locale }: Props) {
         </div>
 
         <div className="right">
-          {isFa ? (
-            <>
-              <a
-                className="meq-item"
-                href="/en/journal"
-              >
-                انگلیسی
-              </a>
-              <span className="meq-item active">فارسی</span>
-            </>
-          ) : (
-            <>
-              <span className="meq-item active">English</span>
-              <a
-                className="meq-item"
-                href="/fa/journal"
-              >
-                Persian
-              </a>
-            </>
-          )}
           {!isFa && userMenu}
         </div>
       </nav>
