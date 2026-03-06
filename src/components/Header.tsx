@@ -263,6 +263,25 @@ export default function Header({ locale }: Props) {
 
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
 
+              <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
+                <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
+                <div className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}>
+                  {isFa ? (
+                    <>
+                      <a className="user-menu-language-item" href="/en/journal">انگلیسی</a>
+                      <span className="user-menu-language-item active">فارسی</span>
+                    </>
+                  ) : (
+                    <>
+                      <span className="user-menu-language-item active">English</span>
+                      <a className="user-menu-language-item" href="/fa/journal">Persian</a>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+
               <div className="user-menu-row user-menu-row-note" style={{ marginTop: "0" }}>
                 <p className="user-menu-note" style={{ fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
                   {isFa
