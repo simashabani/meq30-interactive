@@ -26,14 +26,19 @@ export async function GET(request: Request) {
   );
 
   if (code) {
-    await supabase.auth.exchangeCodeForSession(code);
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      await supabase.auth.signOut({ scope: "others" });
+    }
   }
 
   let redirectTo = redirect;
   if (!redirectTo) {
     const { data } = await supabase.auth.getUser();
-    const md = (data.user?.user_metadata ?? {}) as Record<string, any>;
-    const lang = md.default_language === "fa" ? "fa" : "en";
+    const md = (data.user?.user_metadata ?? {}) as Record<string, unknown>;
+    const defaultLanguage =
+      typeof md.default_language === "string" ? md.default_language : undefined;
+    const lang = defaultLanguage === "fa" ? "fa" : "en";
     redirectTo = `/${lang}/journal`;
   }
 
