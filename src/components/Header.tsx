@@ -513,6 +513,10 @@ export default function Header({ locale }: Props) {
     letter-spacing: 0.03em;
   }
 
+  .user-menu-language-item + .user-menu-language-item {
+    margin-inline-start: 24px;
+  }
+
   .user-menu-language-item:not(.active) {
     text-decoration: underline;
     text-underline-offset: 5px;
