@@ -232,7 +232,7 @@ export default function NewExperiencePageFa() {
     <main
       dir="rtl"
       className="new-experience-page max-w-[900px] mx-auto px-6 space-y-4"
-      style={{ paddingTop: "clamp(18px, 4vw, 38px)", paddingBottom: "clamp(18px, 4vw, 38px)" }}
+      style={{ paddingTop: "clamp(18px, 4vw, 50px)", paddingBottom: "clamp(18px, 4vw, 50px)" }}
     >
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-xl font-semibold">تجربهٔ جدید</h1>

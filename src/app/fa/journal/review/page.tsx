@@ -139,7 +139,7 @@ export default function ReviewPage() {
     <main
       dir="rtl"
       className="max-w-[900px] mx-auto px-6 space-y-6"
-      style={{ paddingTop: "clamp(18px, 4vw, 38px)", paddingBottom: "clamp(18px, 4vw, 38px)" }}
+      style={{ paddingTop: "clamp(18px, 4vw, 50px)", paddingBottom: "clamp(18px, 4vw, 50px)" }}
     >
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-lg font-semibold">بررسی تجربه</h1>
