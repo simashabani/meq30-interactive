@@ -79,7 +79,7 @@ export default function EnAuthStatusPage() {
           )}
           <div style={{ display: "flex" }}>
             <a
-              href="/en/login"
+              href="/en/journal"
               style={{
                 textDecoration: "none",
                 background: "#3d3d3d",

@@ -79,7 +79,7 @@ export default function FaAuthStatusPage() {
           )}
           <div style={{ display: "flex", justifyContent: "flex-start" }}>
             <a
-              href="/fa/login"
+              href="/fa/journal"
               style={{
                 textDecoration: "none",
                 background: "#3d3d3d",
