@@ -145,7 +145,7 @@ export default function Header({ locale }: Props) {
                 </p>
                 <p
                   className="user-menu-email-logged"
-                  style={{ color: "#828b2c", fontWeight: 700, marginTop: "20px" }}
+                  style={{ color: "#828b2c", fontWeight: 700, marginTop: "12px" }}
                 >
                   {email}
                 </p>
