@@ -583,6 +583,8 @@ export default function Header({ locale }: Props) {
 
       <nav className="meq-mini-nav" aria-label="MEQ-30 Navigation">
         <div className="left">
+          {isFa && userMenu}
+
           <a
             className="meq-item"
             href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com"}
@@ -605,7 +607,6 @@ export default function Header({ locale }: Props) {
         <div className="right">
           {isFa ? (
             <>
-              {userMenu}
               <a
                 className="meq-item"
                 href="/en/journal"
