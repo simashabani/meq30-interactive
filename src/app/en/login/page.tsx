@@ -1,18 +1,20 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 
 export default function LoginPage() {
-  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState<"success" | "error">("success");
   const [emailSent, setEmailSent] = useState(false);
   const [sending, setSending] = useState(false);
+  const [isResend, setIsResend] = useState(false);
 
-  const isResend = searchParams.get("mode") === "resend";
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setIsResend(params.get("mode") === "resend");
+  }, []);
 
   const handleLogin = async () => {
     if (!email.trim() || sending) return;

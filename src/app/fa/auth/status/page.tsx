@@ -1,7 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabaseClient";
 
 type StatusState = "checking" | "error";
@@ -11,20 +10,21 @@ function sleep(ms: number) {
 }
 
 export default function FaAuthStatusPage() {
-  const searchParams = useSearchParams();
   const [status, setStatus] = useState<StatusState>("checking");
-
-  const authError = searchParams.get("auth_error");
-  const redirectTo = useMemo(() => {
-    const raw = searchParams.get("redirect");
-    return raw && raw.startsWith("/") ? raw : "/fa/journal";
-  }, [searchParams]);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
 
     async function verifySession() {
-      if (authError) {
+      const params = new URLSearchParams(window.location.search);
+      const rawRedirect = params.get("redirect");
+      const redirectTo =
+        rawRedirect && rawRedirect.startsWith("/") ? rawRedirect : "/fa/journal";
+      const detectedError = params.get("auth_error");
+      setAuthError(detectedError);
+
+      if (detectedError) {
         setStatus("error");
         return;
       }
@@ -53,7 +53,7 @@ export default function FaAuthStatusPage() {
     return () => {
       cancelled = true;
     };
-  }, [authError, redirectTo]);
+  }, []);
 
   return (
     <main style={{ maxWidth: 640, margin: "0 auto", padding: "56px 20px 72px", direction: "rtl", textAlign: "right" }}>
