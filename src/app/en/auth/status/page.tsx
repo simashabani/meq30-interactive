@@ -77,28 +77,15 @@ export default function EnAuthStatusPage() {
               Error code: {authError}
             </p>
           )}
-          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+          <div style={{ display: "flex" }}>
             <a
-              href="/en/login?mode=resend"
+              href="/en/login"
               style={{
                 textDecoration: "none",
                 background: "#3d3d3d",
                 color: "#fff",
                 padding: "10px 14px",
-                borderRadius: 6,
-                fontSize: 14,
-              }}
-            >
-              Send a new login link
-            </a>
-            <a
-              href="/en/login"
-              style={{
-                textDecoration: "none",
-                border: "1px solid #d4d8cd",
-                color: "#3d3d3d",
-                padding: "10px 14px",
-                borderRadius: 6,
+                borderRadius: 0,
                 fontSize: 14,
               }}
             >
