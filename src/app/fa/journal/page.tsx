@@ -223,7 +223,7 @@ export default function JournalPageFa() {
           </div>
         </section>
 
-        <section className="full-bleed-section journal-intro" style={{ background: '#f3f3f2' }}>
+        <section className="full-bleed-section journal-intro" style={{ background: '#f3f3f2', paddingBottom: 0 }}>
           <div className="section-inner narrow" style={{ color: '#4a4a43' }}>
             <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
             <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#4a4a43' }}>
@@ -352,7 +352,7 @@ export default function JournalPageFa() {
         </div>
       </section>
 
-      <section className="full-bleed-section journal-intro" style={{ background: '#f3f3f2' }}>
+      <section className="full-bleed-section journal-intro" style={{ background: '#f3f3f2', paddingBottom: 0 }}>
         <div className="section-inner narrow" style={{ color: '#4a4a43' }}>
           <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
           <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#4a4a43' }}>
