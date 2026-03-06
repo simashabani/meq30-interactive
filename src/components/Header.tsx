@@ -608,7 +608,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-email-logged {
-    margin-top: 20px;
+    margin-top: 24px;
     margin-bottom: 2px;
     font-size: 16px;
     line-height: 1.35;
@@ -685,7 +685,7 @@ export default function Header({ locale }: Props) {
 
   .user-menu-language-item.active {
     cursor: default;
-    font-weight: 700;
+    font-weight: 800;
     color: #828b2c;
   }
 
