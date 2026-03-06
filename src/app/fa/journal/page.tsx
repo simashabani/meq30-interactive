@@ -202,28 +202,30 @@ export default function JournalPageFa() {
           </div>
         </section>
 
-        <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
+        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px' }}>
           <div className="section-inner narrow">
-            <div style={{ padding: '2rem', background: '#ffffff' }}>
-              <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
-               ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم. در این روش، یک لینک منحصر‌به‌فرد، با مدت اعتبار محدود و قابل استفاده تنها یک‌بار، به صندوق ایمیل شما ارسال می‌شود تا هویت شما تأیید شود. برای ثبت‌نام یا ورود، تنها به یک آدرس ایمیل معتبر نیاز دارید.
-              </p>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <input
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
-                  placeholder="ایمیل"
-                />
-                <button
-                  onClick={handleLogin}
-                  style={newExperienceButtonStyle}
-                >
-                  ارسال لینک
-                </button>
-              </div>
-              {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
+            <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
+              ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم. در این روش، یک لینک منحصر‌به‌فرد، با مدت اعتبار محدود و قابل استفاده تنها یک‌بار، به صندوق ایمیل شما ارسال می‌شود تا هویت شما تأیید شود. برای ثبت‌نام یا ورود، تنها به یک آدرس ایمیل معتبر نیاز دارید.
+            </p>
+            <label htmlFor="journal-login-email-fa" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.95rem' }}>
+              ایمیل
+            </label>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <input
+                id="journal-login-email-fa"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+                placeholder="ایمیل"
+              />
+              <button
+                onClick={handleLogin}
+                style={newExperienceButtonStyle}
+              >
+                ارسال لینک
+              </button>
             </div>
+            {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
           </div>
         </section>
 

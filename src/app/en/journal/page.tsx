@@ -191,28 +191,30 @@ export default function JournalPage() {
           </div>
         </section>
 
-        <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
+        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px' }}>
           <div className="section-inner narrow">
-            <div style={{ padding: '2rem', background: '#ffffff' }}>
-              <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
-                We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
-              </p>
-              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
-                <input
-                  value={loginEmail}
-                  onChange={(e) => setLoginEmail(e.target.value)}
-                  style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
-                  placeholder="Email"
-                />
-                <button
-                  onClick={handleLogin}
-                  style={newExperienceButtonStyle}
-                >
-                  Send the Link
-                </button>
-              </div>
-              {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
+            <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
+              We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
+            </p>
+            <label htmlFor="journal-login-email-en" style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.95rem' }}>
+              Email
+            </label>
+            <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', alignItems: 'center' }}>
+              <input
+                id="journal-login-email-en"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+                style={{ flex: 1, minWidth: 200, padding: '10px 12px', border: '1px solid #ddd', fontSize: '1rem' }}
+                placeholder="Email"
+              />
+              <button
+                onClick={handleLogin}
+                style={newExperienceButtonStyle}
+              >
+                Send the Link
+              </button>
             </div>
+            {loginMessage && <p style={{ marginTop: '1rem', fontSize: '0.9rem' }}>{loginMessage}</p>}
           </div>
         </section>
 
