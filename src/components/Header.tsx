@@ -84,6 +84,7 @@ export default function Header({ locale }: Props) {
           border: `0.9px solid ${email ? (iconHovered ? "#96a73a" : "#828b2c") : "#4a4a43"}`,
           background: email ? (iconHovered ? "#96a73a" : "#828b2c") : (iconHovered ? "#f7f7f4" : "#ffffff"),
           color: email ? "#ffffff" : "#4a4a43",
+          boxShadow: menuOpen ? "0 0 0 2px #4a4a43" : "none",
           boxSizing: "border-box",
           display: "inline-flex",
           alignItems: "center",
@@ -145,9 +146,9 @@ export default function Header({ locale }: Props) {
                 <p className="user-menu-email user-menu-email-logged">{email}</p>
               </div>
 
-              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "10px 0 14px" }} />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "12px 0" }} />
 
-              <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
+              <div className="user-menu-language-section" style={{ marginBottom: "0" }}>
                 <p className="user-menu-language-title" style={{ marginBottom: "12px" }}>
                   {isFa ? "زبان" : "Language"}
                 </p>
@@ -158,7 +159,7 @@ export default function Header({ locale }: Props) {
                     alignItems: "center",
                     gap: "18px",
                     direction: isFa ? "rtl" : "ltr",
-                    marginBottom: "12px",
+                    marginBottom: "0",
                   }}
                 >
                   {isFa ? (
@@ -235,24 +236,31 @@ export default function Header({ locale }: Props) {
                 </div>
               </div>
 
-              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "12px 0" }} />
 
-              <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "14px" }}>
+              <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "0" }}>
                 <a
                   href={isFa ? "/fa/user-info" : "/en/user-info"}
                   className="user-menu-link user-menu-account-link"
                   role="menuitem"
-                  style={{ textDecoration: "underline", textUnderlineOffset: "5px", textDecorationThickness: "1px" }}
+                  style={{
+                    textDecoration: "underline",
+                    textUnderlineOffset: "5px",
+                    textDecorationThickness: "1px",
+                    fontSize: "12px",
+                    fontWeight: 400,
+                    lineHeight: 1.2,
+                  }}
                 >
                   {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
                 </a>
               </div>
 
-              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "12px 0" }} />
 
               <div
                 className="user-menu-row user-menu-row-logout"
-                style={{ display: "flex", justifyContent: "center", marginBottom: "4px" }}
+                style={{ display: "flex", justifyContent: "center", marginBottom: "0" }}
               >
                 <button
                   type="button"
@@ -608,9 +616,11 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-email-logged {
-    margin-top: 32px;
+    margin-top: 40px;
     margin-bottom: 2px;
     font-size: 16px;
+    font-weight: 700;
+    color: #828b2c;
     line-height: 1.35;
   }
 
