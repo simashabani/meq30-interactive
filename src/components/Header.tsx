@@ -77,6 +77,20 @@ export default function Header({ locale }: Props) {
       <button
         type="button"
         className={`user-menu-trigger ${email ? "logged-in" : "logged-out"}`}
+        style={{
+          all: "unset",
+          width: "34px",
+          height: "34px",
+          borderRadius: "9999px",
+          border: "1px solid currentColor",
+          background: "#ffffff",
+          boxSizing: "border-box",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          flex: "0 0 auto",
+        }}
         onClick={() => setMenuOpen((prev) => !prev)}
         aria-label={isFa ? "منوی کاربر" : "User menu"}
         aria-expanded={menuOpen}
@@ -89,7 +103,25 @@ export default function Header({ locale }: Props) {
       </button>
 
       {menuOpen && (
-        <div className={`user-menu-dropdown ${isFa ? "fa" : "en"}`}>
+        <div
+          className={`user-menu-dropdown ${isFa ? "fa" : "en"}`}
+          style={{
+            position: "absolute",
+            top: "calc(100% + 10px)",
+            width: "320px",
+            border: "1px solid #e5e7eb",
+            background: "#ffffff",
+            borderRadius: "14px",
+            padding: "12px 14px",
+            zIndex: 10001,
+            textTransform: "none",
+            letterSpacing: "normal",
+            boxShadow: "0 12px 28px rgba(0, 0, 0, 0.12)",
+            ...(isFa
+              ? { left: 0, direction: "rtl", textAlign: "right" as const }
+              : { right: 0, direction: "ltr", textAlign: "left" as const }),
+          }}
+        >
           {!authChecked ? (
             <p className="user-menu-line">{isFa ? "در حال بارگذاری..." : "Loading..."}</p>
           ) : email ? (
@@ -101,7 +133,19 @@ export default function Header({ locale }: Props) {
               <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
                 {isFa ? "اطلاعات کاربر" : "User Information"}
               </a>
-              <button type="button" className="user-menu-link user-menu-action" onClick={handleLogout} role="menuitem">
+              <button
+                type="button"
+                className="user-menu-link user-menu-action"
+                style={{
+                  background: "transparent",
+                  border: "none",
+                  color: "#4a4a43",
+                  textTransform: "none",
+                  letterSpacing: "normal",
+                }}
+                onClick={handleLogout}
+                role="menuitem"
+              >
                 {isFa ? "خروج" : "Log out"}
               </button>
             </>
