@@ -107,7 +107,7 @@ export default function Header({ locale }: Props) {
           className={`user-menu-dropdown ${isFa ? "fa" : "en"}`}
           style={{
             position: "absolute",
-            top: "calc(100% + 10px)",
+            top: "calc(100% + 4px)",
             width: "320px",
             border: "1px solid #e5e7eb",
             background: "#ffffff",
@@ -118,8 +118,8 @@ export default function Header({ locale }: Props) {
             letterSpacing: "normal",
             boxShadow: "0 12px 28px rgba(0, 0, 0, 0.12)",
             ...(isFa
-              ? { left: 0, direction: "rtl", textAlign: "right" as const }
-              : { right: 0, direction: "ltr", textAlign: "left" as const }),
+              ? { right: "6px", direction: "rtl", textAlign: "right" as const }
+              : { right: "6px", direction: "ltr", textAlign: "left" as const }),
           }}
         >
           {!authChecked ? (
@@ -311,7 +311,7 @@ export default function Header({ locale }: Props) {
 
   .user-menu-dropdown {
     position: absolute;
-    top: calc(100% + 10px);
+    top: calc(100% + 4px);
     width: 320px;
     border: 1px solid #e5e7eb;
     background: #ffffff;
@@ -324,13 +324,13 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-dropdown.en {
-    right: 0;
+    right: 6px;
     direction: ltr;
     text-align: left;
   }
 
   .user-menu-dropdown.fa {
-    left: 0;
+    right: 6px;
     direction: rtl;
     text-align: right;
   }
@@ -583,8 +583,6 @@ export default function Header({ locale }: Props) {
 
       <nav className="meq-mini-nav" aria-label="MEQ-30 Navigation">
         <div className="left">
-          {isFa && userMenu}
-
           <a
             className="meq-item"
             href={isFa ? "https://meq-30.com/homepersian" : "https://meq-30.com"}
@@ -607,6 +605,7 @@ export default function Header({ locale }: Props) {
         <div className="right">
           {isFa ? (
             <>
+              {userMenu}
               <a
                 className="meq-item"
                 href="/en/journal"
