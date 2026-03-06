@@ -487,7 +487,8 @@ export default function Header({ locale }: Props) {
   .user-menu-language-nav {
     display: flex;
     align-items: center;
-    gap: 24px;
+    column-gap: 30px;
+    row-gap: 8px;
   }
 
   .user-menu-language-nav.fa {
@@ -510,6 +511,12 @@ export default function Header({ locale }: Props) {
     font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.03em;
+  }
+
+  .user-menu-language-item:not(.active) {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
   }
 
   .user-menu-language-item::after {
