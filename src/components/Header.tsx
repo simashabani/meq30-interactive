@@ -151,17 +151,22 @@ export default function Header({ locale }: Props) {
             </>
           ) : (
             <>
+              <label className="user-menu-label" htmlFor={`user-menu-email-${locale}`}>
+                {isFa ? "ایمیل" : "Email"}
+              </label>
               <input
+                id={`user-menu-email-${locale}`}
                 className="user-menu-input"
                 type="email"
                 value={loginEmail}
                 onChange={(event) => setLoginEmail(event.target.value)}
-                placeholder={isFa ? "ایمیل" : "Email"}
+                placeholder={isFa ? "example@email.com" : "example@email.com"}
               />
               <button type="button" className="user-menu-auth-button" onClick={handleSendLink}>
                 {isFa ? "ورود / ثبت‌نام" : "Log In / Sign Up"}
               </button>
               {loginMessage && <p className="user-menu-msg">{loginMessage}</p>}
+              <div className="user-menu-divider" />
               <p className="user-menu-note">
                 {isFa
                   ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک لینک یکتا، محدود به زمان و یک‌بارمصرف به ایمیل شما ارسال می‌کند. برای ثبت‌نام یا ورود فقط به یک ایمیل معتبر نیاز دارید."
@@ -353,27 +358,53 @@ export default function Header({ locale }: Props) {
     width: 100%;
     border: 1px solid #d1d5db;
     padding: 8px 10px;
-    margin-bottom: 8px;
+    margin: 2px 0 6px;
     font-family: inherit;
+    background: #ffffff;
+    box-sizing: border-box;
+  }
+
+  .user-menu-label {
+    display: block;
+    margin: 0;
+    font-size: 11px;
+    color: #66685f;
+    text-transform: none;
+    letter-spacing: 0;
   }
 
   .user-menu-auth-button {
-    width: 100%;
+    display: block;
+    width: auto;
+    min-width: 180px;
     border: none;
     background: #3d3d3d;
     color: #ffffff;
-    padding: 9px 12px;
+    padding: 7px 14px;
+    margin: 4px auto 0;
     font-family: inherit;
+    font-size: 11px;
+    letter-spacing: 0.04em;
     cursor: pointer;
   }
 
   .user-menu-msg {
-    margin: 8px 0 0;
+    margin: 6px 0 0;
+    font-size: 11px;
     color: #4a4a43;
+    text-align: center;
+  }
+
+  .user-menu-divider {
+    height: 1px;
+    background: #ecece6;
+    margin: 10px 0 8px;
   }
 
   .user-menu-note {
-    margin: 8px 0 0;
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.45;
     color: #5a5d52;
   }
 
