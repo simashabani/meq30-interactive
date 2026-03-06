@@ -359,6 +359,8 @@ button:hover, .button:hover {
 a {
   color: inherit;
   text-decoration: none;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
   transition: opacity 0.2s ease;
 }
 

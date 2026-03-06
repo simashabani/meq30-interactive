@@ -128,10 +128,10 @@ export default function Header({ locale }: Props) {
                 <p className="user-menu-email user-menu-email-logged">{email}</p>
               </div>
 
-              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "10px 0 14px" }} />
 
               <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "14px" }}>
-                <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
+                <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link user-menu-account-link" role="menuitem">
                   {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
                 </a>
               </div>
@@ -397,8 +397,15 @@ export default function Header({ locale }: Props) {
 
   .user-menu-email-logged {
     margin-top: 8px;
+    margin-bottom: 2px;
     font-size: 16px;
     line-height: 1.35;
+  }
+
+  .user-menu-account-link {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+    text-decoration-thickness: 1px;
   }
 
   .user-menu-link {
