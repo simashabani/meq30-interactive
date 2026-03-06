@@ -187,8 +187,12 @@ export default function JournalPage() {
       <div style={{ marginTop: '-40px', marginBottom: '-40px' }}>
         <section className="full-bleed-section section-gray">
           <div className="section-inner narrow">
-            <h1 style={{ marginBottom: '2rem' }}>My Experience Journal</h1>
+            <h1 style={{ margin: 0, textAlign: 'center' }}>My Experience Journal</h1>
+          </div>
+        </section>
 
+        <section className="full-bleed-section section-gray" style={{ paddingTop: 0 }}>
+          <div className="section-inner narrow">
             <div style={{ padding: '2rem', background: '#ffffff' }}>
               <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
                 We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
