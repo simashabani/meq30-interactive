@@ -16,6 +16,7 @@ export default function Header({ locale }: Props) {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginMessage, setLoginMessage] = useState("");
   const [loginMessageType, setLoginMessageType] = useState<"success" | "error">("success");
+  const [sendingLink, setSendingLink] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -39,30 +40,33 @@ export default function Header({ locale }: Props) {
   }, []);
 
   async function handleSendLink() {
-    if (!loginEmail.trim()) return;
+    if (!loginEmail.trim() || sendingLink) return;
     const supabase = createSupabaseBrowserClient();
     const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || "https://app.meq-30.com").replace(/\/$/, "");
     const localePath = isFa ? "/fa" : "/en";
+    setSendingLink(true);
 
     const { error } = await supabase.auth.signInWithOtp({
       email: loginEmail.trim(),
       options: {
-        emailRedirectTo: `${siteUrl}${localePath}/auth/callback?redirect=${localePath}/journal`,
+        emailRedirectTo: `${siteUrl}${localePath}/auth/callback?lang=${isFa ? "fa" : "en"}&redirect=${localePath}/journal`,
       },
     });
 
     if (error) {
       setLoginMessageType("error");
       setLoginMessage(error.message);
+      setSendingLink(false);
       return;
     }
 
     setLoginMessageType("success");
     setLoginMessage(
       isFa
-        ? "برای دریافت لینک ورود، به ایمیل خود مراجعه کنید."
-        : "For login link, check your email."
+        ? "ایمیل خود را بررسی کنید. یک لینک امن برای ورود ارسال شد. لطفاً از جدیدترین ایمیل استفاده کنید. اگر لینک عمل نکرد، چند دقیقه صبر کنید و دوباره درخواست بدهید."
+        : "Check your email. We sent you a secure sign-in link. Please use the most recent email. If the link does not work, wait a few minutes and request a new one."
     );
+    setSendingLink(false);
   }
 
   async function handleLogout() {
@@ -313,6 +317,11 @@ export default function Header({ locale }: Props) {
                     fontSize: "13px",
                   }}
                 />
+                <p className="user-menu-note" style={{ fontSize: "11px", lineHeight: 1.6, margin: "8px 0 0" }}>
+                  {isFa
+                    ? "فقط از جدیدترین ایمیل ورود استفاده کنید. لینک‌های قبلی ممکن است دیگر معتبر نباشند."
+                    : "Use only the most recent login email. Older links may no longer work."}
+                </p>
               </div>
 
               <div
@@ -323,6 +332,7 @@ export default function Header({ locale }: Props) {
                   type="button"
                   className="user-menu-auth-button"
                   onClick={handleSendLink}
+                  disabled={sendingLink}
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
@@ -331,9 +341,11 @@ export default function Header({ locale }: Props) {
                     padding: "8px 14px",
                     fontSize: "12px",
                     letterSpacing: "0.04em",
+                    opacity: sendingLink ? 0.75 : 1,
+                    cursor: sendingLink ? "default" : "pointer",
                   }}
                 >
-                  {isFa ? "ورود / ثبت‌نام" : "LOG IN / SIGN UP"}
+                  {sendingLink ? (isFa ? "در حال ارسال..." : "SENDING...") : (isFa ? "ورود / ثبت‌نام" : "LOG IN / SIGN UP")}
                 </button>
               </div>
 
@@ -440,8 +452,8 @@ export default function Header({ locale }: Props) {
               <div className="user-menu-row user-menu-row-note" style={{ marginTop: "0" }}>
                 <p className="user-menu-note" style={{ fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
                   {isFa
-                    ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم. در این روش، یک لینک منحصر‌به‌فرد، با مدت اعتبار محدود و قابل استفاده تنها یک‌بار، به صندوق ایمیل شما ارسال می‌شود تا هویت شما تأیید شود. برای ثبت‌نام یا ورود، تنها به یک آدرس ایمیل معتبر نیاز دارید."
-                    : "We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address."}
+                    ? "اگر لینک ورود عمل نکرد، چند دقیقه صبر کنید و دوباره یک لینک جدید درخواست کنید."
+                    : "If the link does not work, wait a few minutes and request a new sign-in link."}
                 </p>
               </div>
             </div>
