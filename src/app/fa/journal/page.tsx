@@ -271,18 +271,6 @@ export default function JournalPageFa() {
         </div>
       </section>
 
-      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
-        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
-          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
-          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
-            دفترچه‌ای که در اینجا می‌بینید فضایی امن و خصوصی است که برای کمک به تأمل درباره تجربه‌های شخصی شما و شناخت بیشتر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این دفترچه می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید، و تفسیر مبتنی بر پژوهش را درباره این‌که تجربه شما تا چه اندازه با چهار بُعد تجربه عرفانی هم‌خوانی دارد مشاهده کنید.
-          </p>
-          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
-            این ابزار یک وسیله تشخیصی، ارزیابی درمانی، یا داوری درباره ارزش یا معنای تجربه شما نیست. تجربه‌ها می‌توانند به شیوه‌های گوناگون عمیق و معنادار باشند، حتی اگر مطابق با معیارهای پژوهشیِ «تجربه عرفانی» قرار نگیرند. هدف این دفترچه کمک به تأمل، فهم بهتر، و توصیف دقیق تجربه‌ها است؛ نه صرفاً طبقه‌بندی آن‌ها.
-          </p>
-        </div>
-      </section>
-
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -361,6 +349,18 @@ export default function JournalPageFa() {
           </table>
           </div>
         )}
+        </div>
+      </section>
+
+      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>ارزیابی MEQ-30 و دفترچه تجربه چیست؟</h2>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+            دفترچه‌ای که در اینجا می‌بینید فضایی امن و خصوصی است که برای کمک به تأمل درباره تجربه‌های شخصی شما و شناخت بیشتر آن‌ها با استفاده از MEQ-30 طراحی شده است. در این دفترچه می‌توانید تجربه‌های خود را ثبت کنید، پرسشنامه را تکمیل کنید، و تفسیر مبتنی بر پژوهش را درباره این‌که تجربه شما تا چه اندازه با چهار بُعد تجربه عرفانی هم‌خوانی دارد مشاهده کنید.
+          </p>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+            این ابزار یک وسیله تشخیصی، ارزیابی درمانی، یا داوری درباره ارزش یا معنای تجربه شما نیست. تجربه‌ها می‌توانند به شیوه‌های گوناگون عمیق و معنادار باشند، حتی اگر مطابق با معیارهای پژوهشیِ «تجربه عرفانی» قرار نگیرند. هدف این دفترچه کمک به تأمل، فهم بهتر، و توصیف دقیق تجربه‌ها است؛ نه صرفاً طبقه‌بندی آن‌ها.
+          </p>
         </div>
       </section>
     </>

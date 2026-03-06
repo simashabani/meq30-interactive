@@ -260,18 +260,6 @@ export default function JournalPage() {
         </div>
       </section>
 
-      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
-        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
-          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>WHAT IS MEQ-30 ASSESSMENT AND EXPERIENCE JOURNAL?</h2>
-          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
-            The journal you see here is a secure, private space designed to help you reflect on and learn more about your own experiences using the MEQ-30. It allows you to record experiences, complete the questionnaire, and view a research-informed interpretation of how your experience aligns with the four mystical experience dimensions.
-          </p>
-          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
-            This tool is not a diagnostic instrument, a therapeutic assessment, or a judgment about the value or meaning of your experience. Experiences can be deeply significant in many ways, whether or not they meet formal research conventions for a “Mystical Experience”. The purpose of this journal is reflection, understanding, and careful description; not classification for its own sake.
-          </p>
-        </div>
-      </section>
-
       <section className="full-bleed-section section-white">
         <div className="section-inner narrow">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
@@ -357,6 +345,18 @@ export default function JournalPage() {
           </table>
           </div>
         )}
+        </div>
+      </section>
+
+      <section className="full-bleed-section journal-intro" style={{ background: 'var(--charcoal)' }}>
+        <div className="section-inner narrow" style={{ color: '#ffffff' }}>
+          <h2 className="journal-intro-title" style={{ marginBottom: '1.75rem' }}>WHAT IS MEQ-30 ASSESSMENT AND EXPERIENCE JOURNAL?</h2>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, marginBottom: '1.75rem', color: '#ffffff' }}>
+            The journal you see here is a secure, private space designed to help you reflect on and learn more about your own experiences using the MEQ-30. It allows you to record experiences, complete the questionnaire, and view a research-informed interpretation of how your experience aligns with the four mystical experience dimensions.
+          </p>
+          <p style={{ fontSize: '14px', lineHeight: 1.65, margin: 0, color: '#ffffff' }}>
+            This tool is not a diagnostic instrument, a therapeutic assessment, or a judgment about the value or meaning of your experience. Experiences can be deeply significant in many ways, whether or not they meet formal research conventions for a “Mystical Experience”. The purpose of this journal is reflection, understanding, and careful description; not classification for its own sake.
+          </p>
         </div>
       </section>
     </>
