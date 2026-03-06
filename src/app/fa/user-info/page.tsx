@@ -113,7 +113,13 @@ export default function UserInfoPageFa() {
         </div>
       </section>
 
-      <section className="full-bleed-section section-white" style={{ paddingTop: "30px", paddingBottom: "30px" }}>
+      <section
+        className="full-bleed-section section-white"
+        style={{
+          paddingTop: "clamp(18px, 4vw, 38px)",
+          paddingBottom: "clamp(18px, 4vw, 38px)",
+        }}
+      >
         <div className="section-inner narrow" dir="rtl">
           <div
             className="main-page-row"

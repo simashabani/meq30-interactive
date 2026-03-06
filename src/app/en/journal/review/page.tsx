@@ -132,7 +132,10 @@ export default function ReviewPage() {
 
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', marginTop: '-40px', marginBottom: '-40px', background: '#f8f8f6' }}>
-    <main className="max-w-[900px] mx-auto p-6 space-y-6">
+    <main
+      className="max-w-[900px] mx-auto px-6 space-y-6"
+      style={{ paddingTop: "clamp(18px, 4vw, 38px)", paddingBottom: "clamp(18px, 4vw, 38px)" }}
+    >
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-lg font-semibold">Review Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
