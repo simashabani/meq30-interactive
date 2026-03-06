@@ -80,8 +80,8 @@ export default function Header({ locale }: Props) {
           all: "unset",
           width: "34px",
           height: "34px",
-          borderRadius: "9999px",
-          border: "1px solid currentColor",
+          borderRadius: "8px",
+          border: "0.9px solid currentColor",
           background: "#ffffff",
           boxSizing: "border-box",
           display: "flex",
@@ -96,8 +96,8 @@ export default function Header({ locale }: Props) {
         aria-haspopup="menu"
       >
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-          <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="2" />
-          <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+          <circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" strokeWidth="1.35" />
+          <path d="M4 21c0-4.2 3.6-7 8-7s8 2.8 8 7" fill="none" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
         </svg>
       </button>
 
@@ -301,8 +301,8 @@ export default function Header({ locale }: Props) {
     all: unset;
     width: 34px;
     height: 34px;
-    border-radius: 9999px;
-    border: 1px solid currentColor;
+    border-radius: 8px;
+    border: 0.9px solid currentColor;
     background: #ffffff;
     box-sizing: border-box;
     display: flex;
@@ -318,11 +318,11 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-trigger.logged-in {
-    color: #7b8f2f;
+    color: #828b2c;
   }
 
   .user-menu-trigger.logged-out {
-    color: #8c8c7e;
+    color: #4a4a43;
   }
 
   .user-menu-trigger:hover,
