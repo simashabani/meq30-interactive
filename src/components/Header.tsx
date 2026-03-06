@@ -151,13 +151,13 @@ export default function Header({ locale }: Props) {
             </>
           ) : (
             <div className="user-menu-auth-layout">
-              <div className="user-menu-row user-menu-row-label">
+              <div className="user-menu-row user-menu-row-label" style={{ marginBottom: "12px" }}>
                 <label className="user-menu-label" htmlFor={`user-menu-email-${locale}`}>
                   {isFa ? "ایمیل" : "Email"}
                 </label>
               </div>
 
-              <div className="user-menu-row user-menu-row-input">
+              <div className="user-menu-row user-menu-row-input" style={{ marginBottom: "20px" }}>
                 <input
                   id={`user-menu-email-${locale}`}
                   className="user-menu-input"
@@ -165,11 +165,36 @@ export default function Header({ locale }: Props) {
                   value={loginEmail}
                   onChange={(event) => setLoginEmail(event.target.value)}
                   placeholder={isFa ? "example@email.com" : "example@email.com"}
+                  style={{
+                    width: "100%",
+                    border: "1px solid #cfd3ca",
+                    background: "#ffffff",
+                    borderRadius: "4px",
+                    padding: "9px 10px",
+                    boxSizing: "border-box",
+                    fontSize: "13px",
+                  }}
                 />
               </div>
 
-              <div className="user-menu-row user-menu-row-button">
-                <button type="button" className="user-menu-auth-button" onClick={handleSendLink}>
+              <div
+                className="user-menu-row user-menu-row-button"
+                style={{ display: "flex", justifyContent: "center", marginBottom: "18px" }}
+              >
+                <button
+                  type="button"
+                  className="user-menu-auth-button"
+                  onClick={handleSendLink}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    minWidth: "220px",
+                    padding: "8px 14px",
+                    fontSize: "11px",
+                    letterSpacing: "0.04em",
+                  }}
+                >
                   {isFa ? "ورود / ثبت‌نام" : "Log In / Sign Up"}
                 </button>
               </div>
@@ -180,10 +205,10 @@ export default function Header({ locale }: Props) {
                 </div>
               )}
 
-              <div className="user-menu-divider" />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
 
-              <div className="user-menu-row user-menu-row-note">
-                <p className="user-menu-note">
+              <div className="user-menu-row user-menu-row-note" style={{ marginTop: "0" }}>
+                <p className="user-menu-note" style={{ fontSize: "11px", lineHeight: 1.6, margin: 0 }}>
                   {isFa
                     ? "ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم که یک لینک یکتا، محدود به زمان و یک‌بارمصرف به ایمیل شما ارسال می‌کند. برای ثبت‌نام یا ورود فقط به یک ایمیل معتبر نیاز دارید."
                     : "We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address."}
