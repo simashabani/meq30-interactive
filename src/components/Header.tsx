@@ -149,16 +149,79 @@ export default function Header({ locale }: Props) {
 
               <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
                 <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
-                <div className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}>
+                <div
+                  className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}
+                  style={{ display: "flex", alignItems: "center", gap: "18px", direction: isFa ? "rtl" : "ltr" }}
+                >
                   {isFa ? (
                     <>
-                      <a className="user-menu-language-item" href="/en/journal">انگلیسی</a>
-                      <span className="user-menu-language-item active">فارسی</span>
+                      <a
+                        className="user-menu-language-item"
+                        href="/en/journal"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 400,
+                          color: "#4a4a43",
+                          textTransform: "none",
+                          letterSpacing: "0.01em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "5px",
+                          textDecorationThickness: "1px",
+                        }}
+                      >
+                        انگلیسی
+                      </a>
+                      <span
+                        className="user-menu-language-item active"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "#828b2c",
+                          textTransform: "none",
+                          letterSpacing: "0.01em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        فارسی
+                      </span>
                     </>
                   ) : (
                     <>
-                      <span className="user-menu-language-item active">English</span>
-                      <a className="user-menu-language-item" href="/fa/journal">Persian</a>
+                      <span
+                        className="user-menu-language-item active"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "#828b2c",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.03em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        English
+                      </span>
+                      <a
+                        className="user-menu-language-item"
+                        href="/fa/journal"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 400,
+                          color: "#4a4a43",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.03em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "5px",
+                          textDecorationThickness: "1px",
+                        }}
+                      >
+                        Persian
+                      </a>
                     </>
                   )}
                 </div>
@@ -192,7 +255,7 @@ export default function Header({ locale }: Props) {
                     background: "#3d3d3d",
                     border: "none",
                     color: "#ffffff",
-                    fontSize: "11px",
+                    fontSize: "12px",
                     textTransform: "none",
                     letterSpacing: "normal",
                   }}
@@ -245,7 +308,7 @@ export default function Header({ locale }: Props) {
                     justifyContent: "center",
                     minWidth: "220px",
                     padding: "8px 14px",
-                    fontSize: "11px",
+                    fontSize: "12px",
                     letterSpacing: "0.04em",
                   }}
                 >
@@ -265,16 +328,79 @@ export default function Header({ locale }: Props) {
 
               <div className="user-menu-language-section" style={{ marginBottom: "14px" }}>
                 <p className="user-menu-language-title">{isFa ? "زبان" : "Language"}</p>
-                <div className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}>
+                <div
+                  className={`user-menu-language-nav ${isFa ? "fa" : "en"}`}
+                  style={{ display: "flex", alignItems: "center", gap: "24px", direction: isFa ? "rtl" : "ltr" }}
+                >
                   {isFa ? (
                     <>
-                      <a className="user-menu-language-item" href="/en/journal">انگلیسی</a>
-                      <span className="user-menu-language-item active">فارسی</span>
+                      <a
+                        className="user-menu-language-item"
+                        href="/en/journal"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 400,
+                          color: "#4a4a43",
+                          textTransform: "none",
+                          letterSpacing: "0.01em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "5px",
+                          textDecorationThickness: "1px",
+                        }}
+                      >
+                        انگلیسی
+                      </a>
+                      <span
+                        className="user-menu-language-item active"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "#828b2c",
+                          textTransform: "none",
+                          letterSpacing: "0.01em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        فارسی
+                      </span>
                     </>
                   ) : (
                     <>
-                      <span className="user-menu-language-item active">English</span>
-                      <a className="user-menu-language-item" href="/fa/journal">Persian</a>
+                      <span
+                        className="user-menu-language-item active"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          color: "#828b2c",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.03em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        English
+                      </span>
+                      <a
+                        className="user-menu-language-item"
+                        href="/fa/journal"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 400,
+                          color: "#4a4a43",
+                          textTransform: "uppercase",
+                          letterSpacing: "0.03em",
+                          lineHeight: 1.2,
+                          whiteSpace: "nowrap",
+                          textDecoration: "underline",
+                          textUnderlineOffset: "5px",
+                          textDecorationThickness: "1px",
+                        }}
+                      >
+                        Persian
+                      </a>
                     </>
                   )}
                 </div>
