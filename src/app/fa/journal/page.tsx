@@ -267,7 +267,7 @@ export default function JournalPageFa() {
         </div>
       </section>
 
-      <section className="full-bleed-section section-white">
+      <section className="full-bleed-section section-white" style={{ paddingTop: 0 }}>
         <div className="section-inner narrow">
           <div className="main-page-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '12px', marginBottom: '1.5rem' }}>
             <h2 style={{ margin: 0 }}>تجربه‌های ثبت‌شده</h2>
