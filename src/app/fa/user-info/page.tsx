@@ -126,9 +126,6 @@ export default function UserInfoPageFa() {
             }}
           >
             <p style={{ margin: 0 }}>این بخش اختیاری است. هر اطلاعاتی که مایل هستید وارد کنید.</p>
-            <Link href="/fa/journal" className="main-page-link-button">
-              بازگشت به فهرست تجربه‌ها
-            </Link>
           </div>
 
           <div style={{ background: "#ffffff", border: "1px solid #d9ddd3", padding: "1.25rem" }}>
@@ -181,7 +178,7 @@ export default function UserInfoPageFa() {
                 <input style={inputStyle} value={form.occupation} onChange={(e) => updateField("occupation", e.target.value)} />
               </div>
               <div style={fieldStackStyle}>
-                <label style={labelStyle}>آیا با سازمان آموزشی خاصی همکاری دارید؟ نام سازمان</label>
+                <label style={labelStyle}>وابستگی آموزشی (نام سازمان)</label>
                 <input
                   style={inputStyle}
                   value={form.educationalOrganization}
@@ -214,11 +211,16 @@ export default function UserInfoPageFa() {
               </label>
             </div>
 
-            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
-              <button className="button" onClick={handleSave} disabled={saving} style={{ opacity: saving ? 0.7 : 1 }}>
-                {saving ? "در حال ذخیره..." : "ذخیره"}
-              </button>
-              {message && <p style={{ margin: 0 }}>{message}</p>}
+            <div className="main-page-row" style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", flexWrap: "wrap" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: "10px", flexWrap: "wrap" }}>
+                <button className="button" onClick={handleSave} disabled={saving} style={{ cursor: saving ? "default" : "pointer" }}>
+                  {saving ? "در حال ذخیره..." : "ذخیره"}
+                </button>
+                {message && <p style={{ margin: 0 }}>{message}</p>}
+              </div>
+              <Link href="/fa/journal" className="main-page-link-button">
+                بازگشت به فهرست تجربه‌ها
+              </Link>
             </div>
           </div>
         </div>

@@ -232,7 +232,7 @@ export default function NewExperiencePage() {
       <div className="main-page-row flex items-center justify-between">
         <h1 className="text-xl font-semibold">New Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
-          Back to Experiences List
+          Back to Experience List
         </Link>
       </div>
 
@@ -360,7 +360,7 @@ export default function NewExperiencePage() {
             {saving ? "Saving and analyzing..." : "Save and Analyze"}
           </button>
           <Link href="/en/journal" className="main-page-link-button">
-            Back to Experiences List
+            Back to Experience List
           </Link>
         </div>
       </div>
