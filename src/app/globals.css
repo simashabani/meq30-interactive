@@ -422,6 +422,11 @@ a:hover {
     margin-left: auto;
   }
 
+  .locale-fa .main-page-row h2 {
+    width: 100%;
+    text-align: right;
+  }
+
   .main-page-link-button {
     white-space: nowrap;
   }
