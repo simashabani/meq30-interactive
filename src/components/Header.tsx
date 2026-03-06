@@ -596,7 +596,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-status {
-    margin: 0;
+    margin-bottom: 16px;
     font-size: 11px;
     line-height: 1.55;
     color: #66685f;
