@@ -405,6 +405,20 @@ a:hover {
 }
 
 @media (max-width: 640px) {
+  .main-page-row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .locale-fa .main-page-row {
+    align-items: flex-end !important;
+  }
+
+  .main-page-link-button {
+    white-space: nowrap;
+  }
+
   .journal-table th {
     font-size: 0.78rem !important;
     padding: 8px 4px !important;

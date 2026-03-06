@@ -229,7 +229,7 @@ export default function NewExperiencePage() {
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main className="new-experience-page max-w-[900px] mx-auto p-6 space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="main-page-row flex items-center justify-between">
         <h1 className="text-xl font-semibold">New Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page
@@ -351,7 +351,7 @@ export default function NewExperiencePage() {
           </label>
         )}
 
-        <div className="flex items-center justify-between gap-3 flex-nowrap">
+        <div className="main-page-row flex items-center justify-between gap-3 flex-nowrap">
           <button
             className="px-4 py-2 disabled:opacity-50"
             disabled={!canSave || saving}

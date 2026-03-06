@@ -133,7 +133,7 @@ export default function ReviewPage() {
   return (
     <div style={{ width: '100vw', marginLeft: 'calc(50% - 50vw)', marginRight: 'calc(50% - 50vw)', background: '#f8f8f6' }}>
     <main className="max-w-[900px] mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="main-page-row flex items-center justify-between">
         <h1 className="text-lg font-semibold">Review Experience</h1>
         <Link href="/en/journal" className="main-page-link-button">
           My Experiences List Main Page
@@ -223,7 +223,7 @@ export default function ReviewPage() {
         <p className="text-sm leading-relaxed">{interpretationParagraph}</p>
       </div>
 
-      <div className="flex items-center justify-between gap-3 flex-wrap">
+      <div className="main-page-row flex items-center justify-between gap-3 flex-wrap">
         <div className="flex items-center gap-3 flex-wrap">
           <button
             onClick={handleEditSaved}
