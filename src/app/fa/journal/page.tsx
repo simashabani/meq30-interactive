@@ -195,14 +195,14 @@ export default function JournalPageFa() {
 
   if (!userId) {
     return (
-      <div style={{ marginTop: '-40px', marginBottom: '-40px' }}>
+      <div style={{ marginTop: '-40px', marginBottom: '-40px', minHeight: 'calc(100vh - 200px)', display: 'flex', flexDirection: 'column' }}>
         <section className="full-bleed-section section-gray">
           <div className="section-inner narrow">
             <h1 style={{ margin: 0, textAlign: 'center' }}>دفترچه تجربه‌های من</h1>
           </div>
         </section>
 
-        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px' }}>
+        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px', flex: 1, display: 'flex', alignItems: 'center' }}>
           <div className="section-inner narrow">
             <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
               ما از روش احراز هویت بدون رمز عبور استفاده می‌کنیم. در این روش، یک لینک منحصر‌به‌فرد، با مدت اعتبار محدود و قابل استفاده تنها یک‌بار، به صندوق ایمیل شما ارسال می‌شود تا هویت شما تأیید شود. برای ثبت‌نام یا ورود، تنها به یک آدرس ایمیل معتبر نیاز دارید.

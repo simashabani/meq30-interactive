@@ -184,14 +184,14 @@ export default function JournalPage() {
 
   if (!userId) {
     return (
-      <div style={{ marginTop: '-40px', marginBottom: '-40px' }}>
+      <div style={{ marginTop: '-40px', marginBottom: '-40px', minHeight: 'calc(100vh - 200px)', display: 'flex', flexDirection: 'column' }}>
         <section className="full-bleed-section section-gray">
           <div className="section-inner narrow">
             <h1 style={{ margin: 0, textAlign: 'center' }}>My Experience Journal</h1>
           </div>
         </section>
 
-        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px' }}>
+        <section className="full-bleed-section section-white" style={{ padding: '48px 0', minHeight: '300px', flex: 1, display: 'flex', alignItems: 'center' }}>
           <div className="section-inner narrow">
             <p style={{ marginBottom: '1.5rem', lineHeight: 1.6 }}>
               We use a passwordless authentication method that delivers a unique, time-limited, and one-time-use URL to your inbox to verify your identity. All you need to sign up or log in is a valid email address.
