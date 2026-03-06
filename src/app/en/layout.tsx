@@ -4,10 +4,10 @@ import TabCloseHandler from "@/components/TabCloseHandler";
 
 export default function EnLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="locale-en" lang="en" dir="ltr">
+    <div className="locale-en" lang="en" dir="ltr" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
       <TabCloseHandler />
       <Header locale="en" />
-      <main style={{ maxWidth: 1400, margin: "0 auto", padding: "40px clamp(16px, 4vw, 80px)", minHeight: "calc(100vh - 200px)" }}>
+      <main style={{ maxWidth: 1400, margin: "0 auto", padding: "40px clamp(16px, 4vw, 80px)", flex: 1, width: "100%" }}>
         {children}
       </main>
       <SiteFooter locale="en" />
