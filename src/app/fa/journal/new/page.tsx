@@ -58,14 +58,6 @@ export default function NewExperiencePageFa() {
     }
   }, []);
 
-  function autofillAll(value: number) {
-    const filled: MEQAnswersMap = {};
-    for (const q of MEQ30_QUESTIONS) {
-      filled[String(q.canonicalId)] = value;
-    }
-    setAnswers(filled);
-  }
-
   function loadPending() {
     const p = getPendingExperience();
     if (!p) return;
@@ -334,24 +326,6 @@ export default function NewExperiencePageFa() {
           />
         </div>
 
-        {/* Test helpers */}
-        <div className="flex items-center gap-2 pt-2">
-          <button
-            type="button"
-            className="px-3 py-2 border text-sm"
-            onClick={() => autofillAll(3)}
-          >
-            تست: پر کردن همه = ۳ (متوسط)
-          </button>
-
-          <button
-            type="button"
-            className="px-3 py-2 border text-sm"
-            onClick={() => setAnswers({})}
-          >
-            پاک کردن پاسخ‌ها
-          </button>
-        </div>
       </div>
 
 
