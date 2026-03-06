@@ -8,17 +8,17 @@ export default function Header({ locale }: Props) {
   const isFa = locale === "fa";
 
   return (
-    <header
-      style={{
-        borderBottom: "1px solid #e5e7eb",
-        padding: "16px 80px",
-        position: "sticky",
-        top: 0,
-        background: "white",
-        zIndex: 9999,
-      }}
-    >
+    <header className="meq-header">
       <style jsx>{`
+  .meq-header {
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 80px;
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 9999;
+  }
+
   .meq-mini-nav {
     font-family: ${
       isFa
@@ -31,11 +31,22 @@ export default function Header({ locale }: Props) {
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 18px 0;             /* closer to your website */
+    padding: 14px 0;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     max-width: 1200px;           /* website look */
     margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .meq-header {
+      padding: 12px 28px;
+    }
+
+    .meq-mini-nav {
+      gap: 14px;
+      padding: 10px 0;
+    }
   }
 
   .meq-mini-nav .left,
@@ -99,12 +110,16 @@ export default function Header({ locale }: Props) {
   }
 
   @media (max-width: 520px) {
+    .meq-header {
+      padding: 10px 20px;
+    }
+
     .meq-mini-nav {
       flex-direction: row;
       align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
-      padding: 10px 0;
+      padding: 8px 0;
     }
 
     .meq-mini-nav .left {
