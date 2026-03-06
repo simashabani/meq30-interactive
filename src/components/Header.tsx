@@ -443,7 +443,7 @@ export default function Header({ locale }: Props) {
       <style jsx>{`
   .meq-header {
     border-bottom: 1px solid #e5e7eb;
-    padding: 16px 80px;
+    padding: 8px 80px;
     position: sticky;
     top: 0;
     background: white;
@@ -462,7 +462,7 @@ export default function Header({ locale }: Props) {
     align-items: center;
     justify-content: space-between;
     gap: 24px;
-    padding: 14px 0;
+    padding: 7px 0;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     max-width: 1200px;           /* website look */
@@ -471,12 +471,12 @@ export default function Header({ locale }: Props) {
 
   @media (max-width: 900px) {
     .meq-header {
-      padding: 12px 28px;
+      padding: 6px 28px;
     }
 
     .meq-mini-nav {
       gap: 14px;
-      padding: 10px 0;
+      padding: 5px 0;
     }
   }
 
@@ -887,7 +887,7 @@ export default function Header({ locale }: Props) {
 
   @media (max-width: 520px) {
     .meq-header {
-      padding: 10px 20px;
+      padding: 5px 20px;
     }
 
     .meq-mini-nav {
@@ -895,7 +895,7 @@ export default function Header({ locale }: Props) {
       align-items: flex-start;
       justify-content: space-between;
       gap: 10px;
-      padding: 8px 0;
+      padding: 4px 0;
     }
 
     .meq-mini-nav .left {
