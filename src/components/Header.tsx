@@ -128,22 +128,30 @@ export default function Header({ locale }: Props) {
                 <p className="user-menu-email user-menu-email-logged">{email}</p>
               </div>
 
-              <div className="user-menu-row user-menu-row-link">
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
+
+              <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "14px" }}>
                 <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
                   {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
                 </a>
               </div>
 
-              <div className="user-menu-divider user-menu-divider-logged" />
+              <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "0 0 14px" }} />
 
-              <div className="user-menu-row user-menu-row-logout">
+              <div
+                className="user-menu-row user-menu-row-logout"
+                style={{ display: "flex", justifyContent: "center", marginBottom: "4px" }}
+              >
                 <button
                   type="button"
-                  className="user-menu-link user-menu-action"
+                  className="user-menu-auth-button user-menu-action"
                   style={{
-                    background: "transparent",
+                    minWidth: "140px",
+                    padding: "8px 14px",
+                    background: "#3d3d3d",
                     border: "none",
-                    color: "#4a4a43",
+                    color: "#ffffff",
+                    fontSize: "11px",
                     textTransform: "none",
                     letterSpacing: "normal",
                   }}
