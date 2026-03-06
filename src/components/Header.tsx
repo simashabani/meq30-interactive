@@ -148,7 +148,12 @@ export default function Header({ locale }: Props) {
               <div className="user-menu-divider" style={{ height: "1px", background: "#e2e5dc", margin: "10px 0 14px" }} />
 
               <div className="user-menu-row user-menu-row-link" style={{ marginBottom: "14px" }}>
-                <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link user-menu-account-link" role="menuitem">
+                <a
+                  href={isFa ? "/fa/user-info" : "/en/user-info"}
+                  className="user-menu-link user-menu-account-link"
+                  role="menuitem"
+                  style={{ textDecoration: "underline", textUnderlineOffset: "5px", textDecorationThickness: "1px" }}
+                >
                   {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
                 </a>
               </div>
