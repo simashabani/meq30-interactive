@@ -14,6 +14,7 @@ export default function Header({ locale }: Props) {
   const [authChecked, setAuthChecked] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
   const [loginMessage, setLoginMessage] = useState("");
+  const [loginMessageType, setLoginMessageType] = useState<"success" | "error">("success");
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -49,12 +50,17 @@ export default function Header({ locale }: Props) {
       },
     });
 
+    if (error) {
+      setLoginMessageType("error");
+      setLoginMessage(error.message);
+      return;
+    }
+
+    setLoginMessageType("success");
     setLoginMessage(
-      error
-        ? error.message
-        : isFa
-          ? "لطفاً ایمیل خود را بررسی کنید."
-          : "Check your email."
+      isFa
+        ? "برای دریافت لینک ورود، به ایمیل خود مراجعه کنید."
+        : "For login link, check your email."
     );
   }
 
@@ -214,7 +220,9 @@ export default function Header({ locale }: Props) {
 
               {loginMessage && (
                 <div className="user-menu-row user-menu-row-message">
-                  <p className="user-menu-msg">{loginMessage}</p>
+                  <p className={`user-menu-msg ${loginMessageType === "error" ? "error" : "success"}`}>
+                    {loginMessage}
+                  </p>
                 </div>
               )}
 
@@ -514,8 +522,15 @@ export default function Header({ locale }: Props) {
   .user-menu-msg {
     margin: 6px 0 0;
     font-size: 11px;
-    color: #4a4a43;
     text-align: center;
+  }
+
+  .user-menu-msg.success {
+    color: #828b2c;
+  }
+
+  .user-menu-msg.error {
+    color: #d14343;
   }
 
   .user-menu-divider {
