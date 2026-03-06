@@ -65,13 +65,6 @@ export default function Header({ locale }: Props) {
     window.location.href = isFa ? "/fa/journal" : "/en/journal";
   }
 
-  const displayName = email
-    ? email
-        .split("@")[0]
-        .replace(/[._-]+/g, " ")
-        .replace(/\b\w/g, (character) => character.toUpperCase())
-    : "";
-
   const userMenu = (
     <div className="user-menu-wrap" ref={menuRef}>
       <button
@@ -126,28 +119,40 @@ export default function Header({ locale }: Props) {
             <p className="user-menu-line">{isFa ? "در حال بارگذاری..." : "Loading..."}</p>
           ) : email ? (
             <>
-              <div className="user-menu-head">
-                <p className="user-menu-name">{displayName}</p>
-                <p className="user-menu-email">{email}</p>
+              <div className="user-menu-head user-menu-head-logged">
+                <p className="user-menu-status">
+                  {isFa
+                    ? "شما با آدرس ایمیل زیر وارد شده‌اید:"
+                    : "You are logged in with the following email address:"}
+                </p>
+                <p className="user-menu-email user-menu-email-logged">{email}</p>
               </div>
-              <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
-                {isFa ? "اطلاعات کاربر" : "User Information"}
-              </a>
-              <button
-                type="button"
-                className="user-menu-link user-menu-action"
-                style={{
-                  background: "transparent",
-                  border: "none",
-                  color: "#4a4a43",
-                  textTransform: "none",
-                  letterSpacing: "normal",
-                }}
-                onClick={handleLogout}
-                role="menuitem"
-              >
-                {isFa ? "خروج" : "Log out"}
-              </button>
+
+              <div className="user-menu-row user-menu-row-link">
+                <a href={isFa ? "/fa/user-info" : "/en/user-info"} className="user-menu-link" role="menuitem">
+                  {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
+                </a>
+              </div>
+
+              <div className="user-menu-divider user-menu-divider-logged" />
+
+              <div className="user-menu-row user-menu-row-logout">
+                <button
+                  type="button"
+                  className="user-menu-link user-menu-action"
+                  style={{
+                    background: "transparent",
+                    border: "none",
+                    color: "#4a4a43",
+                    textTransform: "none",
+                    letterSpacing: "normal",
+                  }}
+                  onClick={handleLogout}
+                  role="menuitem"
+                >
+                  {isFa ? "خروج" : "Log out"}
+                </button>
+              </div>
             </>
           ) : (
             <div className="user-menu-auth-layout">
@@ -351,6 +356,21 @@ export default function Header({ locale }: Props) {
     border-bottom: 1px solid #ecece6;
   }
 
+  .user-menu-head-logged {
+    padding: 2px 2px 0;
+    margin-bottom: 16px;
+    border-bottom: none;
+  }
+
+  .user-menu-status {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.55;
+    color: #66685f;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
   .user-menu-name {
     margin: 0;
     font-size: 22px;
@@ -365,6 +385,12 @@ export default function Header({ locale }: Props) {
     font-size: 13px;
     color: #4a4a43;
     overflow-wrap: anywhere;
+  }
+
+  .user-menu-email-logged {
+    margin-top: 8px;
+    font-size: 16px;
+    line-height: 1.35;
   }
 
   .user-menu-link {
@@ -391,9 +417,9 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-action {
-    margin-top: 8px;
-    padding-top: 12px;
-    border-top: 1px solid #ecece6;
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
   }
 
   .user-menu-input {
@@ -438,6 +464,14 @@ export default function Header({ locale }: Props) {
     margin-top: 14px;
   }
 
+  .user-menu-row-link {
+    margin-bottom: 10px;
+  }
+
+  .user-menu-row-logout {
+    margin-top: 10px;
+  }
+
   .user-menu-label {
     display: block;
     margin: 0;
@@ -473,6 +507,10 @@ export default function Header({ locale }: Props) {
     height: 1px;
     background: #ecece6;
     margin: 0 0 2px;
+  }
+
+  .user-menu-divider-logged {
+    margin: 6px 0;
   }
 
   .user-menu-note {
