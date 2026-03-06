@@ -10,6 +10,7 @@ type Props = {
 export default function Header({ locale }: Props) {
   const isFa = locale === "fa";
   const [menuOpen, setMenuOpen] = useState(false);
+  const [iconHovered, setIconHovered] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const [authChecked, setAuthChecked] = useState(false);
   const [loginEmail, setLoginEmail] = useState("");
@@ -76,7 +77,31 @@ export default function Header({ locale }: Props) {
       <button
         type="button"
         className={`user-menu-trigger ${email ? "logged-in" : "logged-out"}`}
+        style={{
+          width: "34px",
+          height: "34px",
+          borderRadius: "8px",
+          border: `0.9px solid ${email ? "#828b2c" : "#4a4a43"}`,
+          background: iconHovered ? "#f7f7f4" : "#ffffff",
+          color: email ? "#828b2c" : "#4a4a43",
+          boxSizing: "border-box",
+          display: "inline-flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          margin: 0,
+          lineHeight: 1,
+          textTransform: "none",
+          letterSpacing: "normal",
+          font: "inherit",
+          cursor: "pointer",
+          opacity: 1,
+        }}
         onClick={() => setMenuOpen((prev) => !prev)}
+        onMouseEnter={() => setIconHovered(true)}
+        onMouseLeave={() => setIconHovered(false)}
+        onFocus={() => setIconHovered(true)}
+        onBlur={() => setIconHovered(false)}
         aria-label={isFa ? "منوی کاربر" : "User menu"}
         aria-expanded={menuOpen}
         aria-haspopup="menu"
