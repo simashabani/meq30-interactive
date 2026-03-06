@@ -411,7 +411,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-account-link {
-    text-decoration: underline;
+    text-decoration: underline !important;
     text-underline-offset: 5px;
     text-decoration-thickness: 1px;
   }
@@ -521,7 +521,7 @@ export default function Header({ locale }: Props) {
 
   .user-menu-msg {
     margin: 6px 0 0;
-    font-size: 11px;
+    font-size: 10px;
     text-align: center;
   }
 
