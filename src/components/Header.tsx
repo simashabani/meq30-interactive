@@ -144,8 +144,8 @@ export default function Header({ locale }: Props) {
                     : "You are logged in with the following email address:"}
                 </p>
                 <p
-                  className="user-menu-email user-menu-email-logged"
-                  style={{ color: "#828b2c", fontWeight: 700 }}
+                  className="user-menu-email-logged"
+                  style={{ color: "#828b2c", fontWeight: 700, marginTop: "40px" }}
                 >
                   {email}
                 </p>
@@ -596,7 +596,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-status {
-    margin-bottom: 16px;
+    margin: 0px;
     font-size: 11px;
     line-height: 1.55;
     color: #66685f;
@@ -621,7 +621,7 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-email-logged {
-    margin-top: 40px;
+    margin-top: 40px !important;
     margin-bottom: 2px;
     font-size: 16px;
     font-weight: 700;
