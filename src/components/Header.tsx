@@ -252,7 +252,7 @@ export default function Header({ locale }: Props) {
                     lineHeight: 1.2,
                   }}
                 >
-                  {isFa ? "اطلاعات حساب کاربری" : "User Account Information"}
+                  {isFa ? "اطلاعات حساب کاربری" : "USER ACCOUNT INFORMATION"}
                 </a>
               </div>
 
