@@ -468,7 +468,7 @@ export default function Header({ locale }: Props) {
   .user-menu-language-nav {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 24px;
   }
 
   .user-menu-language-nav.fa {
@@ -513,7 +513,8 @@ export default function Header({ locale }: Props) {
 
   .user-menu-language-item.active {
     cursor: default;
-    font-weight: 600;
+    font-weight: 700;
+    color: #828b2c;
   }
 
   .user-menu-language-item.active::after {
