@@ -284,36 +284,44 @@ export default function Header({ locale }: Props) {
   }
 
   .user-menu-trigger {
-    all: unset;
-    width: 34px;
-    height: 34px;
-    border-radius: 8px;
-    border: 0.9px solid currentColor;
-    background: #ffffff;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+    border: 0.9px solid currentColor !important;
+    background: #ffffff !important;
+    box-sizing: border-box !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    font: inherit !important;
+    cursor: pointer !important;
+    opacity: 1 !important;
     transition: background-color 160ms ease, border-color 160ms ease;
   }
 
   .user-menu-trigger svg {
     width: 18px;
     height: 18px;
+    display: block;
   }
 
   .user-menu-trigger.logged-in {
-    color: #828b2c;
+    color: #828b2c !important;
   }
 
   .user-menu-trigger.logged-out {
-    color: #4a4a43;
+    color: #4a4a43 !important;
   }
 
   .user-menu-trigger:hover,
   .user-menu-trigger:focus-visible {
-    background: #f7f7f4;
+    background: #f7f7f4 !important;
+    opacity: 1 !important;
   }
 
   .user-menu-dropdown {
