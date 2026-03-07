@@ -40,7 +40,9 @@ export default function SiteFooter({ locale }: Props) {
             </p>
 
             <p className="site-footer-text" style={{ marginTop: "18px", marginBottom: 0 }}>
-              تمام اطلاعاتی که کاربران ثبت می‌کنند خصوصی است و به‌صورت امن نگهداری می‌شود.
+              <a href="https://meq-30.com/legal-persian" target="_blank" rel="noreferrer" className="site-footer-link">
+                حریم خصوصی :: شرایط استفاده :: سیاست پژوهشی
+              </a>
             </p>
           </div>
         </div>
@@ -71,9 +73,15 @@ export default function SiteFooter({ locale }: Props) {
           </p>
 
           <p className="site-footer-text" style={{ marginTop: "18px", marginBottom: 0 }}>
-            {isFa
-              ? "تمام ورودی‌های کاربران خصوصی بوده و به‌صورت امن نگهداری می‌شود."
-              : "All user entries are private and securely stored."}
+            {isFa ? (
+              <a href="https://meq-30.com/legal-persian" target="_blank" rel="noreferrer" className="site-footer-link">
+                حریم خصوصی :: شرایط استفاده :: سیاست پژوهشی
+              </a>
+            ) : (
+              <a href="https://meq-30.com/legal-english" target="_blank" rel="noreferrer" className="site-footer-link">
+                Privacy Policy :: Terms of Use :: Research Policy
+              </a>
+            )}
           </p>
         </div>
 
