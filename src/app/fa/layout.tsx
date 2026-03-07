@@ -1,6 +1,32 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import SiteFooter from "@/components/SiteFooter";
 import TabCloseHandler from "@/components/TabCloseHandler";
+
+export const metadata: Metadata = {
+  title: "پرسشنامه تجربه عرفانی MEQ-30 | دفتر ثبت تجربه روان‌نما (سایکدلیک)",
+  description:
+    "ارزیابی و ثبت تجربه‌های عرفانی با استفاده از پرسشنامه MEQ-30. یک دفترچه خصوصی برای بررسی و تأمل در تجربه‌های روان‌نما (سایکدلیک) برای افراد و پژوهشگران حوزه سایکدلیک.",
+  alternates: {
+    canonical: "/fa/journal",
+    languages: {
+      en: "/en/journal",
+      fa: "/fa/journal",
+    },
+  },
+  openGraph: {
+    title: "پرسشنامه تجربه عرفانی MEQ-30 | دفتر ثبت تجربه روان‌نما (سایکدلیک)",
+    description:
+      "ارزیابی و ثبت تجربه‌های عرفانی با استفاده از پرسشنامه MEQ-30. یک دفترچه خصوصی برای بررسی و تأمل در تجربه‌های روان‌نما (سایکدلیک) برای افراد و پژوهشگران حوزه سایکدلیک.",
+    url: "https://app.meq-30.com/fa/journal",
+    locale: "fa_IR",
+  },
+  twitter: {
+    title: "پرسشنامه تجربه عرفانی MEQ-30 | دفتر ثبت تجربه روان‌نما (سایکدلیک)",
+    description:
+      "ارزیابی و ثبت تجربه‌های عرفانی با استفاده از پرسشنامه MEQ-30. یک دفترچه خصوصی برای بررسی و تأمل در تجربه‌های روان‌نما (سایکدلیک) برای افراد و پژوهشگران حوزه سایکدلیک.",
+  },
+};
 
 export default function FaLayout({ children }: { children: React.ReactNode }) {
   return (

@@ -1,6 +1,32 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import SiteFooter from "@/components/SiteFooter";
 import TabCloseHandler from "@/components/TabCloseHandler";
+
+export const metadata: Metadata = {
+  title: "MEQ-30 Assessment & Psychedelic Mystical Experience Journal",
+  description:
+    "Explore and assess mystical experiences using the MEQ-30 (Mystical Experience Questionnaire). A research-based private journal for psychedelic researchers and individuals.",
+  alternates: {
+    canonical: "/en/journal",
+    languages: {
+      en: "/en/journal",
+      fa: "/fa/journal",
+    },
+  },
+  openGraph: {
+    title: "MEQ-30 Assessment & Psychedelic Mystical Experience Journal",
+    description:
+      "Explore and assess mystical experiences using the MEQ-30 (Mystical Experience Questionnaire). A research-based private journal for psychedelic researchers and individuals.",
+    url: "https://app.meq-30.com/en/journal",
+    locale: "en_US",
+  },
+  twitter: {
+    title: "MEQ-30 Assessment & Psychedelic Mystical Experience Journal",
+    description:
+      "Explore and assess mystical experiences using the MEQ-30 (Mystical Experience Questionnaire). A research-based private journal for psychedelic researchers and individuals.",
+  },
+};
 
 export default function EnLayout({ children }: { children: React.ReactNode }) {
   return (
