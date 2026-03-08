@@ -182,7 +182,7 @@ export default function JournalPageFa() {
       email: loginEmail,
       options: { emailRedirectTo: `${siteUrl}/fa/auth/callback?redirect=/fa/journal` },
     });
-    setLoginMessage(error ? error.message : "لینک ورود به ایمیل شما ارسال شد.");
+    setLoginMessage(error ? error.message : "لینک ورود به ایمیل شما ارسال شد. این لینک تا یک ساعت معتبر است.");
   };
 
   const handleLogout = async () => {

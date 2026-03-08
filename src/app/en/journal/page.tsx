@@ -171,7 +171,7 @@ export default function JournalPage() {
       email: loginEmail,
       options: { emailRedirectTo: `${siteUrl}/en/auth/callback?redirect=/en/journal` },
     });
-    setLoginMessage(error ? error.message : "Check your email for the login link.");
+    setLoginMessage(error ? error.message : "Check your email for the login link. Login link will expire in one hour.");
   };
 
   const handleLogout = async () => {
