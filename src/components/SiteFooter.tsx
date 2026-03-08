@@ -40,7 +40,9 @@ export default function SiteFooter({ locale }: Props) {
             </p>
 
             <p className="site-footer-text" style={{ marginTop: "18px", marginBottom: 0 }}>
-              تمام اطلاعاتی که کاربران ثبت می‌کنند خصوصی است و به‌صورت امن نگهداری می‌شود.
+             <a href="https://meq-30.com/legal-persian" target="_blank" rel="noreferrer" className="site-footer-link">
+                حریم خصوصی :: شرایط استفاده :: سیاست پژوهشی
+              </a>
             </p>
           </div>
         </div>
